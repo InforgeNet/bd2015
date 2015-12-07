@@ -1,24 +1,24 @@
-# UNIPI - Progetto Basi di Dati 2014/2015
-*Copyright © 2014-2015 - Gabriele Marraccini, Lorenzo Tonelli, Niccolò Scatena - Tutti i diritti sono riservati.*
+# UNIPI - Progetto Basi di Dati 2014/2015  
+*Copyright © 2014-2015 - Gabriele Marraccini, Lorenzo Tonelli, Niccolò Scatena - Tutti i diritti sono riservati.*  
 
-## Uso di git
-`git` è il software di *version control* più utilizzato al mondo. **GitHub** utilizza `git`.
-Ad esempio anche il *kernel Linux* viene sviluppato con `git`: [torvalds/linux](https://github.com/torvalds/linux)
-Tra l'altro `git` è proprio un progetto dello stesso *Linus Torvalds*.
+## Uso di git  
+`git` è il software di *version control* più utilizzato al mondo. **GitHub** utilizza `git`.  
+Ad esempio anche il *kernel Linux* viene sviluppato con `git`: [torvalds/linux](https://github.com/torvalds/linux)  
+Tra l'altro `git` è proprio un progetto dello stesso *Linus Torvalds*.  
 
-Altri esempi di software di version control sono:
-* `svn` (subversion) - che un tempo era molto utilizzato ma oggi è stato interamente rimpiazzato da `git`;
-* `mercurial` - utilizzato ad esempio da *Mozilla* per *FireFox*.
+Altri esempi di software di version control sono:  
+* `svn` (subversion) - che un tempo era molto utilizzato ma oggi è stato interamente rimpiazzato da `git`;  
+* `mercurial` - utilizzato ad esempio da *Mozilla* per *FireFox*.  
 
-**AVVERTENZA:** è consigliato prima leggere questo capitolo e la documentazione associata **interamente** e *solo dopo* configurare ed utilizzare `git`.
+**AVVERTENZA:** è consigliato prima leggere questo capitolo e la documentazione associata **interamente** e *solo dopo* configurare ed utilizzare `git`.  
 
-### Installazione
-Per installare `git` seguire le istruzioni del capitolo [Installing Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) della *documentazione ufficiale*.
+### Installazione  
+Per installare `git` seguire le istruzioni del capitolo [Installing Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) della *documentazione ufficiale*.  
 
-### Configurazione
-Per configurare `git` seguire le istruzioni del capitolo [First-Time Git Setup](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup) della *documentazione ufficiale*.
+### Configurazione  
+Per configurare `git` seguire le istruzioni del capitolo [First-Time Git Setup](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup) della *documentazione ufficiale*.  
 
-Per essere correttamente riconosciuti, l'identità inserita in `git` dovrebbe avere lo stesso `user.name` e la stessa `user.mail` inserita su **GitHub**
+Per essere correttamente riconosciuti, l'identità inserita in `git` dovrebbe avere lo stesso `user.name` e la stessa `user.mail` inserita su **GitHub**  
 
 ### Utilizzo
 Prima di tutto è necessario *clonare* questo repository localmente utilizzando il comando `git clone`.
