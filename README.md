@@ -21,8 +21,8 @@ Per configurare `git` seguire le istruzioni del capitolo [First-Time Git Setup](
 Per essere correttamente riconosciuti, l'identità inserita in `git` dovrebbe avere lo stesso `user.name` e la stessa `user.mail` inserita su **GitHub**  
 
 ### Utilizzo
-Prima di tutto è necessario *clonare* questo repository localmente utilizzando il comando `git clone`.
-Il link del repository da utilizzare è: https://github.com/InforgeNet/bd2015.git
+Prima di tutto è necessario *clonare* questo repository localmente utilizzando il comando `git clone`.  
+Il link del repository da utilizzare è: https://github.com/InforgeNet/bd2015.git  
 
 La spiegazione su come utilizzare il comando `git clone` è disponibile al capitolo [Getting a Git Repository](https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository) della *documentazione ufficiale*.
 (non deve essere utilizzato `git init` ma solo `git clone`)
