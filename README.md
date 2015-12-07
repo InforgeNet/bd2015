@@ -29,10 +29,10 @@ La spiegazione su come utilizzare il comando `git clone` è disponibile al capit
 
 Per utilizzare `git` con questo repository, è necessario anche aver letto e compreso i capitoli [Recording Changes to the Repository](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository) e [Working with Remotes](https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes) della *documentazione ufficiale*.
 In particolare servono:
-* `git add` ogni volta che si aggiunge un file;
-* `git rm` ogni volta che si rimuove un file;
+* `git add <nomefile>` ogni volta che si aggiunge un file. Usare `.` al posto di `<nomefile>` per aggiungere tutti i nuovi file inseriti;
+* `git rm <nomefile>` ogni volta che si rimuove un file;
 * `git pull` per scaricare le modifiche fatte da altri;
-* `git commit` e `git push` per caricare le modifiche sul repository.
+* `git commit -a -m '<messaggio>'` e `git push` per caricare le modifiche sul repository.
 
 Il resto della documentazione ovviamente può essere sempre utile.
 
