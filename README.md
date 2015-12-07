@@ -2,6 +2,14 @@
 *Copyright © 2014-2015 - Gabriele Marraccini, Lorenzo Tonelli, Niccolò Scatena - Tutti i diritti sono riservati.*
 
 ## Uso di git
+`git` è il software di *version control* più utilizzato al mondo. **GitHub** utilizza `git`.
+Ad esempio anche il *kernel Linux* viene sviluppato con `git`: [torvalds/linux](https://github.com/torvalds/linux)
+Tra l'altro `git` è proprio un progetto dello stesso *Linus Torvalds*.
+
+Altri esempi di software di version control sono:
+* `svn` (subversion) - che un tempo era molto utilizzato ma oggi è stato interamente rimpiazzato da `git`;
+* `mercurial` - utilizzato ad esempio da *Mozilla* per *FireFox*.
+
 **AVVERTENZA:** è consigliato prima leggere questo capitolo e la documentazione associata **interamente** e *solo dopo* configurare ed utilizzare `git`.
 
 ### Installazione
