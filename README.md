@@ -20,13 +20,14 @@ Per configurare `git` seguire le istruzioni del capitolo [First-Time Git Setup](
 
 Per essere correttamente riconosciuti, l'identità inserita in `git` dovrebbe avere lo stesso `user.name` e la stessa `user.mail` inserita su **GitHub**  
 
-### Utilizzo
+### Clonare questo repository  
 Prima di tutto è necessario *clonare* questo repository localmente utilizzando il comando `git clone`.  
 Il link del repository da utilizzare è: https://github.com/InforgeNet/bd2015.git  
 
 La spiegazione su come utilizzare il comando `git clone` è disponibile al capitolo [Getting a Git Repository](https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository) della *documentazione ufficiale*.  
 (non deve essere utilizzato `git init` ma solo `git clone`)  
 
+### Lavorare con git  
 Per utilizzare `git` con questo repository, è necessario anche aver letto e compreso i capitoli [Recording Changes to the Repository](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository) e [Working with Remotes](https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes) della *documentazione ufficiale*.  
 In particolare servono:
 * `git add <nomefile>` ogni volta che si aggiunge un file. Usare `.` al posto di `<nomefile>` per aggiungere tutti i nuovi file inseriti;  
@@ -83,9 +84,10 @@ Se si desidera ripulire tutta la sporcizia lasciata nella cartella dalla compila
 L'output viene generato in `project.pdf` visibile con un qualsiasi visualizzatore PDF.  
 
 ## Organizzazione del File System  
-Nella *root* del progetto, dove si trova questo file, c'è:  
-* `project.tex` - il documento principale che viene compilato, contiene la struttura di base del documento e la lista di pacchetti.  
+Nella *root* del progetto c'è:  
+* `README.md` - questo file.  
 * `TODO.md` - contiene una lista delle cose ancora da fare.  
+* `project.tex` - il documento principale che viene compilato, contiene la struttura di base del documento e la lista di pacchetti.  
 * `Makefile` - utilizzato in Linux per compilare rapidamente con `make`.  
 * `make-*.bat` - usati in Windows per compilare rapidamente.  
 * `images/` - cartella contenente tutte le immagini che vengono incluse nel documento.  
@@ -114,8 +116,13 @@ Dentro alla cartella `\tex` ci sono anche i seguenti file *speciali*:
 ## LaTeX  
 `LaTeX` è semplice: testo misto a comandi. I comandi iniziano sempre con `\` e possono contenere argomenti in parentesi graffe `{}` o argomenti opzionali in parentesi quadre `[]`  
 
-Il 99% dei comandi si capisce al volo a cosa serve: basta vederlo.  
-`LaTeX` si impara di fatto con la pratica e vedendo cosa fa ogni comando. I manuali `LaTeX` sono abbastanza inutili.  
+Il 99% dei comandi si spiegano da soli: basta vederli.  
+`LaTeX` si impara di fatto con la pratica e vedendo cosa fa ogni comando. I manuali `LaTeX` non sono necessari.
+
+I *paragrafi di testo* sono separati da righe vuote (tornare semplicemente a capo una volta non basta - almeno 2 volte).  
+Per tornare a capo senza cambiare paragrafo bisogna inserire `\\`.  
+Gli spazi *non* vengono considerati: inserire 1 spazio o 1000 spazi tra 2 parole non cambia niente (viene considerato sempre come 1 spazio).  
+Le tabelle in `LaTeX` sono invece un po' complicate (se vi serve, vi lascio a Google).
 
 I comandi dentro il file `project.tex` sono già tutti commentati con descrizione affianco.  
 
@@ -124,9 +131,13 @@ Comunque, l'importante, è stendere il contenuto (e per questo non serve inserir
 ## Markdown di GitHub  
 Per scrivere testi *fighi* come questo, formattati per GitHub:  
 * [Markdown Basics](https://help.github.com/articles/markdown-basics/)  
-* [GFM](https://help.github.com/articles/github-flavored-markdown/)  
+* [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown/)  
 * [Writing on GitHub](https://help.github.com/articles/writing-on-github/)  
 * [Mastering Markdown](https://guides.github.com/features/mastering-markdown/)  
+
+Possibilmente, alla fine di ogni riga nei file `.md`, lasciate sempre **due spazi**. Altrimenti il semplice ritorno a capo potrebbe non funzionare.  
+
+Se volete un esempio di *documento markdown*... bhé c'è questo stesso file ;)
 
 ## Per problemi o domande  
 Whatsapp ;) (o Google)  
