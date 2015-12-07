@@ -1,0 +1,49 @@
+\subsection{Associazioni}
+Nella seguente tabella sono elencate e descritte tutte le relazioni, inserite
+nell'ordine in cui sono state individuate.
+{\tabulinesep=3pt
+\begin{longtabu} to \linewidth {|X[c,m]|X[c,m]|X[c,m]|>{\raggedright}X[2,m]|}
+\hline\rowfont\bfseries
+Relazione   & \specialcell{Entità A\\(Cardinalità)}
+                            & \specialcell{Entità B\\(Cardinalità)}
+                                            & \centering Descrizione
+\\ \hline \hline \hline \hline \hline % ----------------------------------------
+\endhead
+Disponibilità
+            & \specialcell{Sede\\(1,N)}
+                            & \specialcell{Magazzino\\(1,1)}
+                                            & Una sede possiede uno o più magazzini.
+                                              Un magazzino appartiene a una e una
+                                              sola sede.
+    \\ \hline % ----------------------------------------------------------------
+Stoccaggio  & \specialcell{Magazzino\\(0,N)}
+                            & \specialcell{Confezione\\(0,1)}
+                                            & Le confezioni sono mantenute
+                                              all'interno dei magazzini. Una confezione,
+                                              rispetto a magazzino, può anche essere in ordine
+                                              (e quindi non in stoccaggio).
+    \\ \hline % ----------------------------------------------------------------
+InOrdine    & \specialcell{Magazzino\\(0,N)}
+                            & \specialcell{Confezione\\(0,1)}
+                                            & Se una confezione non è in stoccaggio
+                                              allora è in ordine. In questo caso
+                                              non dovrà avere alcuni attributi (Collocazione,
+                                              Aspetto, ecc.)
+    \\ \hline % ----------------------------------------------------------------
+Contenuto   & \specialcell{Confezione\\(1,1)}
+                            & \specialcell{Ingrediente\\(0,N)}
+                                            & Una confezione contiene uno e un solo
+                                              tipo di ingrediente. Un certo ingrediente
+                                              può essere contenuto in più confezioni (anche
+                                              zero nel caso un ingrediente sia stato
+                                              esaurito).
+    \\ \hline % ----------------------------------------------------------------
+Cucina      & \specialcell{Sede\\(0,N)}
+                            & \specialcell{Strumento\\(1,N)}
+                                            & La cucina mette in relazione gli strumenti
+                                              con la sede alla quale appartengono.
+                                              Dovrà riportare anche la quantità di strumenti
+                                              di un certo tipo appartenenti alla sede.
+    \\ \hline % ----------------------------------------------------------------
+                                                                                                    %TODO: CONTINUARE TABELLA
+\end{longtabu} }

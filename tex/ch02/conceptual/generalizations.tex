@@ -1,0 +1,41 @@
+\subsection{Generalizzazioni}
+\begin{itemize}
+\item Le due entità {\tt Attrezzatura} e {\tt Macchinario} sono entrambi
+    strumenti da cucina. Condividono molte caratteristiche e per tal motivo è
+    utile introdurre un'entità padre: {\tt Strumento}. La generalizzazione è
+    {\it totale}, in quanto in cucina si possono avere solo attrezzature o
+    macchinari, ed {\it esclusiva}.
+\item Ogni {\tt Menu} che è stato sostituito da uno nuovo deve essere comunque
+    mantenuto nel database. Per tale motivo è utile aggiungere l'entità
+    {\tt MenuPassato} che rappresenta un menu non più in uso. In questo modo
+    {\tt MenuPassato} è un sottoinsieme di {\tt Menu} e quindi è una generalizzazione
+    {\it parziale}.
+\item La {\tt Fase} \ldots                                                             % TODO: FASE
+\item La {\tt Comanda} può essere di due tipi: {\tt ComandaTavolo} oppure
+    {\tt ComandaTakeAway}. La generalizzazione è {\it totale} ed
+    {\it esclusiva}.
+\item La {\tt Prenotazione} può essere di due tipi: una {\tt PrenotazioneOnline} (dal sito)
+    oppure una {\tt PrenotazioneTelefonica}. La generalizzazione è {\it totale}
+    ed {\it esclusiva}. Una {\tt PrenotazioneOnline} a sua volta può essere
+    una semplice {\tt PrenotazioneOnline} oppure un {\tt Allestimento} (entità già individuata).
+    In questo caso la generalizzazione è {\it parziale} e {\tt Allestimento}
+    è un sottoinsieme di {\tt PrenotazioneOnline}.
+\item Un {\tt Gradimento} può riferirsi a un {\tt Suggerimento} o a una {\tt Proposta}.
+    Risulta quindi comodo aggiungere le entità {\tt GradimentoSuggerimento} e
+    {\tt GradimentoProposta} come figlie. La generalizzazione è {\it totale} ed
+    {\it esclusiva}.
+\end{itemize}
+
+Devono essere quindi aggiunte le seguenti entità:
+\begin{multicols}{2}
+\begin{itemize}
+    \item\tt Strumento
+    \item\tt MenuPassato                                                               % TODO: FASE
+    \item\tt ComandaTavolo
+    \item\tt ComandaTakeAway
+    \item\tt PrenotazioneOnline
+    \item\tt PrenotazioneTelefonica
+    \item\tt GradimentoSuggerimento
+    \item\tt GradimentoProposta
+\end{itemize}
+\end{multicols}

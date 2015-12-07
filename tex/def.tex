@@ -1,0 +1,20 @@
+%%%%% ----- ENVIRONMENTS ----- %%%%%
+
+% REQTABLE(name, width, vspace)
+\NewDocumentEnvironment{reqtable}{m O{0.85} O{15pt}}{
+\vspace{#3}
+\noindent
+\begin{tabu} to #2\linewidth {|X|}
+\hline
+        \multicolumn{1}{|c|}{Frasi relative a \textbf{#1}}
+    \\ \hline \itshape
+}{
+    \\ \hline
+\end{tabu} \\
+}
+
+
+
+%%%%% ----- COMMANDS ----- %%%%%
+\newcommand{\specialcell}[2][c]{%
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}

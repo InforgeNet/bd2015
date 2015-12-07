@@ -1,0 +1,13 @@
+%\renewcommand*\sfdefault{phv} % Helvetica Font
+%\renewcommand*{\familydefault}{\sfdefault}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\leftmark}
+\cfoot{\thepage}
+\setlength{\headheight}{14pt}
+
+% stile dei numeri di linea nei codici
+\renewcommand{\theFancyVerbLine}{\sffamily\textcolor[RGB]{75,75,75}{\footnotesize\oldstylenums{\arabic{FancyVerbLine}}}}
+
+\usemintedstyle{vs} % SET DI COLORI DECENTI POSSIBILI: manni, colorful, pastie, vs, friendly, tango

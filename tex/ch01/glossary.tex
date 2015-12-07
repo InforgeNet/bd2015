@@ -1,0 +1,199 @@
+\section{Glossario dei termini} \label{sec:termsglossary}
+\tabulinesep=3pt
+\begin{longtabu} to \linewidth {|l|>{\raggedright}X[2]|X|>{\raggedright}X|}
+\hline\rowfont\bfseries
+Termine     & Descrizione                   & Sinonimi          & Collegamenti
+\\ \hline \hline \hline \hline \hline % ----------------------------------------
+\endhead
+        \multicolumn{4}{|c|}{\textbf{Area Gestione}}
+    \\ \hline \hline \hline % --------------------------------------------------
+Magazzino   & Contiene la materia prima
+              (ingredienti) in forma di
+              confezioni.                   &                   & Materia prima,
+                                                                  Sede, Confezione,
+                                                                  Ingrediente
+    \\ \hline % ----------------------------------------------------------------
+Materia prima
+            & Insieme di ingredienti
+              contenuti in confezioni.
+              Appartiene a un magazzino.    & Insieme di
+                                              ingredienti       & Magazzino, Ingrediente,
+                                                                  Confezione
+    \\ \hline % ----------------------------------------------------------------
+Ingrediente & Compone le pietanze. Viene
+              mantenuto nel magazzino
+              all'interno di confezioni.    & Componente        & Magazzino, Ricetta,
+                                                                  Materia prima,
+                                                                  Confezione
+    \\ \hline % ----------------------------------------------------------------
+Confezione  & Contiene una certa quantità
+              di un certo ingrediente. Viene
+              caricata o scaricata dal
+              magazzino. Può venir
+              danneggiata nei trasporti.
+              Può essere in stoccaggio o in
+              ordine presso un magazzino.   &                   & Magazzino, Ingrediente,
+                                                                  Materia prima
+    \\ \hline % ----------------------------------------------------------------
+Menu        & Lista delle ricette
+              disponibili. Ogni sede ha
+              menu diverso. Cambia con
+              cadenza regolare. Devono
+              comparire solo ricette
+              producibili con ingredienti
+              presenti in magazzino.        &                   & Ricetta, Sede
+                                                                  Ingrediente,
+                                                                  Magazzino, Materia
+                                                                  prima
+    \\ \hline % ----------------------------------------------------------------
+Sede        & Una sede della catena di
+              ristorazione. Contiene uno o
+              più magazzini. Possiede dei
+              pony. Ha una cucina.
+              È divisa in sale. Ha un
+              questionario compilabile
+              online.                       &                   & Magazzino, Sala,
+                                                                  Pony, Cucina,
+    \\ \hline % ----------------------------------------------------------------
+Cucina      & Si trova in una sede. È
+              composta da macchinari e
+              attrezzature.                 &                   & Attrezzatura,
+                                                                  Macchinario, Sede
+    \\ \hline % ----------------------------------------------------------------
+Attrezzatura
+            & Usata in cucina.              & Attrezzo          & Cucina,
+                                                                  Fase
+    \\ \hline % ----------------------------------------------------------------
+Macchinario & Usato in cucina.              & Macchina          & Cucina,
+                                                                  Fase
+    \\ \hline % ----------------------------------------------------------------
+Ricetta     & Costituita da fasi di
+              preparazione e ingredienti.
+              Elencata in menu. Lo chef
+              permette variazioni possibili
+              per ogni ricetta. Può essere
+              recensita.                    & Pietanza          & Ingrediente,
+                                                                  Fase, Menu,
+                                                                  Variazione,
+                                                                  Recensione,
+                                                                  Procedimento
+    \\ \hline % ----------------------------------------------------------------
+Procedimento & Insieme di fasi di una
+              ricetta.                      & Procedimento
+                                              strutturato,
+                                              Procedura         & Fase, Ricetta,
+                                                                  Variazione
+    \\ \hline % ----------------------------------------------------------------
+Fase        & Fase del procedimento di una
+              ricetta. Può rappresentare
+              l'aggiunta di un ingrediente
+              o l'uso di un macchinario o
+              di un attrezzo.               &                   & Ricetta, Procedimento
+                                                                  Macchinario,
+                                                                  Attrezzatura,
+                                                                  Ingrediente,
+                                                                  Variazione
+    \\ \hline % ----------------------------------------------------------------
+Piatto      & Ricetta in essere con
+              possibili variazioni. Preparato
+              dai cuochi in seguito a una
+              comanda. Ordinato dai clienti
+              al tavolo o online (take-away)
+              con consegna.                 &                   & Ingrediente,
+                                                                  Tavolo,
+                                                                  Consegna,
+                                                                  Comanda, Ricetta,
+                                                                  Variazione
+    \\ \hline % ----------------------------------------------------------------
+Variazione  & Modifica di una fase del
+              procedimento di una ricetta.
+              Scelte dai clienti nelle
+              comande.                      & Modifica          & Fase, Ricetta,
+                                                                  Procedimento, Comanda,
+                                                                  Piatto
+    \\ \hline % ----------------------------------------------------------------
+Comanda     & Lista di piatti ordinati da
+              un tavolo di una certa sede o
+              tramite consegna take-away.   & Ordine,
+                                              Ordinazione       & Tavolo, Consegna,
+                                                                  Sede, Piatto,
+                                                                  Account, Variazione
+    \\ \hline % ----------------------------------------------------------------
+Prenotazione
+            & Prenotazione di un tavolo
+              di una sede da parte di un
+              cliente. Può essere fatta
+              anche da sito web. Può
+              contenere anche allestimenti. &                   & Account, Sede
+                                                                  Tavolo, Sala,
+                                                                  Allestimento
+    \\ \hline % ----------------------------------------------------------------
+Allestimento
+            & Prenotazione di una sala
+              di una sede da parte di un
+              cliente per una serata a tema.
+              Deve essere approvato. Salvato
+              come prenotazione speciale.   &                   & Account, Sede
+                                                                  Sala, Prenotazione
+    \\ \hline % ----------------------------------------------------------------
+Tavolo      & Tavolo di una sala in una
+              sede.                         &                   & Prenotazione,
+                                                                  Comanda, Sede,
+                                                                  Sala
+    \\ \hline % ----------------------------------------------------------------
+Sala        & Area contenente tavoli di una
+              sede. Possono essere prenotate
+              per allestimenti.             &                   & Tavolo, Sede,
+                                                                  Prenotazione,
+                                                                  Allestimento
+    \\ \hline % ----------------------------------------------------------------
+Pony        & Incaricato ad effettuare
+              consegne a domicilio.         &                   & Comanda, Consegna
+    \\ \hline \hline \hline % --------------------------------------------------
+        \multicolumn{4}{|c|}{\textbf{Area Clienti}}
+    \\ \hline \hline \hline % --------------------------------------------------
+Account     & Account di un clienti sul
+              sito.                         &                   & Recensione,
+                                                                  Prenotazione,
+                                                                  Allestimento,
+                                                                  Proposta, Suggerimento,
+                                                                  Comanda, Gradimento,
+                                                                  Valutazione
+    \\ \hline % ----------------------------------------------------------------
+Recensione  & Recensione con questionario da
+              parte di un account su un
+              piatto o sede.                &                   & Account, Piatto,
+                                                                  Sede, Questionario,
+                                                                  Valutazione
+    \\ \hline % ----------------------------------------------------------------
+Questionario
+            & Insieme di domande scelte dal
+              direttore e chieste ai clienti
+              durante recensioni.           &                   & Domanda, Risposta,
+                                                                  Recensione, Sede
+    \\ \hline % ----------------------------------------------------------------
+Domanda     & Domanda di questionario con un
+              range di risposte possibili.  &                   & Questionario,
+                                                                  Risposta
+    \\ \hline % ----------------------------------------------------------------
+Risposta    & Risposta a una domanda.       &                   & Domanda
+    \\ \hline % ----------------------------------------------------------------
+Suggerimento
+            & Suggerimento di modifica delle
+              fasi di una ricetta.          &                   & Gradimento, Fase,
+                                                                  Ricetta, Procedimento,
+                                                                  Account %, Variazione (???)
+    \\ \hline % ----------------------------------------------------------------
+Proposta    & Proposta di una nuova ricetta
+              in forma di lista di
+              ingredienti.                  &                   & Ingrediente, Account
+                                                                  Gradimento
+    \\ \hline % ----------------------------------------------------------------
+Valutazione & Valutazione di una recensione.
+                                            &                   & Account, Recensione
+    \\ \hline % ----------------------------------------------------------------
+Gradimento  & Valutazione di un suggerimento
+              o di una proposta.            &                   & Account, Suggerimento,
+                                                                  Proposta
+    \\ \hline % ----------------------------------------------------------------
+\end{longtabu}

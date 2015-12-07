@@ -1,0 +1,57 @@
+\section{Vincoli di integrità referenziale}
+Di seguito riportiamo tutti i {\it vincoli di integrità referenziale} derivati dalla traduzione
+delle associazioni nello schema logico.
+
+{\tt R1(A) $\rightarrow$ R2(B)} indica che l'attributo {\tt A} della relazione {\tt R1}
+è {\bf chiave esterna} dell'attributo {\tt B} della relazione {\tt R2} --- ossia che l'attributo
+{\tt A} può assumere solo uno dei valori assunti dall'attributo {\tt B} (e il valore
+{\tt NULL} se l'attributo è opzionale). Talvolta {\tt A} e {\tt B} possono essere
+anche due {\it insiemi di attributi} con lo stesso numero di elementi, ognuno dei quali
+separati da virgola.
+
+Nella totalità dei casi, l'attributo (o l'insieme di attributi) {\tt B} è la
+{\bf chiave primaria} della relazione {\tt R2}.
+
+\begin{itemize}[parsep=0pt,listparindent=9\parindent]
+    \item\tt MAGAZZINO(Sede)$\rightarrow$ SEDE(Nome)
+    \item\tt CONFEZIONE(Magazzino, Sede) $\rightarrow$ MAGAZZINO(ID, Sede)
+    \item\tt CONFEZIONE(Ingrediente) $\rightarrow$ INGREDIENTE(Nome)
+    \item\tt CUCINA(Sede) $\rightarrow$ SEDE(Nome)
+    \item\tt CUCINA(Strumento) $\rightarrow$ STRUMENTO(Nome)
+    \item\tt FUNZIONE(Strumento) $\rightarrow$ STRUMENTO(Nome)
+    \item\tt MENU(Sede) $\rightarrow$ SEDE(Nome)
+    \item\tt ELENCO(Menu) $\rightarrow$ MENU(ID)
+    \item\tt ELENCO(Ricetta) $\rightarrow$ RICETTA(Nome)
+    \item\tt \ldots (FASE e VARIAZIONE) \ldots                                  % TODO: FASE E VARIAZIONE
+    \item\tt PIATTO(Ricetta) $\rightarrow$ RICETTA(Nome)
+    \item\tt PIATTO(Comanda) $\rightarrow$ COMANDA(ID)
+    \item\tt COMANDA(Sede) $\rightarrow$ SEDE(Nome)
+    \item\tt COMANDA(Tavolo, Sala, Sede) $\rightarrow$ TAVOLO(ID, Sala, Sede)
+    \item\tt COMANDA(Account) $\rightarrow$ ACCOUNT(Username)
+    \item\tt TAVOLO(Sala, Sede) $\rightarrow$ SALA(ID, Sede)
+    \item\tt SALA(Sede) $\rightarrow$ SEDE(Nome)
+    \item\tt CONSEGNA(Comanda) $\rightarrow$ COMANDA(ID)
+    \item\tt CONSEGNA(Pony) $\rightarrow$ PONY(ID)
+    \item\tt PONY(Sede) $\rightarrow$ SEDE(Nome)
+    \item\tt PRENOTAZIONE(Account) $\rightarrow$ ACCOUNT(Username)
+    \item\tt PRENOTAZIONE(Tavolo, Sala, Sede) $\rightarrow$ TAVOLO(ID, Sala, Sede)
+    \item\tt PRENOTAZIONE(Sala, Sede) $\rightarrow$ SALA(ID, Sede)
+    \item\tt PROPOSTA(Account) $\rightarrow$ ACCOUNT(Username)
+    \item\tt COMPOSIZIONE(Proposta) $\rightarrow$ PROPOSTA(ID)
+    \item\tt COMPOSIZIONE(Ingrediente) $\rightarrow$ INGREDIENTE(Nome)
+    \item\tt SUGGERIMENTO(Account) $\rightarrow$ ACCOUNT(Username)
+    \item\tt SUGGERIMENTO(Ricetta) $\rightarrow$ RICETTA(Nome)
+    \item\tt GRADIMENTO(Account) $\rightarrow$ ACCOUNT(Username)
+    \item\tt GRADIMENTO(Proposta) $\rightarrow$ PROPOSTA(ID)
+    \item\tt GRADIMENTO(Suggerimento) $\rightarrow$ SUGGERIMENTO(ID)
+    \item\tt RECENSIONE(Account) $\rightarrow$ ACCOUNT(Username)
+    \item\tt RECENSIONE(Ricetta) $\rightarrow$ RICETTA(Nome)
+    \item\tt VALUTAZIONE(Account) $\rightarrow$ ACCOUNT(Username)
+    \item\tt VALUTAZIONE(Recensione) $\rightarrow$ RECENSIONE(ID)
+    \item\tt DOMANDA(Sede) $\rightarrow$ SEDE(Nome)
+    \item\tt RISPOSTA(Domanda, Sede) $\rightarrow$ DOMANDA(Numero, Sede)
+    \item\tt QUESTIONARIOSVOLTO(Recensione) $\rightarrow$ RECENSIONE(ID)
+    \item\tt QUESTIONARIOSVOLTO(Risposta, Domanda, Sede)
+    
+        $\rightarrow$ RISPOSTA(Numero, Domanda, Sede)
+\end{itemize}

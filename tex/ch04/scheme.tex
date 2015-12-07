@@ -1,0 +1,40 @@
+\section{Schema logico}
+Di seguito è mostrato lo {\it schema logico} risultante dalla fase di progettazione logica.
+
+Le {\it chiavi primarie} sono mostrate \underline{sottolineate} mentre gli {\it attributi opzionali}
+sono rappresentati in \textit{corsivo}.
+
+\begin{Verbatim}[commandchars=+\[\]]
+SEDE(+underline[Nome], Città, CAP, Via, NumeroCivico)
+MAGAZZINO(+underline[ID], +underline[Sede])
+CONFEZIONE(+underline[CodiceLotto], Ingrediente, Peso, Prezzo, DataAcquisto,
+    DataArrivo, Sede, Magazzino, +textit[Collocazione], +textit[Scadenza], +textit[Aspetto], Stato)
+INGREDIENTE(+underline[Nome], Provenienza, TipoProduzione, Genere, Allergene)
+CUCINA(+underline[Sede], +underline[Strumento], Quantità)
+STRUMENTO(+underline[Nome])
+FUNZIONE(+underline[Strumento], +underline[Nome])
+MENU(+underline[ID], Sede, DataInizio, +textit[DataFine])
+ELENCO(+underline[Menu], +underline[Ricetta], Novità)
+RICETTA(+underline[Nome], Testo)
+FASE(+ldots)
+PIATTO(+underline[ID], Comanda, Ricetta, Stato)
+VARIAZIONE(+ldots)
+COMANDA(+underline[ID], Timestamp, Sede, +textit[Sala], +textit[Tavolo], +textit[Account], Stato)
+TAVOLO(+underline[ID], +underline[Sala], +underline[Sede], Posti)
+SALA(+underline[ID], +underline[Sede])
+CONSEGNA(+underline[Comanda], Pony, Partenza, +textit[Arrivo], +textit[Ritorno])
+PONY(+underline[ID], Sede, Ruote, Stato)
+PRENOTAZIONE(+underline[ID], Sede, Data, Numero, +textit[Account], +textit[Nome], +textit[Telefono], Sala,
+    +textit[Tavolo], +textit[Descrizione], +textit[Approvato], Tipo)
+ACCOUNT(+underline[Username], Email, Password, Nome, Cognome, Città, CAP, Via,
+    NumeroCivico, Telefono, PuòPrenotare)
+PROPOSTA(+underline[ID], Account, Nome, +textit[Procedimento])
+COMPOSIZIONE(+underline[Proposta], +underline[Ingrediente])
+SUGGERIMENTO(+underline[ID], Account, Ricetta)
+GRADIMENTO(+underline[ID], Account, +textit[Proposta], +textit[Suggerimento], Punteggio)
+RECENSIONE(+underline[ID], Account, Ricetta, Testo, Giudizio)
+VALUTAZIONE(+underline[Account], +underline[Recensione], Veridicità, Accuratezza, Testo)
+DOMANDA(+underline[Numero], +underline[Sede], Testo)
+RISPOSTA(+underline[Numero], +underline[Domanda], +underline[Sede], Testo, Efficienza)
+QUESTIONARIOSVOLTO(+underline[Recensione], +underline[Sede], +underline[Domanda], +underline[Risposta])
+\end{Verbatim}

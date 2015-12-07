@@ -1,0 +1,51 @@
+\documentclass[11pt,draft]{report}  % dimensione di default del font e "draft" indica che si tratta di una 'brutta copia' (in sviluppo):
+                                    % vengono mostrati dei quadratini neri vicino agli overfull; non vengono messe le immagini; i codici
+                                    % non hanno i colori, ecc. Per vedere la differenza: togliere momentaneamente ",draft" e ricompilare.
+\usepackage[italian]{babel} % lingua
+\usepackage[utf8]{inputenc} % encoding
+\usepackage[T1]{fontenc}    % per rappresentare i caratteri speciali inseriti nel documento LaTeX anche nel PDF
+\usepackage{lmodern}        % font
+\usepackage{microtype}      % riduce le possibilità di underfull/overfull hbox quando si troglie 'draft'
+%\usepackage{geometry}      % figure geometriche
+\usepackage{pdflscape}      % landscape e portrait in pagine diverse
+\usepackage{graphicx}       % immagini
+\usepackage{fancyhdr}       % header e footer fighi
+\usepackage{fancyvrb}       % serve a minted
+\usepackage{xparse}         % parsing dei comandi user-defined
+\usepackage{paralist}       % liste inline dentro i paragrafi
+\usepackage{enumitem}       % liste estese
+\usepackage{longtable}      % tabelle su più pagine
+\usepackage{tabu}           % tabelle
+%\usepackage{listings}      % alternativa a minted
+%\usepackage{color}         % con minted non serve
+\usepackage{minted}         % codice e syntax highlight
+\usepackage{multicol}       % testo su più colonne
+\usepackage{comment}        % blocchi di commenti con \begin{comment}
+
+\graphicspath{ {./images/} }                % percorso dove vengono prese le immagini
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}  % estensioni dei file di immagine (in ordine di preferenza)
+
+\input{./tex/style}         % stile del documento
+%\input{./tex/lang-style}   % per l'uso con listings - ma noi usiamo minted
+\input{./tex/def}           % comandi user-defined
+\input{./tex/hyphen}        % sistemazione manuale di underfull/overfull hbox
+
+\begin{document}            % INIZIO CONTENUTO DEL DOCUMENTO
+
+\include{./tex/title}       % serve una pagina titolo più figah
+
+\tableofcontents            % genera l'indice
+\thispagestyle{plain}       % rimuove footer e header dall'indice
+
+\include{./tex/ch01}        % Analisi delle specifiche
+\include{./tex/ch02}        % Progettazione concettuale
+\include{./tex/ch03}        % Ristrutturazione del diagramma E-R
+\include{./tex/ch04}        % Progettazione logica
+\include{./tex/ch05}        % Normalizzazione
+\include{./tex/ch06}        % Operazioni
+\include{./tex/ch07}        % Analisi delle prestazioni
+\include{./tex/ch08}        % Introduzione di ridondanze
+\include{./tex/ch09}        % Implementazione MySQL
+\include{./tex/ch10}        % Progettazione fisica
+
+\end{document}              % FINE DOCUMENTO

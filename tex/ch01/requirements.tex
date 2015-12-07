@@ -1,0 +1,219 @@
+\section{Strutturazione dei requisiti} \label{sec:reqtables}
+Le frasi delle specifiche di progetto sono state divise nelle seguenti tabelle.
+Ogni tabella riporta le frasi relative ad un determinato {\it termine}. Frasi
+ridondanti o superflue possono essere state rimosse.
+
+\begin{samepage}
+Nell'elencare queste frasi, si è cercato, ove possibile, di standardizzarne la
+struttura in forme come le seguenti:
+\begin{itemize}
+    \item Per ogni \ldots, identificato da \ldots, rappresentiamo \ldots.\hfill\textit{(Attributi)}
+    \item Ogni \ldots possiede \ldots.\hfill\textit{(Associazione)}
+    \item I \ldots possono essere \ldots oppure \ldots.\hfill\textit{(Generalizzazione)}
+    \item Se \ldots allora \ldots.\hfill\textit{(Vincolo)}
+\end{itemize}
+A margine, per ogni forma, è segnalato l'elemento a cui {\it solitamente}
+(non necessariamente sempre) tale forma corrisponde nel diagramma concettuale.
+\end{samepage}
+
+Le frasi delle tabelle possono contenere {\it appunti e commenti}. tutto il testo fra
+parentesi è da considerarsi come tale.
+
+Inoltre alcune frasi sono state modificate (senza cambiarne il senso)
+per adattarle meglio alle fasi successive della progettazione.
+
+\begin{center}
+\begin{reqtable}{DATABASE}
+Il database che si intende progettare contiene i dati a supporto delle funzionalità
+del sistema informativo di una catena di ristoranti. Si noti che l’oggetto
+del lavoro è la progettazione di una realtà dei dati, corredata da alcune funzionalità
+di back-end, implementate mediante stored procedure a livello data tier,
+basato sul DBMS MySQL. In questo modo, un’applicazione distribuita può interfacciarsi
+ al database, memorizzare tutti i dati che occorrono, e usufruire delle funzionalità di back-end.
+Il database da progettare deve rendere possibile la gestione dei dati relativi
+a tre diverse aree: area gestione, area clienti e area analytics.
+\end{reqtable}
+\begin{reqtable}{Area Gestione}{0.85}{20pt}
+L'area gestione memorizza tutti i dati utili alla gestione dell'attività di
+ristorazione, nelle sue diverse sedi.
+\end{reqtable}
+\begin{reqtable}{Magazzino}
+Il magazzino contiene la materia prima, ossia l'insieme degli ingredienti,
+organizzata in confezioni su scaffali. Un magazzino si trova presso una sede.
+\end{reqtable}
+\begin{reqtable}{Ingrediente}
+Per ogni ingrediente, identificato dal nome, rappresentiamo la provenienza, il tipo di produzione,
+il genere e se è un allergene. Ciascun ingrediente è acquistato in confezioni.
+\end{reqtable}
+\begin{reqtable}{Confezione}
+Per ogni confezione, identificata dal codice lotto (che identifica anche produttore
+e momento di produzione --- dettagli: \mbox{d.lgs.} \mbox{109/92}, art. 13 e dir. \mbox{2011/91/UE}),
+rappresentiamo il peso (indicatore della quantità di prodotto), il prezzo di acquisto,
+la data di acquisto, la data di arrivo nel magazzino, la data di scadenza, la
+collocazione nel magazzino (sia quale magazzino che quale scaffale), l'aspetto
+(se sono stati subiti danni o meno nel trasporto/stoccaggio),
+lo stato (completa=in magazzino; in uso=scaricata; parziale=contenuto parzialmente svuotato)
+e il contenuto residuo (se stato=parziale). Se la confezione è danneggiata allora è
+possibile chiedere la sostituzione o lo sconto al venditore. Se si tiene la confezione
+danneggiata allora si possono avere delle restrizioni nell'impiego degli ingredienti.
+\end{reqtable}
+\begin{reqtable}{Sede}
+Ogni sede possiede uno o più magazzini, una cucina, uno o più tavoli divisi in una
+o più sale.
+\end{reqtable}
+\begin{reqtable}{Cucina}
+Ogni cucina possiede zero o più strumenti (macchinari o attrezzature).
+\end{reqtable}
+\begin{reqtable}{Strumento}
+Gli strumenti possono essere macchinari o attrezzature. Per ogni strumento, identificato
+dal nome, rappresentiamo le funzioni svolte e le fasi di preparazione in cui lo
+strumento può essere impiegato.
+\end{reqtable}
+\begin{reqtable}{Pietanza}
+Ogni pietanza, identificata dal menu al quale appartiene e il nome, possiede una ricetta.
+\end{reqtable}
+\begin{reqtable}{Ricetta}
+Per ogni ricetta, identificata dal nome, rappresentiamo l'insieme di ingredienti
+e il procedimento da seguire. Il procedimento è rappresentato sia sottoforma di
+testo, sia da un procedimento strutturato. Il procedimento strutturato è composto da fasi.
+\end{reqtable}
+\begin{reqtable}{Fase}
+La fase può essere una fase di
+\begin{inparaenum}[a)]
+\item \label{itm:add} aggiunta di ingredienti oppure di
+\item \label{itm:action} manovra da compiere, che a sua volta può essere
+\begin{inparaenum}[i)]
+\item \label{itm:tool} con strumenti o
+\item \label{itm:notool} senza strumenti.
+\end{inparaenum}
+\end{inparaenum}
+Ogni fase è identificata dalla ricetta alla quale appartiene e da un codice (il
+quale rappresenta l'ordine di esecuzione). Per (\ref{itm:add}) rappresentiamo
+l'ingrediente da aggiungere e il suo dosaggio. Per (\ref{itm:action}) rappresentiamo
+il testo descrittivo della manovra e il tempo necessario. Inoltre, se siamo nel
+tipo (\ref{itm:tool}) rappresentiamo la lista degli strumenti necessari (in ordine
+di utilizzo, dove ogni strumento ha un momento di inizio impiego e un momento di
+fine impiego, relativi al tempo necessario totale della manovra --- in modo da poter
+ottimizzare il parallelismo). Altimenti, se siamo nel tipo (\ref{itm:notool}) non
+rappresentiamo nient'altro.
+\end{reqtable}
+\begin{reqtable}{Menu}
+Ogni menu, identificato dalla sede e dalla data di entrata in vigore (che può essere
+anche successiva alla data odierna), può essere composto solo da pietanze i cui ingredienti
+sono disponibili in quantità sufficienti (stima effettuata tramite le prenotazioni
+in essere e la popolarità del piatto --- se il piatto è una novità, verrà scelto
+da \(\frac{1}{3}\) dei clienti stimati analizzando le prenotazioni e i clienti
+presenti in passato nello stesso periodo) nei magazzini della sede oppure sono in
+ordine (e arriveranno almeno 3 giorni prima della data di entrata in vigore del
+menu). Il menu di una sede deve cambiare con cadenza regolare (va tenuta traccia
+dei menu precedenti).
+\end{reqtable}
+\begin{reqtable}{Comanda}
+Le comande possono essere comande da tavolo o comande take-away.
+Per ogni comanda, identificata da un codice, rappresentiamo il timestamp, il
+tavolo (se comanda da tavolo), l'account che ha fatto la richiesta (se comanda
+take-away) l'insieme delle pietanze scelte dal menu con le eventuali
+variazioni e lo stato (nuova=tutte le pietanze in attesa; in preparazione=una o più
+pietanze in preparazione; parziale=una o più pietanze in servizio; evasa=tutte le
+pietanze in servizio; consegna=equivalente di evasa in comande take-away). Nel
+caso di comande take-away rappresentiamo anche la consegna associata. Le comande
+restano sempre nel database e servono per compilare le fatture. \\
+Ogni pietanza scelta ha il suo stato di avanzamento (attesa=appena inserito; in
+preparazione=in fase di preparazione: deve essere possibile stimare il tempo residuo;
+servizio=pronto). 
+Le variazioni sono al massimo 3, scelte dallo chef nel momento in cui la
+pietanza entra in menu, e possono essere
+\begin{inparaenum}[a)]
+\item eliminazione di ingrediente;
+\item aggiunta di ingrediente oppure
+\item modifica del procedimento di preparazione.
+\end{inparaenum}
+\end{reqtable}
+\begin{reqtable}{Tavolo}
+Per ogni tavolo, identificato da un codice (che identifica anche la sala a cui appartiene)
+e dalla sede a cui appartiene, rappresentiamo la dimensione (numero di posti).
+\end{reqtable}
+\begin{reqtable}{Prenotazione}
+Le prenotazioni possono essere fatte tramite account dal sito web oppure
+telefondando (in questo caso la prenotazione è inserita nel database dal personale).
+Inoltre possono essere prenotazioni standard o allestimenti.
+Per ogni prenotazione, identificata dalla data (giorno e ora) e dal tavolo (che
+può essere anche assegnato dal sistema, se la penotazione è fatta dal sito web)
+o dalla sala (in caso di allestimento si prenota l'intera sala),
+rappresentiamo il numero di persone (in caso di allestimento deve essere superiore
+a un certo valore scelto), il recapito telefonico (solo se la prenotazione è stata
+fatta telefonicamente).
+Le prenotazioni possono essere rettificate fino a 48 ore prima e possono essere
+annullate fino a 72 ore prima. Se il cliente che ha effettuato la prenotazione
+tramite sito web non si presenta allora l'account del cliente non deve più poter
+prenotare tramite sito web.
+\end{reqtable}
+\begin{reqtable}{Pony}
+Per ogni pony, rappresentato da un codice, rappresentiamo il mezzo con il quale
+si muove (2 o 4 ruote) e da uno stato attuale (libero o occupato).
+\end{reqtable}
+\begin{reqtable}{Consegna}
+Per ogni consegna take-away, indentificata dalla comanda take-away alla quale
+appartiene, rappresentiamo il pony associato, il momento in cui la merce passa nelle
+mani del pony, il momento in cui la merce arriva a destinazione e il momento in
+cui il pony torna alla sede.
+\end{reqtable}
+\begin{reqtable}{Area Clienti}{0.85}{20pt}
+L’area clienti mantiene le informazioni relative all’interazione fra i clienti e la
+catena di ristorazione, mediante recensioni, proposte e suggerimenti.
+\end{reqtable}
+\begin{reqtable}{Account}
+Un account contiene informazioni di anagrafica, città di provenienza, sesso e
+altri dettagli.
+\end{reqtable}
+\begin{reqtable}{Recensione}
+Le recensioni possono essere recensioni sulle pietanze o recensioni sull'esperienza
+in sede. Per ogni recensione, identificata dall'account che l'ha rilasciata e dalla
+pietanza o dalla sede a cui si riferisce, rappresentiamo il giudizio globale numerico
+e il testo rilasciato. Ogni recenzione possiede zero o più valutazioni degli
+altri utenti (utilizzate per determinare il grado di veridicità e di accuratezza
+della recensione). Ogni recensione possiede un questionario svolto, ossia una lista
+di risposte a ciascuna domanda del questionario.
+\end{reqtable}
+\begin{reqtable}{Questionario}
+Ogni questionario possiede una o più domande a risposta multipla.
+\end{reqtable}
+\begin{reqtable}{Domanda}
+Per ogni domanda, indentificata da un codice (numero di domanda), rappresentiamo
+il testo della domanda. Ogni domanda possiede due o più risposte possibili.
+\end{reqtable}
+\begin{reqtable}{Risposta}
+Per ogni risposta, identificata dalla domanda alla quale appartiene e dal codice
+(numero di risposta), rappresentiamo il testo della risposta e il punteggio
+di efficienza relativo.
+\end{reqtable}
+\begin{reqtable}{Valutazione}
+Per ogni valutazione di recensione, identificata dalla recensione alla quale si
+riferisce e dall'account che ha rilasciato la valutazione, rappresentiamo il giudizio
+sintetico di veridicità, il giudizio sintetico di accuratezza e il testo.
+\end{reqtable}
+\begin{reqtable}{Proposta}
+Le proposte possono essere proposte di nuove pietanze o proposte di variazione
+delle ricette già presenti (suggerimenti).
+Per ogni proposta di nuova pietanza, identificata dall'account che rilascia la proposta
+e da un nome, rappresentiamo il nome, gli ingredienti e il testo del procedimento
+(opzionale).
+Per ogni suggerimento, indentificato dall'account che rilascia il suggerimento e
+da un codice, rappresentiamo la ricetta a cui si riferisce, gli ingredienti e le
+fasi di procedimento da modificare. Ogni proposta possiede zero o più gradimenti
+dei clienti.
+\end{reqtable}
+\begin{reqtable}{Gradimento}
+Per ogni gradimento, identificato dalla proposta a cui si riferisce e dall'account
+che ha rilasciato il gradimento, rappresentiamo il punteggio numerico.
+\end{reqtable}
+\begin{reqtable}{Proposta di Allestimento}
+Per ogni proposta di allestimento, indentificata dall'account che ha rilasciato la
+proposta e da un codice, rappresentiamo la sala della sede dove dovrebbe avvenire
+l'allestimento, il nome dell'evento (scelto dal cliente), il giorno e l'ora,
+il numero di partecipanti, il testo descrittivo dell'evento (disposizione di tavoli,
+decorazioni, ecc\ldots) e la prenotazione relativa all'allestimento (presente solo
+se la proposta è stata approvata e possibile solo se il numero dei partecipanti
+è superiore ad una certa soglia).
+\end{reqtable}
+\end{center}

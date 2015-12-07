@@ -1,0 +1,26 @@
+\section{Scelta degli identificatori principali}
+Gli identificatori inseriti nel {\it diagramma concettuale} sarebbero già adeguati
+per rappresentare le entità. Preferiamo però sostituire alcuni identificatori con
+dei codici ({\tt ID}) per semplificare il diagramma e le relazioni con {\it chiavi
+esterne identificative}.\\
+
+Ad esempio si decide di utilizzare solo {\tt ID} come identificatore per l'entità
+{\tt Piatto} in quanto:
+\begin{inparaenum}[1)]
+    \item dovrebbe in ogni caso mantenere l'attributo {\tt ID};
+    \item nella relazione {\tt Modifica} dovremo inserire (se si decide di usare, oltre a {\tt ID},
+        anche la chiave esterna con {\tt Comanda} e quella con {\tt Ricetta} come
+        indetificatore principale) anche riferimenti {\tt Comanda} e {\tt Ricetta}.
+\end{inparaenum}
+
+Allo stesso modo si decide di utilizzare solo {\tt ID} come identificatore per
+l'entità {\tt Recensione} in quanto:
+\begin{inparaenum}[1)]
+    \item dovrebbe in ogni caso mantenere l'attributo {\tt ID};
+    \item nelle relazioni {\tt Valutazione} e {\tt QuestionarioSvolto} dovremo inserire
+        (se si decide di usare, oltre a {\tt ID}, anche la chiave esterna con {\tt Account} come
+        indetificatore principale) anche un riferimento a {\tt Account}.
+\end{inparaenum}\\
+
+Sono state fatte considerazioni analoghe anche per tutti gli altri identificatori
+modificati nel {\it diagramma E-R ristrutturato}.
