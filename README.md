@@ -102,7 +102,7 @@ Con una struttura del genere diventa semplice rimuovere o riordinare capitoli/se
 * Per rimuovere un capitolo/sezione/sottosezione basta commentare (con il carattere `%`) il comando `\input` o `\include` che include il file contenente il capitolo/sezione/sottosezione - **senza** cancellare alcun file.
 * Per riordinare dei capitoli/sezioni/sottosezioni basta riordinare i vari comandi `\input` o `\include`.
 
-**NOTA:** Il comando `\include` è da usare solo per i **CAPITOLI** nel file `project.tex`. In tutti gli altri casi
+**NOTA:** Il comando `\include` è da usare solo per i **CAPITOLI** nel file `project.tex`. In tutti gli altri casi deve essere utilizzato `\input`.
 
 Dentro alla cartella `\tex` ci sono anche i seguenti file *speciali*:
 * `title.tex` - titolo (prima pagina) del documento.
