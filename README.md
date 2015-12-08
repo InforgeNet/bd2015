@@ -19,16 +19,17 @@ Per installare `git` seguire le istruzioni del capitolo [Installing Git](https:/
 Per configurare `git` seguire le istruzioni del capitolo [First-Time Git Setup](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup) della *documentazione ufficiale*.  
 
 Per essere correttamente riconosciuti, l'identità inserita in `git` **deve** avere:  
-* come `user.name` il *nome e cognome* che avete inserito in GitHub. **NON** l'username GitHub, ma il *nome completo* che avete messo su GitHub.  
+* come `user.name` il *nome e cognome* che avete inserito in GitHub. **NON** l'username, ma il **nome completo** che avete messo su GitHub.  
 * come `user.email` lo stesso *indirizzo e-mail* del vostro account GitHub.  
+
 Maggiori informazioni: [Set Up Git](https://help.github.com/articles/set-up-git/)  
 
 ### Clonare questo repository  
-Prima di tutto è necessario *clonare* questo repository localmente utilizzando il comando `git clone`.  
+Prima di tutto è necessario *clonare* questo *repository* localmente utilizzando il comando `git clone`.  
 Il link del repository da utilizzare è: https://github.com/InforgeNet/bd2015.git  
 
 La spiegazione su come utilizzare il comando `git clone` è disponibile al capitolo [Getting a Git Repository](https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository) della *documentazione ufficiale*.  
-(non deve essere utilizzato `git init` ma solo `git clone`)  
+(**non** deve essere utilizzato `git init` ma solo `git clone`)  
 
 Quando date il comando verranno richieste le vostre credenziali (username e password) di accesso a GitHub (la password non è visibile durante la digitazione).  
 Per evitare che `git` vi chieda sempre le credenziali ad ogni comando, attivate la [cache delle credenziali](https://help.github.com/articles/caching-your-github-password-in-git/)  
@@ -37,7 +38,7 @@ Il *timeout* potete impostarlo in base alle vostre preferenze (io ho messo *100 
 ### Lavorare con git  
 Per utilizzare `git` con questo repository, è necessario anche aver letto e compreso i capitoli [Recording Changes to the Repository](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository) e [Working with Remotes](https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes) della *documentazione ufficiale*.  
 In particolare servono:
-* `git add <nomefile>` ogni volta che si aggiunge un file. Usare `.` al posto di `<nomefile>` per aggiungere tutti i nuovi file inseriti;  
+* `git add <nomefile>` ogni volta che si aggiunge un file. Usare `.` (punto) al posto di `<nomefile>` per aggiungere tutti i nuovi file inseriti;  
 * `git rm <nomefile>` ogni volta che si rimuove un file;  
 * `git pull` per scaricare le modifiche fatte da altri;  
 * `git commit -a -m '<messaggio>'` e `git push` per caricare le modifiche sul repository.  
@@ -50,7 +51,7 @@ Il resto della documentazione ovviamente può essere sempre utile.
 Prima di poter iniziare a lavorare con il progetto bisogna sistemare un po' l'ambiente (o si incappa in errori e casini).  
 
 ### Ritorni a capo nell'editor (solo Windows)  
-Se si usa Windows ci possono essere problemi con i ritorni a capo nei file: Windows utilizza la sequenza `\r\n` normalmente per rappresentare il ritorno a capo; Linux invece usa solo `\n`.  
+Se si usa Windows ci possono essere problemi con i ritorni a capo nei file: Windows utilizza la sequenza `\r\n` (DOS File) per rappresentare il ritorno a capo; Linux invece usa solo `\n` (Unix File).  
 
 Perciò, dato che i file di questo repository sono stati fatti tutti con Linux, per lavorarci con Windows è necessario impostare l'editor in modo da fargli riconoscere il solo `\n` come ritorno a capo.  
 Con `notepad.exe` non è possibile. Ma se si fa uso di editor più avanzati (come `notepad++`) allora esiste sicuramente una configurazione dei caratteri di ritorno a capo.  
@@ -62,16 +63,18 @@ Tutti i file del respository sono stati scritti utilizzando **4 spazi** al posto
 
 ### Minted  
 Il progetto `LaTeX` fa uso di un pacchetto speciale: `minted` per il *syntax highlight* dei codici SQL.  
-Questo pacchetto necessita di **Python** e di **Pygments** per la guida all'installazione seguire il capitolo 2.1 [Prerequisites](http://ctan.mirrorcatalogs.com/macros/latex/contrib/minted/minted.pdf) della *documentazione ufficiale* (utilizzare `easy_install` e non `pip` per installare Pygments in Windows).  
-Il pacchetto `minted` dovrebbe essere già installato. Se così non fosse il capitolo 2.3 spiega l'installazione manuale.  
+Questo pacchetto necessita di **Python** e di **Pygments**: per la guida all'installazione seguire il *capitolo 2.1 "Prerequisites"* della [documentazione ufficiale](http://ctan.mirrorcatalogs.com/macros/latex/contrib/minted/minted.pdf).  
+Il pacchetto `minted` dovrebbe essere già installato. Se così non fosse il *capitolo 2.3* spiega l'installazione manuale.  
 
-In caso di problemi (durante la compilazione con `pdflatex`), per risolverli, potrebbe essere necessario anche seguire il procedimento descritto nella prima risposta in [questo topic](https://tex.stackexchange.com/questions/23458/how-to-install-syntax-highlight-package-minted-on-windows-7) (notare che è `easy_install Pygmentize` che è diverso da Pygments).  
-(ma forse no, è roba vecchia quella domanda: però io, su Linux, ho dovuto mettere anche `pygmentize` oltre a `pygments`)  
+In caso di problemi (durante la compilazione con `pdflatex` - spiegata nel prossimo capitolo), per risolverli, potrebbe essere necessario anche seguire il procedimento descritto nella risposta (quella di *Joseph Wright*) di [questo topic](https://tex.stackexchange.com/questions/23458/how-to-install-syntax-highlight-package-minted-on-windows-7) (notare che è `easy_install Pygmentize` che è diverso da Pygments - è probabile servano entrambi).  
+(quella è comunque una domanda vecchia, quindi probabile non sia più necessario seguire quei passi: però io, su Linux, ho dovuto mettere anche `pygmentize` oltre a `pygments` - fatelo però solo se la compilazione (prossimo capitolo) non funziona correttamente)  
 
 A volte anche eliminare la cartella `_minted-project` che compare dopo la prima esecuzione di `pdflatex` può risolvere alcuni problemi con `minted` dati in fase di compilazione.  
 
 ## Compilazione  
-Con il *prompt dei comandi/terminale*, dirigersi nella cartella locale del progetto e dare: `pdflatex --shell-escape project.tex` (`--shell-escape` è necessario per `minted`).  
+Con il *prompt dei comandi/terminale*, dirigersi nella cartella locale del progetto e dare:  
+`pdflatex --shell-escape project.tex`  
+(`--shell-escape` è necessario per `minted`).  
 
 Oppure più semplicemente:  
 * **Windows:** eseguire il file `make.bat`. *non testato*  
@@ -84,7 +87,7 @@ Per farlo:
 * **Windows:** eseguire più volte il file `make.bat` oppure eseguire una volta il file `make-full.bat`. *non testato*  
 * **Linux:** dare più volte il comando `make` oppure dare una volta il comando `make full`.  
 
-Se si desidera ripulire tutta la sporcizia lasciata nella cartella dalla compilazione (file `.log`, `.aux`, `.toc` e anche `project.pdf`):  
+Se si desidera ripulire tutta la sporcizia lasciata nella cartella dalla compilazione (file `.log`, `.aux`, `.toc`):  
 * **Windows:** eseguire il file `make-clean.bat`. *non testato*  
 * **Linux:** dare il comando `make clean`.  
 
@@ -105,7 +108,7 @@ Nella *root* del progetto c'è:
 
 Dentro alla cartella `tex/` la struttura è un po' complessa:  
 - Per ogni capitolo del progetto c'è un file `chXY.tex` che contiene il capitolo `XY` del progetto.  
-- Per ogni capitolo esiste anche una cartella `chXY/` che contiene le sezioni e le sottosezioni di quel capitolo (che vengono incluse in `chXY.tex`) - *alcuni capitoli non hanno per ora la cartella in quanto non sono ancora stati scritti*  
+- Per ogni capitolo esiste anche una cartella `chXY/` che contiene le sezioni e le sottosezioni di quel capitolo (che vengono incluse in `chXY.tex`) - *alcuni capitoli non hanno per ora la cartella in quanto non sono ancora stati scritti*.  
 - Dentro alle cartelle dei capitoli (`chXY/`) ci sono i file `.tex` che contengono le varie sezioni. Per alcune sezioni ci può essere anche una cartella con lo stesso nome del file che contiene le eventuali sottosezioni.  
 
 Con una struttura del genere diventa semplice rimuovere o riordinare capitoli/sezioni/sottosezioni.  
