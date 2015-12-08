@@ -1,4 +1,4 @@
-del project.pdf
+REM del project.pdf
 del *.log
 del *.aux
 del *.toc
