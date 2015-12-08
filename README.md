@@ -7,7 +7,7 @@ Ad esempio anche il *kernel Linux* viene sviluppato con `git`: [torvalds/linux](
 Tra l'altro `git` è proprio un progetto dello stesso *Linus Torvalds*.  
 
 Altri esempi di software di version control sono:  
-* `svn` (subversion) - che un tempo era molto utilizzato ma oggi è stato interamente rimpiazzato da `git`;  
+* `svn` (subversion) - un tempo era molto utilizzato ma oggi è stato interamente rimpiazzato da `git`;  
 * `mercurial` - utilizzato ad esempio da *Mozilla* per *FireFox*.  
 
 **AVVERTENZA:** è consigliato prima leggere questo capitolo e la documentazione associata **interamente** e *solo dopo* configurare ed utilizzare `git`.  
@@ -18,7 +18,10 @@ Per installare `git` seguire le istruzioni del capitolo [Installing Git](https:/
 ### Configurazione  
 Per configurare `git` seguire le istruzioni del capitolo [First-Time Git Setup](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup) della *documentazione ufficiale*.  
 
-Per essere correttamente riconosciuti, l'identità inserita in `git` dovrebbe avere lo stesso `user.name` e la stessa `user.mail` inserita su **GitHub**  
+Per essere correttamente riconosciuti, l'identità inserita in `git` **deve** avere:  
+* come `user.name` il *nome e cognome* che avete inserito in GitHub. **NON** l'username GitHub, ma il *nome completo* che avete messo su GitHub.  
+* come `user.email` lo stesso *indirizzo e-mail* del vostro account GitHub.  
+Maggiori informazioni: [Set Up Git](https://help.github.com/articles/set-up-git/)  
 
 ### Clonare questo repository  
 Prima di tutto è necessario *clonare* questo repository localmente utilizzando il comando `git clone`.  
@@ -26,6 +29,10 @@ Il link del repository da utilizzare è: https://github.com/InforgeNet/bd2015.gi
 
 La spiegazione su come utilizzare il comando `git clone` è disponibile al capitolo [Getting a Git Repository](https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository) della *documentazione ufficiale*.  
 (non deve essere utilizzato `git init` ma solo `git clone`)  
+
+Quando date il comando verranno richieste le vostre credenziali (username e password) di accesso a GitHub (la password non è visibile durante la digitazione).  
+Per evitare che `git` vi chieda sempre le credenziali ad ogni comando, attivate la [cache delle credenziali](https://help.github.com/articles/caching-your-github-password-in-git/)  
+Il *timeout* potete impostarlo in base alle vostre preferenze (io ho messo *100 ore = 360000 secondi*).
 
 ### Lavorare con git  
 Per utilizzare `git` con questo repository, è necessario anche aver letto e compreso i capitoli [Recording Changes to the Repository](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository) e [Working with Remotes](https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes) della *documentazione ufficiale*.  
@@ -82,6 +89,7 @@ Se si desidera ripulire tutta la sporcizia lasciata nella cartella dalla compila
 * **Linux:** dare il comando `make clean`.  
 
 L'output viene generato in `project.pdf` visibile con un qualsiasi visualizzatore PDF.  
+Qualsiasi *warning* in fase di compilazione che parla di `underfull /hbox` o `overfull /hbox` **deve**, per ora, essere ignorato (cosa significano è spiegato sotto nel capitolo sul `LaTeX`).  
 
 ## Organizzazione del File System  
 Nella *root* del progetto c'è:  
@@ -126,7 +134,17 @@ Le tabelle in `LaTeX` sono invece un po' complicate (se vi serve, vi lascio a Go
 
 I comandi dentro il file `project.tex` sono già tutti commentati con descrizione affianco.  
 
-Comunque, l'importante, è stendere il contenuto (e per questo non serve inserire comandi `LaTeX`) la formattazione del contenuto con i comandi posso farla io quando ci passo.  
+### Underfull e Overfull  
+`underfull /hbox` e `overfull /hbox` sono *warning* comuni in fase di compilazione (sopratutto se si lavora con tabelle).  
+Stanno semplicemente ad indicare che il compilatore `LaTeX` non è stato in grado di inserire il testo in modo adeguato nel suo spazio predisposto.  
+
+Ad esempio se volete inserire del testo in una tabella con diverse colonne, lo spazio disponibile al testo in ogni colonna è poco, e quindi `LaTeX` è costretto a tornare a capo frequentemente.  
+Per far questo spesso deve spezzare le parole in base alla loro sillabazione. Non sempre però riesce a trovare un adeguato punto dove spezzare la parola - in questi casi, avvisa di `overfull /hbox`, ossia che ha dovuto *sforare* fuori dalla tabella, o di `underfull /hbox`, ossia che ha dovuto inserire spazi *più lunghi* nella riga soprastante per poter andare a capo senza perdere la giustificazione del testo.  
+Gli *underfull* e *overfull* possono verificarsi ovunque (non soltanto con le tabelle). Ad ogni modo, per il momento, sono da ignorare: penseremo a sistemarli una volta finito il progetto.  
+Nel caso sia attiva l'opzione `draft` nel file `project.tex`, nel PDF che viene prodotto dalla compilazione, tutti gli *underfull* e *overfull* vengono *markati* con dei quadratini neri: questi quadratini **non** compariranno, ovviamente, nella versione finale del documento.
+
+  
+Comunque l'importante è stendere il contenuto - non perdete troppo tempo dietro ai comandi `LaTeX`.  
 
 ## Markdown di GitHub  
 Per scrivere testi *fighi* come questo, formattati per GitHub:  
