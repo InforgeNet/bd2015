@@ -22,6 +22,12 @@
 \usepackage{multicol}       % testo su più colonne
 \usepackage{comment}        % blocchi di commenti con \begin{comment}
 
+\includeonly{./tex/title,   % include solo i capitoli fatti per ora (quando un nuovo capitolo viene steso, va aggiunto (solo) qui)
+                ./tex/ch01, % per via di includeonly è normale che LaTeX alla compilazione avvisi che ci sono "undefined reference"
+                ./tex/ch02, % e che nel documento compaiano cose come "capitolo ??". Questi problemi spariranno quando si saranno
+                ./tex/ch03, % fatti tutti i capitoli. Il vantaggio di includeonly è che accelera la compilazione (non includendo
+                ./tex/ch04} % i capitoli non fatti)
+                
 \graphicspath{ {./images/} }                % percorso dove vengono prese le immagini
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}  % estensioni dei file di immagine (in ordine di preferenza)
 
