@@ -19,7 +19,7 @@ Per installare `git` seguire le istruzioni del capitolo [Installing Git](https:/
 Per configurare `git` seguire le istruzioni del capitolo [First-Time Git Setup](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup) della *documentazione ufficiale*.  
 
 Per essere correttamente riconosciuti, l'identità inserita in `git` **deve** avere:  
-* come `user.name` il *nome e cognome* che avete inserito in GitHub. **NON** l'username, ma il **nome completo** che avete messo su GitHub.  
+* come `user.name` il *nome e cognome* che avete inserito in GitHub. **NON** l'username, ma il **nome completo** che avete messo su GitHub (se non lo avete fatto dovete impostarlo dal profilo di GitHub).  
 * come `user.email` lo stesso *indirizzo e-mail* del vostro account GitHub.  
 
 Maggiori informazioni: [Set Up Git](https://help.github.com/articles/set-up-git/)  
