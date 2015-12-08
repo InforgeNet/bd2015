@@ -146,6 +146,11 @@ Per far questo spesso deve spezzare le parole in base alla loro sillabazione. No
 Gli *underfull* e *overfull* possono verificarsi ovunque (non soltanto con le tabelle). Ad ogni modo, per il momento, sono da ignorare: penseremo a sistemarli una volta finito il progetto.  
 Nel caso sia attiva l'opzione `draft` nel file `project.tex`, nel PDF che viene prodotto dalla compilazione, tutti gli *underfull* e *overfull* vengono *markati* con dei quadratini neri: questi quadratini **non** compariranno, ovviamente, nella versione finale del documento.
 
+### Documentazione  
+Se qualcuno volesse un po' di documentazione su `LaTeX`:  
+- [WikiBook LaTeX](https://en.wikibooks.org/wiki/LaTeX)  
+- [ShareLaTeX](https://www.sharelatex.com/learn/Creating_a_document_in_LaTeX)  
+- [Documentazione Ufficiale](https://latex-project.org/guides/)  
   
 Comunque l'importante è stendere il contenuto - non perdete troppo tempo dietro ai comandi `LaTeX`.  
 
