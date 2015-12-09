@@ -48,12 +48,14 @@ BEGIN
             SET MESSAGE_TEXT = 'Prenotazioni disabilitate per l\'account.';
         END IF;
     END IF;
+
+-- Va messo come CHECK()    
+--    IF NEW.Data <= NOW() THEN
+--        SIGNAL SQLSTATE '45000'
+--        SET MESSAGE_TEXT = 'La data deve essere successiva a quella attuale.';
+--    END IF;
     
-    IF NEW.Data <= NOW() THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'La data deve essere successiva a quella attuale.';
-    END IF;
-    
+        
         SET @AllestimentiSala = (SELECT SUM(DATE(P.Date) = DATE(NEW.Date))
                                     FROM Prenotazione P
                                     WHERE P.Sala = NEW.Sala
