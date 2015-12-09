@@ -79,18 +79,18 @@ Con il *prompt dei comandi/terminale*, dirigersi nella cartella locale del proge
 (`--shell-escape` è necessario per `minted`).  
 
 Oppure più semplicemente:  
-* **Windows:** eseguire il file `make.bat`. *non testato*  
+* **Windows:** eseguire il file [make.bat](make.bat). *non testato*  
 * **Linux:** dare il comando `make`.  
 
 Talvolta può essere necessario eseguire la compilazione anche 2 o 3 volte: questo permette a `LaTeX` di impostare adeguatamente l'indice e i riferimenti del testo. Quando è necessario, compare vicino alla fine dell'output di `pdflatex`:  
 `LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.`  
 Per farlo:  
 * **Qualsiasi:** eseguire più volte `pdflatex --shell-escape project.tex`.  
-* **Windows:** eseguire più volte il file `make.bat` oppure eseguire una volta il file `make-full.bat`. *non testato*  
+* **Windows:** eseguire più volte il file [make.bat](make.bat) oppure eseguire una volta il file [make-full.bat](make-full.bat). *non testato*  
 * **Linux:** dare più volte il comando `make` oppure dare una volta il comando `make full`.  
 
 Se si desidera ripulire tutta la sporcizia lasciata nella cartella dalla compilazione (file `.log`, `.aux`, `.toc`):  
-* **Windows:** eseguire il file `make-clean.bat`. *non testato*  
+* **Windows:** eseguire il file [make-clean.bat](make-clean.bat). *non testato*  
 * **Linux:** dare il comando `make clean`.  
 
 L'output viene generato in `project.pdf` visibile con un qualsiasi visualizzatore PDF.  
@@ -98,15 +98,15 @@ Qualsiasi *warning* in fase di compilazione che parla di `underfull /hbox` o `ov
 
 ## Organizzazione del File System  
 Nella *root* del progetto c'è:  
-* `README.md` - questo file.  
-* `TODO.md` - contiene una lista delle cose ancora da fare.  
-* `project.tex` - il documento principale che viene compilato, contiene la struttura di base del documento e la lista di pacchetti.  
-* `Makefile` - utilizzato in Linux per compilare rapidamente con `make`.  
-* `make-*.bat` - usati in Windows per compilare rapidamente.  
-* `images/` - cartella contenente tutte le immagini che vengono incluse nel documento.  
-* `sql/` - tutti i codici SQL che vengono inclusi nel documento.  
-* `tex/` - tutti i file `.tex` che vengono inclusi da `project.tex`. Questi file contengono il *vero contenuto* del documento.  
-* `workbench/` - contiene il progetto workbench con il diagramma. **NON AGGIORNATO**  
+* [README.md](README.md) - questo file.  
+* [TODO.md](TODO.md) - contiene una lista delle cose ancora da fare.  
+* [project.tex](project.tex) - il documento principale che viene compilato, contiene la struttura di base del documento e la lista di pacchetti.  
+* [Makefile](Makefile) - utilizzato in Linux per compilare rapidamente con `make`.  
+* [make.bat](make.bat) [make-full.bat](make-full.bat) [make-clean.bat](make-clean.bat) - usati in Windows per compilare rapidamente.  
+* [images/](images) - cartella contenente tutte le immagini che vengono incluse nel documento.  
+* [sql/](sql) - tutti i codici SQL che vengono inclusi nel documento.  
+* [tex/](tex) - tutti i file `.tex` che vengono inclusi da `project.tex`. Questi file contengono il *vero contenuto* del documento.  
+* [workbench/](workbench) - contiene il progetto workbench con il diagramma. **NON AGGIORNATO**  
 
 Dentro alla cartella `tex/` la struttura è un po' complessa:  
 - Per ogni capitolo del progetto c'è un file `chXY.tex` che contiene il capitolo `XY` del progetto.  
@@ -114,17 +114,18 @@ Dentro alla cartella `tex/` la struttura è un po' complessa:
 - Dentro alle cartelle dei capitoli (`chXY/`) ci sono i file `.tex` che contengono le varie sezioni. Per alcune sezioni ci può essere anche una cartella con lo stesso nome del file che contiene le eventuali sottosezioni.  
 
 Con una struttura del genere diventa semplice rimuovere o riordinare capitoli/sezioni/sottosezioni.  
-* Per rimuovere un capitolo/sezione/sottosezione basta commentare (con il carattere `%`) il comando `\input` o `\include` che include il file contenente il capitolo/sezione/sottosezione - **senza** cancellare alcun file.  
-* Per riordinare dei capitoli/sezioni/sottosezioni basta riordinare i vari comandi `\input` o `\include`.  
+* Per rimuovere una (sotto)sezione basta commentare (con il carattere `%`) il comando `\input` che include il file contenente la (sotto)sezione **senza** cancellare alcun file.  
+* Per rimuovere un capitolo basta toglierlo dalla lista del comando `\includeonly` nel file [project.tex](project.tex).  
+* Per riordinare dei capitoli/(sotto)sezioni basta riordinare i vari comandi `\input` o `\include`.  
 
 **NOTA:** Il comando `\include` è da usare solo per i **CAPITOLI** nel file `project.tex`. In tutti gli altri casi deve essere utilizzato `\input`.  
 
-Dentro alla cartella `\tex` ci sono anche i seguenti file *speciali*:  
-* `title.tex` - titolo (prima pagina) del documento.  
-* `style.tex` - definisce lo stile del documento.  
-* `def.tex` - contiene le definizioni dei comandi *user-defined*.  
-* `hyphen.tex` - specifica le regole di sillabazione delle parole non presenti nel dizionario di `LaTeX`. 
-* `lang-style.tex` - definisce le regole di presentazione del codice SQL con il pacchetto `listings`. **NON UTILIZZATO** in quanto ho sostituito il pacchetto `listings` con `minted`.  
+Dentro alla cartella [tex/](tex) ci sono anche i seguenti file *speciali*:  
+* [title.tex](tex/title.tex) - titolo (prima pagina) del documento.  
+* [style.tex](tex/style.tex) - definisce lo stile del documento.  
+* [def.tex](tex/def.tex) - contiene le definizioni dei comandi *user-defined*.  
+* [hyphen.tex](tex/hyphen.tex) - specifica le regole di sillabazione delle parole non presenti nel dizionario di `LaTeX`. 
+* [lang-style.tex](tex/lang-style.tex) - definisce le regole di presentazione del codice SQL con il pacchetto `listings`. **NON UTILIZZATO** in quanto ho sostituito il pacchetto `listings` con `minted`.  
 
 ## LaTeX  
 `LaTeX` è semplice: testo misto a comandi. I comandi iniziano sempre con `\` e possono contenere argomenti in parentesi graffe `{}` o argomenti opzionali in parentesi quadre `[]`  
@@ -137,7 +138,7 @@ Per tornare a capo senza cambiare paragrafo bisogna inserire `\\`.
 Gli spazi *non* vengono considerati: inserire 1 spazio o 1000 spazi tra 2 parole non cambia niente (viene considerato sempre come 1 spazio).  
 Le tabelle in `LaTeX` sono invece un po' complicate (se vi serve, vi lascio a Google).
 
-I comandi dentro il file `project.tex` sono già tutti commentati con descrizione affianco.  
+I comandi dentro il file [project.tex](project.tex) sono già tutti commentati con descrizione affianco.  
 
 ### Underfull e Overfull  
 `underfull /hbox` e `overfull /hbox` sono *warning* comuni in fase di compilazione (sopratutto se si lavora con tabelle).  
@@ -146,7 +147,7 @@ Stanno semplicemente ad indicare che il compilatore `LaTeX` non è stato in grad
 Ad esempio se volete inserire del testo in una tabella con diverse colonne, lo spazio disponibile al testo in ogni colonna è poco, e quindi `LaTeX` è costretto a tornare a capo frequentemente.  
 Per far questo spesso deve spezzare le parole in base alla loro sillabazione. Non sempre però riesce a trovare un adeguato punto dove spezzare la parola - in questi casi, avvisa di `overfull /hbox`, ossia che ha dovuto *sforare* fuori dalla tabella, o di `underfull /hbox`, ossia che ha dovuto inserire spazi *più lunghi* nella riga soprastante per poter andare a capo senza perdere la giustificazione del testo.  
 Gli *underfull* e *overfull* possono verificarsi ovunque (non soltanto con le tabelle). Ad ogni modo, per il momento, sono da ignorare: penseremo a sistemarli una volta finito il progetto.  
-Nel caso sia attiva l'opzione `draft` nel file `project.tex`, nel PDF che viene prodotto dalla compilazione, tutti gli *underfull* e *overfull* vengono *markati* con dei quadratini neri: questi quadratini **non** compariranno, ovviamente, nella versione finale del documento.
+Nel caso sia attiva l'opzione `draft` nel file [project.tex](project.tex), nel PDF che viene prodotto dalla compilazione, tutti gli *underfull* e *overfull* vengono *markati* con dei quadratini neri: questi quadratini **non** compariranno, ovviamente, nella versione finale del documento.
 
 ### Documentazione  
 Se qualcuno volesse un po' di documentazione su `LaTeX`:  
