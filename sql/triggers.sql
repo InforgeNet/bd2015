@@ -21,7 +21,7 @@ BEGIN
     IF @StatoPony <> 'libero' THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Assegnamento di consegna a pony non libero.';
-    ELSE IF @StatoConsegna <> 'consegna' THEN
+    ELSE IF @StatoComanda <> 'consegna' THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Comanda relativa non pronta per la consegna.';
     END IF;
