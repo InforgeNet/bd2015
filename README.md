@@ -15,6 +15,8 @@ Altri esempi di software di version control sono:
 ### Installazione  
 Per installare `git` seguire le istruzioni del capitolo [Installing Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) della *documentazione ufficiale*.  
 
+Per Windows esiste anche *GitHub for Windows* che permette di utilizzare `git` per GitHub da interfaccia grafica. Io però preferisco la command-line ;)  
+
 ### Configurazione  
 Per configurare `git` seguire le istruzioni del capitolo [First-Time Git Setup](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup) della *documentazione ufficiale*.  
 
