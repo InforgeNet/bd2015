@@ -12,11 +12,11 @@ FOR EACH ROW
 BEGIN
     SET @StatoPony = (SELECT P.Stato AS StatoPony
                         FROM Pony P
-                        WHERE P.ID = new.Pony);
+                        WHERE P.ID = NEW.Pony);
 
-    SET @StatoConsegna = (SELECT C.stato AS StatoConsegna
+    SET @StatoComanda = (SELECT C.stato AS StatoComanda
                                 FROM Comanda C
-                                WHERE C.ID = new.ID);
+                                WHERE C.ID = NEW.ID);
                                 
     IF @StatoPony <> 'libero' THEN
         SIGNAL SQLSTATE '45000'
