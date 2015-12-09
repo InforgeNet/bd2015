@@ -57,6 +57,7 @@ BEGIN
         SET @AllestimentiSala = (SELECT SUM(DATE(P.Date) = DATE(NEW.Date))
                                     FROM Prenotazione P
                                     WHERE P.Sala = NEW.Sala
+                                        AND P.Sede = NEW.Sede
                                         AND P.Tavolo = NULL);
                         
     IF @AllestimentiSala > 0 THEN
@@ -65,11 +66,24 @@ BEGIN
     END IF;
     
     IF NEW.Tavolo <> NULL THEN
+        SET @PostiTavolo = (SELECT T.Posti
+                            FROM Tavolo T
+                            WHERE T.ID = NEW.Tavolo
+                                AND T.Sala = NEW.Sala
+                                AND T.Sede = NEW.Sede);
+        
+        IF @PostiTavolo < NEW.Numero THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Il tavolo non ha un numero adeguato di posti.';
+        END IF;
+        
         SET @TavoloLibero = (SELECT SUM(P.Date 
                                         BETWEEN (NEW.Date - INTERVAL 2 HOUR)
                                             AND (NEW.Date + INTERVAL 2 HOUR))
                             FROM Prenotazione P
-                            WHERE P.Tavolo = NEW.Tavolo);
+                            WHERE P.Tavolo = NEW.Tavolo
+                                AND P.Sala = NEW.Sala
+                                AND P.Sede = NEW.Sede);
 
         IF @TavoloLibero > 0 THEN
             SIGNAL SQLSTATE '45000'
@@ -78,13 +92,56 @@ BEGIN
     ELSE
         SET @SalaLibera = (SELECT SUM(DATE(P.Date) = DATE(NEW.Date))
                             FROM Prenotazione P
-                            WHERE P.Sala = NEW.Sala);
+                            WHERE P.Sala = NEW.Sala
+                                AND P.Sede = NEW.Sede);
                             
         IF @SalaLibera > 0 THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'La sala contiene tavoli prenotati.';
         END IF;
     END IF;
+END$$
+
+/******************************************************************************
+ * rettifica_prenotazione controlla che la rettifica della prenotazione venga *
+ * fatta al max. 48 ore prima della data della prenotazione. Inoltre controlla*
+ * che la nuova prenotazione sia valida.                                      *
+ ******************************************************************************/
+CREATE TRIGGER rettifica_prenotazione
+BEFORE UPDATE
+ON Prenotazione
+FOR EACH ROW
+BEGIN
+        @PuoRettificare = (SELECT (NOW() < OLD.Data - INTERVAL 2 DAY)
+                              FROM Prenotazione P
+                              WHERE P.ID = OLD.ID); -- ??
+                              
+       	IF @PuoRettificare = 0 THEN
+       	    SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Non è possibile modificare la prenotazione';
+        END IF;
+        
+        -- TODO: controllare stesse cose INSERT (con procedura?)
+END$$
+
+/******************************************************************************
+ * rettifica_prenotazione controlla che l'annullamento della prenotazione     *
+ * venga fatta al max. 72 ore prima della data della prenotazione. Inoltre    *
+ * controlla che la nuova prenotazione sia valida.                            *
+ ******************************************************************************/
+CREATE TRIGGER annulla_prenotazione
+BEFORE DELETE
+ON Prenotazione
+FOR EACH ROW
+BEGIN
+        @PuoAnnullare = (SELECT (NOW() < OLD.Data - INTERVAL 3 DAY)
+                              FROM Prenotazione P
+                              WHERE P.ID = OLD.ID); -- ??
+                              
+       	IF @PuoAnnullare = 0 THEN
+       	    SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Non è possibile annullare la prenotazione';
+        END IF;
 END$$
 
 DELIMITER ;
