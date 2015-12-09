@@ -1,8 +1,7 @@
 # TODO
-*(Lista da riempire)*
 
-- [X] TODO 1
-- [ ] TODO 2
-- [X] TODO 3
-- [ ] TODO 4
-- [ ] TODO 5
+- [X] Triggers
+- [ ] Completare la tabella sulle relazioni
+- [ ] Completare la lista di business rules
+- [ ] Operazione: select delle ricette ordinabili
+- [ ] Operazione: ...
