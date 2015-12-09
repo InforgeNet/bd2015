@@ -1,4 +1,4 @@
-\documentclass[11pt,draft]{report}  % dimensione di default del font e "draft" indica che si tratta di una 'brutta copia' (in sviluppo):
+\documentclass[11pt]{report}  % dimensione di default del font e "draft" indica che si tratta di una 'brutta copia' (in sviluppo):
                                     % vengono mostrati dei quadratini neri vicino agli overfull; non vengono messe le immagini; i codici
                                     % non hanno i colori, ecc. Per vedere la differenza: togliere momentaneamente ",draft" e ricompilare.
 \usepackage[italian]{babel} % lingua
@@ -21,6 +21,8 @@
 \usepackage{minted}         % codice e syntax highlight
 \usepackage{multicol}       % testo su più colonne
 \usepackage{comment}        % blocchi di commenti con \begin{comment}
+
+\pdfoptionpdfminorversion = 7   % imposta la versione PDF da usare a 1.7 (default: 1.5)
 
 \includeonly{./tex/title,   % include solo i capitoli fatti per ora (quando un nuovo capitolo viene steso, va aggiunto (solo) qui)
                 ./tex/ch01, % per via di includeonly è normale che LaTeX alla compilazione avvisi che ci sono "undefined reference"
