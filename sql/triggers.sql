@@ -126,8 +126,7 @@ END$$
 
 /******************************************************************************
  * rettifica_prenotazione controlla che l'annullamento della prenotazione     *
- * venga fatta al max. 72 ore prima della data della prenotazione. Inoltre    *
- * controlla che la nuova prenotazione sia valida.                            *
+ * venga fatta al max. 72 ore prima della data della prenotazione.            *
  ******************************************************************************/
 CREATE TRIGGER annulla_prenotazione
 BEFORE DELETE
@@ -143,5 +142,7 @@ BEGIN
             SET MESSAGE_TEXT = 'Non è possibile annullare la prenotazione';
         END IF;
 END$$
+
+
 
 DELIMITER ;
