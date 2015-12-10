@@ -45,5 +45,28 @@ Cucina      & \specialcell{Sede\\(0,N)}
                                               Dovrà riportare anche la quantità di strumenti
                                               di un certo tipo appartenenti alla sede.
     \\ \hline % ----------------------------------------------------------------
-                                                                                                    %TODO: CONTINUARE TABELLA
+Applicazione
+            & \specialcell{Sede\\(1,N)}
+                            & \specialcell{Menu\\(1,1)}
+                                            & Una sede applica un menu alla volta.
+                                              I menu passati vengono comunque mantenuti
+                                              ma un menu appartiene solo ad una sede
+                                              (nel caso di menu uguali in sedi diversi
+                                              saranno rappresentati come 2 menu diversi).
+    \\ \hline % ----------------------------------------------------------------
+Elenco      & \specialcell{Menu\\(1,N)}
+                            & \specialcell{Ricetta\\(0,N)}
+                                            & Una ricetta appartiene a zero o più menu
+                                              e un menu possiede più ricette (almeno una).
+    \\ \hline % ----------------------------------------------------------------
+% ...FASE...
+Produzione  & \specialcell{Ricetta\\(0,N)}
+                            & \specialcell{Piatto\\(1,1)}
+                                            & Un piatto è prodotto secondo una e una sola
+                                              ricetta. Ogni ricetta può essere scelta
+                                              anche più volte da tanti clienti (e per ogni
+                                              scelta viene prodotto un piatto).
+    \\ \hline % ----------------------------------------------------------------
+% ...VARIAZIONE...
+% ... continuare
 \end{longtabu} }
