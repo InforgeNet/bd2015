@@ -10,7 +10,19 @@
     {\tt MenuPassato} che rappresenta un menu non più in uso. In questo modo
     {\tt MenuPassato} è un sottoinsieme di {\tt Menu} e quindi è una generalizzazione
     {\it parziale}.
-\item La {\tt Fase} \ldots                                                             % TODO: FASE
+\item La {\tt Fase} può essere di due tipi: {\tt FaseIngrediente}, ossia di aggiunta
+    di ingrediente, oppure {\tt FaseManovra}, ossia di lavorazione (con o senza strumento).
+    La generalizzazione è {\it totale}. In teoria si potrebbe trattare come generalizzazione
+    {\it sovrapposta}, ossia che una fase possa contenere sia l'aggiunta di un ingrediente
+    sia una lavorazione (ad esempio: {\it affetta il prosciutto e aggiungilo al piatto}).
+    Preferiamo però rendere le fasi quanto più elementari possibili. L'esempio precedente
+    si può vedere anche come diviso in due fasi: {\it affetta il prosciutto}; {\it aggiungi il
+    prosciutto}.
+\item {\tt ModificaFase} può essere di due tipi: {\tt AggiuntaFase} oppure {\tt EliminazioneFase}.
+    La generalizzazione è {\it totale} e {\it sovrapposta} (la sostituzione di una fase con
+    un altra, infatti, altro non è che l'eliminazione di una fase e l'aggiunta di un'altra
+    fase). Introduciamo quindi, per rendere {\it esclusiva} la generalizzazione, un'ulteriore
+    entità: {\tt SostituzioneFase}.
 \item La {\tt Comanda} può essere di due tipi: {\tt ComandaTavolo} oppure
     {\tt ComandaTakeAway}. La generalizzazione è {\it totale} ed
     {\it esclusiva}.
@@ -20,6 +32,12 @@
     una semplice {\tt PrenotazioneOnline} oppure un {\tt Allestimento} (entità già individuata).
     In questo caso la generalizzazione è {\it parziale} e {\tt Allestimento}
     è un sottoinsieme di {\tt PrenotazioneOnline}.
+\item {\it Variazione} e {\it Suggerimento} sono due entità molto simili tra loro: entrambe
+    modificano una o più fasi del procedimento strutturato di una certa ricetta. Può quindi
+    essere comodo generalizzarle in un'unica entità: rinominiamo quindi l'entità {\tt Variazione}
+    in {\tt VariazionePiatto} così da poter utilizzare il nome {\tt Variazione} per l'entità
+    padre di {\tt VariazionePiatto} e {\tt Suggerimento}. La generalizzazione è {\it totale}
+    ed {\it esclusiva}.
 \item Un {\tt Gradimento} può riferirsi a un {\tt Suggerimento} o a una {\tt Proposta}.
     Risulta quindi comodo aggiungere le entità {\tt GradimentoSuggerimento} e
     {\tt GradimentoProposta} come figlie. La generalizzazione è {\it totale} ed
@@ -30,11 +48,17 @@ Devono essere quindi aggiunte le seguenti entità:
 \begin{multicols}{2}
 \begin{itemize}
     \item\tt Strumento
-    \item\tt MenuPassato                                                               % TODO: FASE
+    \item\tt MenuPassato
+    \item\tt FaseIngrediente
+    \item\tt FaseVariazione
+    \item\tt AggiuntaFase
+    \item\tt EliminazioneFase
+    \item\tt SostituzioneFase
     \item\tt ComandaTavolo
     \item\tt ComandaTakeAway
     \item\tt PrenotazioneOnline
     \item\tt PrenotazioneTelefonica
+    \item\tt VariazionePiatto
     \item\tt GradimentoSuggerimento
     \item\tt GradimentoProposta
 \end{itemize}
