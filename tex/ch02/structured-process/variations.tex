@@ -1,0 +1,44 @@
+\subsection{Variazioni}
+Con la struttura mostrata nel paragrafo \vref{sec:structuredprocess} è possibile anche
+gestire le {\it variazioni}.
+
+Le variazioni devono poter: aggiungere nuove fasi; rimuovere fasi.
+
+Prendiamo ad esempio la seguente struttura che rappresenta il procedimento di una
+pizza al prosciutto:
+
+\ldots
+
+Dove:
+\begin{enumerate}[label=$F_{\arabic*}$:]
+    \item fase di stesura della pasta;
+    \item fase di aggiunta della pasta al piatto;
+    \item fase di produzione del sugo dal pomodoro;
+    \item fase di aggiunta del pomodoro lavorato (sugo);
+    \item fase di aggiunta della mozzarella;
+    \item fase di taglio del prosciutto in fette;
+    \item fase di aggiunta del prosciutto lavorato (fette di prosciutto) al piatto;
+    \item fase di cottura.
+\end{enumerate}
+
+Facciamo l'ipotesi che il cliente voglia come variazione la rimozione del pomodoro
+(pizza bianca). In tal caso devono essere rimosse due fasi (anche se la variazione è
+una sola!): $F_{3}$ e $F_{4}$. Se invece quello precedente fosse stato il procedimento
+di una pizza margherita e il cliente avesse indicato come variazione l'aggiunta del
+prosciutto, si sarebbero dovute aggiungere due fasi: $F_{6}$ e $F_{7}$.
+
+Questo dimostra che è necessario che ogni variazione possa effettuare anche più di un'operazione
+elementare (aggiunta o rimozione) sul procedimento strutturato.
+
+L'entità {\tt ModificaFase} (con le sue entità figlie) è stata aggiunta al {\it diagramma
+entità-relazione} (disponibile a \vpageref{fig:conceptdiagram}) allo scopo di permettere
+ad ogni variazione di {\it modificare} anche più fasi: ogni variazione ha più
+{\tt ModificaFase} e ogni {\tt ModificaFase} rappresenta la modifica (aggiunta, eliminazione, sostituzione)
+di una e una sola fase (la sostituzione coinvolge però due fasi: quella da togliere e quella da aggiungere).
+
+Le fasi che fanno parte di variazioni (come le fasi $F_{6}$ e $F_{7}$ nel caso del procedimento
+della pizza margherita) non vengono confuse dal database con le fasi della ricetta {\it normale}:
+infatti le fasi che fanno parte di variazioni si troveranno come {\it chiavi esterne}
+all'interno dell'entità {\tt AggiuntaFase} (o {\tt SostituzioneFase}) per mezzo della relazione
+{\tt Nuova}, e quindi il database saprà distinguerle da quelle della ricetta normale
+(vedere il diagramma \vpageref{fig:conceptdiagram}).

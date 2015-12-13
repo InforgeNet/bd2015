@@ -1,0 +1,34 @@
+\section{Procedimento Strutturato}\label{sec:structuredprocess}
+Prima di poter procedere è necessario decidere come realizzare il {\bf procedimento strutturato}.
+Esso dovrà poi anche venir modificato dalle {\it variazioni} e dai {\it suggerimenti} dei clienti.
+
+Il modo più {\it flessibile} di rappresentare un procedimento di preparazione di un piatto
+in fasi è quello di una struttura a {\it branches}: ossia rappresentare il procedimento
+di preparazione di una ricetta tramite una struttura come la seguente:
+
+\vspace{5pt}\centerline{\includegraphics[width=0.8\textwidth]{ex-struct-process-1}}
+
+\vspace{15pt}
+
+Dove ogni cerchio numerato rappresenta una {\it fase}.
+
+Con una struttura del genere è possibile ad esempio imporre che per iniziare una fase,
+tutte le fasi precedenti ad essa devono essere portate a termine. Ad esempio nella struttura precedente:
+$F_{5}$ può essere iniziata solo dopo che $F_{4}$ (e di conseguenza anche $F_{1}$) è stata completata.\\
+$F_{7}$ può essere iniziata solo dopo che $F_{3}$ (e di conseguenza anche $F_{2}$ e $F_{1}$),
+$F_{5}$ (e di conseguenza anche $F_{4}$) e $F_{6}$ sono state completate.
+
+Possiamo inoltre {\it parallelizzare} la produzione del piatto. Ad esempio $F_{4}$ e $F_{5}$ possono essere
+svolte da un cuoco mentre un altro cuoco sta svolgendo $F_{2}$ e $F_{3}$ (l'importante è che
+$F_{1}$ sia stata portata a termine prima di iniziare $F_{2}$ e $F_{4}$). Nel mentre un altro
+cuoco ancora può svolgere $F_{6}$ (in questo caso $F_{6}$ può iniziare anche prima di $F_{1}$)
+e un altro ancora può svolgere $F_{8}$.
+
+Per poter realizzare una struttura come questa in un database relazionale, sarà necessario
+introdurre una {\it relazione ricorsiva}: l'entità che rappresenterà una fase dovrà essere
+messa in una {\it relazione molti-a-molti} con se stessa. Infatti ogni fase deve essere
+messa in relazione con le sue fasi precedenti (nell'immagine precedente: ogni collegamento
+tra due fasi è una relazione).
+La relazione ({\tt Precedente}) che permette la realizzazione di tale struttura è mostrata
+nel {\it diagramma entità-relazione} \vpageref{fig:conceptdiagram}.
+\input{./tex/ch02/structured-process/variations}
