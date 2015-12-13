@@ -10,11 +10,11 @@ di preparazione di una ricetta tramite una struttura come la seguente:
 
 \vspace{15pt}
 
-Dove ogni cerchio numerato rappresenta una {\it fase}.
+Dove ogni {\it nodo numerato} rappresenta una {\it fase}.
 
 Con una struttura del genere è possibile ad esempio imporre che per iniziare una fase,
 tutte le fasi precedenti ad essa devono essere portate a termine. Ad esempio nella struttura precedente:
-$F_{5}$ può essere iniziata solo dopo che $F_{4}$ (e di conseguenza anche $F_{1}$) è stata completata.\\
+$F_{5}$ può essere iniziata solo dopo che $F_{4}$ (e di conseguenza anche $F_{1}$) è stata completata.
 $F_{7}$ può essere iniziata solo dopo che $F_{3}$ (e di conseguenza anche $F_{2}$ e $F_{1}$),
 $F_{5}$ (e di conseguenza anche $F_{4}$) e $F_{6}$ sono state completate.
 
@@ -30,5 +30,5 @@ messa in una {\it relazione molti-a-molti} con se stessa. Infatti ogni fase deve
 messa in relazione con le sue fasi precedenti (nell'immagine precedente: ogni collegamento
 tra due fasi è una relazione).
 La relazione ({\tt Precedente}) che permette la realizzazione di tale struttura è mostrata
-nel {\it diagramma entità-relazione} \vpageref{fig:conceptdiagram}.
+nel {\it diagramma entità-relazione} \vpageref{diagram.1}.
 \input{./tex/ch02/structured-process/variations}
