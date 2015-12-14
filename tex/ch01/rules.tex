@@ -1,6 +1,10 @@
 \section{Business rules} \label{sec:businessrules}
+Elenchiamo di seguito alcune delle {\it business rules}:
 \begin{enumbusinessrules}
 \item Una pietanza deve comparire nel menu se e solo se ci sono ingredienti a sufficienza (la quantità viene stimata da funzioni di back-end) per la sua produzione.
 \item Un pony può prendersi in carico una consegna se e solo se il suo stato è {\it libero} (non è in viaggio per un'altra consegna).
+\item In ogni sede deve essere applicato un solo menu alla volta.
+\item\label{br.menuenddate} La data di fine dell'applicazione di un menu deve essere inserita al momento dell'inserimento del menu nel database.
+\item\label{br.variations} Ogni variazione deve poter modificare anche più di una fase del procedimento strutturato.\footnote{Il motivo di questa business rule è spiegato nel paragrafo \vref{sec:structuredprocess}}
 \item \ldots
 \end{enumbusinessrules}

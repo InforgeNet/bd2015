@@ -1,5 +1,7 @@
 DELIMITER $$
 
+-- TODO: Usare DECLARE invece di SET per tutte le variabili?
+
 /******************************************************************************
  * nuova_consegna si assicura che ogni volta che viene inserita una nuova     *
  * consegna il pony a cui viene assegnata sia libero e che la comanda sia     *
@@ -29,9 +31,8 @@ END$$
 
 /******************************************************************************
  * nuova_prenotazione controlla: se l'account (in caso di prenotazione online)*
- * è abilitato a prenotare; se la data inserita è successiva alla data        *
- * attuale; se il tavolo da prenotare è libero; se la sala e tutti i tavoli   *
- * che contiene sono liberi per un allestimento.                              *
+ * è abilitato a prenotare; se il tavolo da prenotare è libero; se la sala e  *
+ * tutti i tavoli che contiene sono liberi per un allestimento.               *
  ******************************************************************************/
 CREATE TRIGGER nuova_prenotazione
 BEFORE INSERT
@@ -47,14 +48,7 @@ BEGIN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Prenotazioni disabilitate per l\'account.';
         END IF;
-    END IF;
-
--- Va messo come CHECK()    
---    IF NEW.Data <= NOW() THEN
---        SIGNAL SQLSTATE '45000'
---        SET MESSAGE_TEXT = 'La data deve essere successiva a quella attuale.';
---    END IF;
-    
+    END IF;    
         
         SET @AllestimentiSala = (SELECT SUM(DATE(P.Date) = DATE(NEW.Date))
                                     FROM Prenotazione P
@@ -78,7 +72,10 @@ BEGIN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Il tavolo non ha un numero adeguato di posti.';
         END IF;
-        
+
+-- NOTA: L'uso di espressioni booleane all'interno di SUM() è possibile solo in
+--       MySQL (che converte l'espressione booleana in int). In altri DBMS si
+--       può utilizzare COUNT() e spostare l'espressione booleana nel WHERE.
         SET @TavoloLibero = (SELECT SUM(P.Date 
                                         BETWEEN (NEW.Date - INTERVAL 2 HOUR)
                                             AND (NEW.Date + INTERVAL 2 HOUR))
@@ -114,16 +111,16 @@ BEFORE UPDATE
 ON Prenotazione
 FOR EACH ROW
 BEGIN
-        @PuoRettificare = (SELECT (NOW() < OLD.Data - INTERVAL 2 DAY)
-                              FROM Prenotazione P
-                              WHERE P.ID = OLD.ID); -- ??
-                              
-       	IF @PuoRettificare = 0 THEN
-       	    SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Non è possibile modificare la prenotazione';
-        END IF;
-        
-        -- TODO: controllare stesse cose INSERT (con procedura?)
+    SET @PuoRettificare = (SELECT (NOW() < OLD.Data - INTERVAL 2 DAY)
+                          FROM Prenotazione P
+                          WHERE P.ID = OLD.ID); -- ??
+                          
+   	IF @PuoRettificare = 0 THEN
+   	    SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Non è possibile modificare la prenotazione.';
+    END IF;
+    
+    -- TODO: controllare stesse cose INSERT (con procedura?)
 END$$
 
 /******************************************************************************
@@ -135,16 +132,17 @@ BEFORE DELETE
 ON Prenotazione
 FOR EACH ROW
 BEGIN
-        @PuoAnnullare = (SELECT (NOW() < OLD.Data - INTERVAL 3 DAY)
-                              FROM Prenotazione P
-                              WHERE P.ID = OLD.ID); -- ??
-                              
-       	IF @PuoAnnullare = 0 THEN
-       	    SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Non è possibile annullare la prenotazione';
-        END IF;
+    SET @PuoAnnullare = (SELECT (NOW() < OLD.Data - INTERVAL 3 DAY)
+                          FROM Prenotazione P
+                          WHERE P.ID = OLD.ID); -- ??
+                          
+   	IF @PuoAnnullare = 0 THEN
+   	    SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Non è possibile annullare la prenotazione.';
+    END IF;
 END$$
 
-
+-- TODO: Vanno fatti anche tutti gli altri trigger in quanto MySQL non supporta
+--       i CHECK constraint!
 
 DELIMITER ;

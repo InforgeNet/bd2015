@@ -1,5 +1,17 @@
 \section{Schema logico}\label{sec:scheme}
-Di seguito è mostrato lo {\it schema logico} risultante dalla fase di progettazione logica.
+Di seguito è mostrato lo {\it schema logico} risultante dalla fase di {\it progettazione logica}.\\
+
+Si noti che le entità {\tt Comanda} e {\tt Consegna} potevano venir anche accorpate in un'unica entità. Abbiamo
+però deciso di lasciarle separate così da evitare valori {\tt NULL} in più (nel caso di comanda da tavolo).
+
+L'associazione {\tt Precedente} poteva anche essere tradotta con una tabella che riportasse
+la fase {\it successiva} (invece della precedente). Non c'è alcuna differenza
+tra l'una e l'altra rappresentazione --- decidiamo quindi di rappresentare la fase
+{\it precedente} così da rimanere fedeli al nome dell'associazione.
+
+Per il resto, la traduzione dal {\it diagramma entità-relazione ristrutturato} di pagina \pageref{diagram.2}
+allo {\it schema logico} mostrato in questo paragrafo è del tutto ovvia e immediata. Non
+sono quindi necessarie ulteriori spiegazioni.\\
 
 Le {\it chiavi primarie} sono mostrate \underline{sottolineate} mentre gli {\it attributi opzionali}
 sono rappresentati in \textit{corsivo}.
@@ -21,7 +33,7 @@ FASE(+underline[Ricetta], +underline[Numero], +textit[Ingrediente], +textit[Dose
 SEQUENZAFASI(Ricetta, Fase, FasePrecedente)
 PIATTO(+underline[ID], Comanda, Ricetta, Stato)
 MODIFICA(+underline[Piatto], +underline[Variazione])
-VARIAZIONE(+underline[ID], Ricetta, +textit[Nome], +textit[Account])
+VARIAZIONE(+underline[ID], +textit[Nome], +textit[Account])
 MODIFICAFASE(+underline[ID], +underline[Variazione], Ricetta, +textit[FaseVecchia], +textit[FaseNuova])
 COMANDA(+underline[ID], Timestamp, Sede, +textit[Sala], +textit[Tavolo], +textit[Account], Stato)
 TAVOLO(+underline[ID], +underline[Sala], +underline[Sede], Posti)

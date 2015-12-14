@@ -11,7 +11,9 @@ di preparazione di una ricetta tramite una struttura come la seguente:
 \vspace{15pt}
 
 Dove ogni {\it nodo numerato} rappresenta una {\it fase}. Ogni fase (nodo) ha zero o più fasi
-che la {\it precedono} e zero o più fasi che la {\it seguono}.
+che la {\it precedono} e zero o più fasi che la {\it seguono}. L'unica regola da imporre
+è che ci sia {\it una ed una sola} fase ($F_{9}$) che non ha alcuna fase successiva (una sola
+foglia). Altrimenti si verebbe a produrre più di un piatto (che è assurdo).
 
 Con una struttura del genere è possibile ad esempio imporre che per iniziare una fase,
 tutte le fasi precedenti ad essa devono essere portate a termine. Ad esempio nella struttura precedente:
