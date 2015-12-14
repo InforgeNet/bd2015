@@ -1,4 +1,4 @@
-\section{Eliminazione delle generalizzazioni}
+\section{Eliminazione delle generalizzazioni}\label{sec:generalizations}
 Di seguito viene mostrato come le generalizzazioni sono state eliminate per produrre
 il {\it diagramma E-R ristrutturato}.
 
@@ -17,10 +17,42 @@ associazioni con altre entità.
 \vspace{15pt}
 
 Nel caso della generalizzazione che coinvolge le entità {\tt Menu} e  {\tt MenuPassato},
-l'accorpamento sul padre porta soltanto all'aggiunta dell'attributo opzionale
-{\tt DataFine}.
+l'accorpamento sul padre non porta all'aggiunta di alcun attributo opzionale (l'attributo
+{\tt DataFine} è inserito al momento dell'inserimento del menu nel database per BR\ldots).
 
 \vspace{5pt}\centerline{\includegraphics[width=0.8\textwidth]{gen-menu}}
+
+\vspace{15pt}
+
+Nel caso della generalizzazione che coinvolge le entità {\tt Fase}, {\tt FaseIngrediente}
+e {\tt FaseManovra}, l'accorpamento sul padre porta all'introduzione di diversi attributi
+opzionali: {\tt Durata}, {\tt Testo} ma anche {\tt Dose} e {\tt Primario} in quanto l'associazione
+{\tt Aggiunta} diventa opzionale. Non è necessario inserire qui un attributo {\tt Tipo} per
+riconoscere il tipo di fase in quanto può essere facilmente dedotto dalla presenza o meno
+dell'associazione {\tt Aggiunta}.
+
+\vspace{5pt}\centerline{\includegraphics[width=\textwidth]{gen-fase}}
+
+\vspace{15pt}
+
+Nel caso della generalizzazione che coinvolge le entità {\tt Variazione}, {\tt VariazionePiatto}
+e {\tt Suggerimento}, l'accorpamento sul padre porta all'aggiunta dell'attributo opzionale
+{\tt Nome}. L'associazione {\tt InvioSug} diventa opzionale (e la rinominiamo in {\tt Suggerimento}).
+Non è necessario inserire qui un attributo {\tt Tipo} per riconoscere il tipo di variazione
+in quanto può essere facilmente dedotto dalla presenza o meno dell'associazione {\tt Suggerimento} (\hbox{ex-\texttt{InvioSug}}).
+
+\vspace{5pt}\centerline{\includegraphics[width=\textwidth]{gen-variazione}}
+
+\vspace{15pt}
+
+Nel caso della generalizzazione che coinvolge le entità {\tt ModificaFase}, {\tt AggiuntaFase},
+{\tt EliminazioneFase} e {\tt SostituzioneFase}, l'accorpamento sul padre porta all'eliminazione
+di due associazioni (una {\tt Nuova} e una {\tt Vecchia}). Non è necessario introdurre qui un
+attributo {\tt Tipo} per riconoscere il tipo di modifica di fase in quanto può essere facilmente
+dedotto dalla presenza o meno delle associazioni {\tt Nuova} e {\tt Vecchia}: {\tt Nuova} = {\tt AggiuntaFase};
+{\tt Vecchia} = {\tt EliminazioneFase}; {\tt Nuova} + {\tt Vecchia} = {\tt SostituzioneFase}.
+
+\vspace{5pt}\centerline{\includegraphics[width=\textwidth]{gen-modificafase}}
 
 \vspace{15pt}
 
@@ -52,6 +84,8 @@ procedere con due accorpamenti sul padre: prima l'accorpamento di {\tt Allestime
 su {\tt PrenotazioneOnline}; poi l'accorpamento di {\tt PrenotazioneTelefonica} e
 {\tt PrenotazioneOnline} su {\tt Prenotazione}. Tutti gli attributi di {\tt PrenotazioneTelefonica}
 e {\tt Allestimento} diventano opzionali, così anche le associazioni {\tt InvioPre}
-e {\tt SerataTema}. % TODO: Si era deciso di usare un campo Tipo - ma perché? a me pare non serve
+e {\tt SerataTema}. Non è necessario inserire qui un attributo {\tt Tipo} per riconoscere
+il tipo di prenotazione in quanto può essere facilmente dedotto dalla presenza o meno delle
+associazioni {\tt InvioPre}, {\tt SerataTema} e {\tt Riserva}.
 
 \vspace{5pt}\centerline{\includegraphics[width=\textwidth]{gen-prenotazione-allestimento}}
