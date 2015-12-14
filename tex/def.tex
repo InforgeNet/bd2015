@@ -1,20 +1,32 @@
 %%%%% ----- ENVIRONMENTS ----- %%%%%
 
 % REQTABLE(name, width, vspace)
-\NewDocumentEnvironment{reqtable}{m O{0.85} O{15pt}}{
-\vspace{#3}
-\noindent
-\begin{tabu} to #2\linewidth {|X|}
-\hline
-        \multicolumn{1}{|c|}{Frasi relative a \textbf{#1}}
-    \\ \hline \itshape
-}{
-    \\ \hline
-\end{tabu} \\
-}
+%\NewDocumentEnvironment{reqtable}{m O{0.85} O{15pt}}{
+%\vspace{#3}
+%\noindent
+%\begin{tabu} to #2\linewidth {|X|}
+%\hline
+%        \multicolumn{1}{|c|}{Frasi relative a \textbf{#1}}
+%    \\ \hline \itshape
+%}{
+%    \\ \hline
+%\end{tabu} \\
+%}
 
 
 
 %%%%% ----- COMMANDS ----- %%%%%
 \newcommand{\specialcell}[2][c]{%
-  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+    \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\makeatletter
+\def\twodigits#1{\expandafter\two@digits\csname c@#1\endcsname}
+\AddEnumerateCounter\twodigits\two@digits{01}
+\makeatother
+\newlist{enumbusinessrules}{enumerate}{3}
+\setlist[enumbusinessrules, 1]{
+    labelindent=0pt,
+    label*=(BR\twodigits*),
+    font=\itshape,
+    itemindent=0em,
+    leftmargin=*}
