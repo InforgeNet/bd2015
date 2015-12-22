@@ -24,7 +24,8 @@ Ingrediente & Compone le pietanze. Viene
               mantenuto nel magazzino
               all'interno di confezioni.    & Componente        & Magazzino, Ricetta,
                                                                   Materia prima,
-                                                                  Confezione
+                                                                  Confezione, Proposta,
+                                                                  Fase, Procedimento
     \\ \hline % ----------------------------------------------------------------
 Confezione  & Contiene una certa quantità
               di un certo ingrediente. Viene
@@ -41,7 +42,7 @@ Menu        & Lista delle ricette
               cadenza regolare. Devono
               comparire solo ricette
               producibili con ingredienti
-              presenti in magazzino.        &                   & Ricetta, Sede
+              presenti in magazzino.        &                   & Ricetta, Sede,
                                                                   Ingrediente,
                                                                   Magazzino, Materia
                                                                   prima
@@ -53,7 +54,8 @@ Sede        & Una sede della catena di
               È divisa in sale. Ha un
               questionario compilabile
               online.                       & Ristorante        & Magazzino, Sala,
-                                                                  Pony, Cucina
+                                                                  Pony, Cucina, Questionario,
+                                                                  Tavolo, Comanda
     \\ \hline % ----------------------------------------------------------------
 Cucina      & Si trova in una sede. È
               composta da macchinari e
@@ -62,10 +64,10 @@ Cucina      & Si trova in una sede. È
     \\ \hline % ----------------------------------------------------------------
 Attrezzatura
             & Usata in cucina.              & Attrezzo          & Cucina,
-                                                                  Fase
+                                                                  Fase, Procedimento
     \\ \hline % ----------------------------------------------------------------
 Macchinario & Usato in cucina.              & Macchina          & Cucina,
-                                                                  Fase
+                                                                  Fase, Procedimento
     \\ \hline % ----------------------------------------------------------------
 Ricetta     & Costituita da fasi di
               preparazione e ingredienti.
@@ -88,7 +90,7 @@ Fase        & Fase del procedimento di una
               ricetta. Può rappresentare
               l'aggiunta di un ingrediente
               o l'uso di un macchinario o
-              di un attrezzo.               &                   & Ricetta, Procedimento
+              di un attrezzo.               &                   & Ricetta, Procedimento,
                                                                   Macchinario,
                                                                   Attrezzatura,
                                                                   Ingrediente,
@@ -124,7 +126,7 @@ Prenotazione
               di una sede da parte di un
               cliente. Può essere fatta
               anche da sito web. Può
-              contenere anche allestimenti. &                   & Account, Sede
+              contenere anche allestimenti. &                   & Account, Sede,
                                                                   Tavolo, Sala,
                                                                   Allestimento
     \\ \hline % ----------------------------------------------------------------
@@ -133,7 +135,7 @@ Allestimento
               di una sede da parte di un
               cliente per una serata a tema.
               Deve essere approvato. Salvato
-              come prenotazione speciale.   &                   & Account, Sede
+              come prenotazione speciale.   &                   & Account, Sede,
                                                                   Sala, Prenotazione
     \\ \hline % ----------------------------------------------------------------
 Tavolo      & Tavolo di una sala in una
@@ -148,12 +150,13 @@ Sala        & Area contenente tavoli di una
                                                                   Allestimento
     \\ \hline % ----------------------------------------------------------------
 Pony        & Incaricato ad effettuare
-              consegne a domicilio.         &                   & Comanda, Consegna
+              consegne a domicilio.         &                   & Comanda, Consegna,
+                                                                  Sede
     \\ \hline \hline \hline % --------------------------------------------------
         \multicolumn{4}{|c|}{\textbf{Area Clienti}}
     \\ \hline \hline \hline % --------------------------------------------------
 Account     & Account di un cliente sul
-              sito.                         &                   & Recensione,
+              sito.                         & Profilo           & Recensione,
                                                                   Prenotazione,
                                                                   Allestimento,
                                                                   Proposta, Suggerimento,
@@ -164,7 +167,7 @@ Recensione  & Recensione con questionario da
               parte di un account su un
               piatto o sede.                &                   & Account, Piatto,
                                                                   Sede, Questionario,
-                                                                  Valutazione
+                                                                  Valutazione, Ricetta
     \\ \hline % ----------------------------------------------------------------
 Questionario
             & Insieme di domande scelte dal
@@ -176,7 +179,7 @@ Domanda     & Domanda di questionario con un
               range di risposte possibili.  &                   & Questionario,
                                                                   Risposta
     \\ \hline % ----------------------------------------------------------------
-Risposta    & Risposta a una domanda.       &                   & Domanda
+Risposta    & Risposta a una domanda.       &                   & Domanda, Questionario
     \\ \hline % ----------------------------------------------------------------
 Suggerimento
             & Suggerimento di modifica delle

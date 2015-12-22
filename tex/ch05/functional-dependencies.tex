@@ -1,1 +1,15 @@
 \section{Dipendenze funzionali}\label{sec:functionaldependencies}
+\begin{samepage}
+\begin{funcdep}{Sede}
+    Città, Via $\to$ CAP\\
+    Nome $\to$ Città, CAP, Via, NumeroCivico
+\end{funcdep}
+Poiché ({\tt Città}, {\tt Via}) non è superchiave, {\tt Sede} non
+è in BCNF.\footnote{Si veda il paragrafo precedente.}
+\end{samepage}
+\begin{funcdep}{Magazzino}
+    $\emptyset$
+\end{funcdep}
+Poiché non ha alcuna dipendenza funzionale non banale, {\tt Magazzino} è in BCNF.
+
+\ldots\ldots
