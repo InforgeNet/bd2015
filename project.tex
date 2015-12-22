@@ -12,6 +12,7 @@
 \usepackage[fleqn]{amsmath} % matematica
 \usepackage{array}          % arrays
 %\usepackage{mathtools}     % matematica avanzata
+\usepackage{xfrac}          % frazioni
 \usepackage{graphicx}       % immagini
 \usepackage{fancyhdr}       % header e footer fighi
 \usepackage{fancyvrb}       % serve a minted
@@ -33,7 +34,12 @@
                 ./tex/ch02, % e che nel documento compaiano cose come "capitolo ??". Questi problemi spariranno quando si saranno
                 ./tex/ch03, % fatti tutti i capitoli. Il vantaggio di includeonly è che accelera la compilazione (non includendo
                 ./tex/ch04, % i capitoli non fatti)
-                ./tex/ch05}
+                ./tex/ch05,
+                %./tex/ch06,
+                ./tex/ch07}
+                %./tex/ch08,
+                %./tex/ch09,
+                %./tex/ch10}
                 
 \graphicspath{ {./images/} }                % percorso dove vengono prese le immagini
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}  % estensioni dei file di immagine (in ordine di preferenza)
