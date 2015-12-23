@@ -7,9 +7,9 @@ Ogni qual volta che si riporta il nome di una tabella in una {\it espressione ma
 intendere il {\it volume della tabella}.
 
 {\tabulinesep=3pt
-\begin{longtabu} to \linewidth {|X[c,m]|X[c,m]|>{\raggedright}X[3,m]|}
+\begin{longtabu} to \linewidth {|>{\large}X[c,m]|>{\Large}X[c,m]|>{\raggedright}X[3,m]|}
 \hline\rowfont\bfseries
-Tabella         & Volume        & \centering Commento
+{\Large Tabella}& Volume        & \centering {\Large Commento}
 \\ \hline \hline \hline \hline \hline % ----------------------------------------
 \endhead
 Sede            & \(25\)        & Ipotesi: la catena di ristorazione ha \(25\) sedi.
@@ -35,9 +35,10 @@ Elenco          & \(10\,000\)   & Ogni menu elenca in media 20 ricette: \(20 \ti
     \\ \hline % ----------------------------------------------------------------
 Ricetta         & \(200\)       & Ipotesi: il ricettario della catena di ristorazione è formato da \(200\) ricette.
     \\ \hline % ----------------------------------------------------------------
-Fase            & \(5\,000\)    & Ogni ricetta ha in media 22 o 23 fasi; inoltre in media
-                                  \(\sfrac{2}{3}\) delle istanze di ModificaFase richiedono
-                                  l'aggiunta di una nuova fase: \(22.5 \times Ricetta + \frac{2}{3} ModificaFase = 5\,000\).
+Fase            & \(5\,000\)    & Ogni ricetta ha in media dalle 20 alle 25 fasi (quindi circa 22); inoltre
+                                  in media \(\sfrac{2}{3}\) delle istanze di ModificaFase
+                                  richiedono l'aggiunta di una nuova fase:
+                                  \(\approx 22 \times Ricetta + \frac{2}{3} ModificaFase = 4\,900 \approx 5\,000\).
     \\ \hline % ----------------------------------------------------------------
 SequenzaFasi    & \(7\,500\)    & Ogni fase ha in media una o due fasi che la precedono: \(1.5 \times Fase = 7\,500\).
     \\ \hline % ----------------------------------------------------------------
@@ -46,9 +47,10 @@ Piatto          & \specialcell{\(\infty\)\\\((\approx 300\,000)\)}
                                   veda anche la nota a fine tavola (\(\infty\)).
     \\ \hline % ----------------------------------------------------------------
 Modifica        & \specialcell{\(\infty\)\\\((\approx 15\,000)\)}
-                                & In media {\it meno} di un piatto su 20 applica una variazione, ma
-                                  su alcuni piatti viene applicata anche più di una
-                                  variazione (max. 3): \(\approx 0.05 \times Piatto = 15\,000\). Si
+                                & In media un piatto su 25 applica una variazione (o
+                                  più di una --- al massimo 3). Approssimiamo quindi a
+                                  \(\sfrac{1}{20} = 0.05\):
+                                  \(\approx 0.05 \times Piatto = 15\,000\). Si
                                   veda anche la nota a fine tavola (\(\infty\)).
     \\ \hline % ----------------------------------------------------------------
 Variazione      & \(500\)       & Ogni ricetta ha in media due variazioni possibili; inoltre
@@ -89,8 +91,9 @@ Prenotazione    & \specialcell{\(\infty\)\\\((\approx 10\,000)\)}
 Account         & \(1\,000\)    & Ipotesi: nel tempo si registrano circa \(1\,000\) utenti.
     \\ \hline % ----------------------------------------------------------------
 Proposta        & \(100\)       & In media {\it meno} di un utente su 10 rilascerà una proposta
-                                  sulla piattaforma web, però qualche utente ne rilascerà
-                                  più di una: \(\approx 0.1 \times Account = 100\).
+                                  sulla piattaforma web, però qualcuno di questi utenti ne rilascerà
+                                  più di una. Approssimiamo quindi a \(\sfrac{1}{10} = 0.1\):
+                                  \(\approx 0.1 \times Account = 100\).
     \\ \hline % ----------------------------------------------------------------
 Composizione    & \(700\)       & Una ricetta (anche quelle proposte) in media è composta da
                                   7 ingredienti: \(7 \times Proposta = 700\).
