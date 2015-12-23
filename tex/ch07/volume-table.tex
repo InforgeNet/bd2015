@@ -5,9 +5,6 @@ La {\it tavola dei volumi} seguente contiene tre colonne: la prima riporta il no
 
 Ogni qual volta che si riporta il nome di una tabella in una {\it espressione matematica} si deve
 intendere il {\it volume della tabella}.
-%$\infty$
-%$100\,000$
-%$22.5\times{}Ricetta+\frac{2}{3}ModificaFase / or + ^2/_3ModificaFase - or + \sfrac{2}{3}ModificaFase \approx 500$
 
 {\tabulinesep=3pt
 \begin{longtabu} to \linewidth {|X[c,m]|X[c,m]|>{\raggedright}X[3,m]|}
@@ -15,17 +12,17 @@ intendere il {\it volume della tabella}.
 Tabella         & Volume        & \centering Commento
 \\ \hline \hline \hline \hline \hline % ----------------------------------------
 \endhead
-Sede            & \(25\)        & Ipotesi: la catena di ristorazione ha 25 sedi.
+Sede            & \(25\)        & Ipotesi: la catena di ristorazione ha \(25\) sedi.
     \\ \hline % ----------------------------------------------------------------
 Magazzino       & \(50\)        & Ogni sede ha in media 2 magazzini: \(2 \times Sede = 50\).
     \\ \hline % ----------------------------------------------------------------
 Confezione      & \(5\,000\)    & Ogni magazzino ha in media 100 confezioni: \(100 \times Magazzino = 5\,000\).
     \\ \hline % ----------------------------------------------------------------
-Ingrediente     & \(100\)       & Ipotesi: ci sono 100 ingredienti possibili.
+Ingrediente     & \(100\)       & Ipotesi: ci sono \(100\) ingredienti possibili.
     \\ \hline % ----------------------------------------------------------------
 Cucina          & \(750\)       & \(Strumento \times Sede = 750\).
     \\ \hline % ----------------------------------------------------------------
-Strumento       & \(40\)        & Ipotesi: ci sono 40 strumenti possibili.
+Strumento       & \(40\)        & Ipotesi: ci sono \(40\) strumenti possibili.
     \\ \hline % ----------------------------------------------------------------
 Funzione        & \(120\)       & Ogni strumento ha in media 3 funzioni: \(3 \times Strumento = 120\).
     \\ \hline % ----------------------------------------------------------------
@@ -36,7 +33,7 @@ Menu            & \(500\)       & Ogni sede ha applicato (nel tempo) in media 20
     \\ \hline % ----------------------------------------------------------------
 Elenco          & \(10\,000\)   & Ogni menu elenca in media 20 ricette: \(20 \times Menu = 10\,000\).
     \\ \hline % ----------------------------------------------------------------
-Ricetta         & \(200\)       & Ipotesi: il ricettario della catena di ristorazione è formato da 200 ricette.
+Ricetta         & \(200\)       & Ipotesi: il ricettario della catena di ristorazione è formato da \(200\) ricette.
     \\ \hline % ----------------------------------------------------------------
 Fase            & \(5\,000\)    & Ogni ricetta ha in media 22 o 23 fasi; inoltre in media
                                   \(\sfrac{2}{3}\) delle istanze di ModificaFase richiedono
@@ -67,17 +64,65 @@ Comanda         & \specialcell{\(\infty\)\\\((\approx 100\,000)\)}
                                   in quel turno, invia una o due comande; inoltre si ipotizza che ogni
                                   giorno ogni sede riceva 5 comande take-away:
                                   \(\sfrac{Tavolo}{2} \times 1.5 \approx 550 + 5 \times Sede \approx 675/giorno\). Per
-                                  il volume della tabella approssimiamo quindi ad un numero molto alto: \(\approx 100\,000\). Si
+                                  il volume totale della tabella approssimiamo quindi ad un
+                                  numero molto alto: \(\approx 100\,000\). Si
                                   veda anche la nota a fine tavola (\(\infty\)).
     \\ \hline % ----------------------------------------------------------------
-% TODO: da tavolo in poi
+Tavolo          & \(750\)       & Ogni sala ha in media 15 tavoli: \(15 \times Sala = 750\).
+    \\ \hline % ----------------------------------------------------------------
+Sala            & \(50\)        & Ogni sede ha in media 2 sale: \(2 \times Sede = 50\).
+    \\ \hline % ----------------------------------------------------------------
+Consegna        & \specialcell{\(\infty\)\\\((\approx 10\,000)\)}
+                                & Ipotesi: ogni giorno ogni sede riceve 5 comande take-away: \(5 \times Sede = 125/giorno\). Per
+                                  il volume totale della tabella approssimiamo quindi ad un
+                                  numero alto: \(\approx 10\,000\). Si veda anche
+                                  la nota a fine tavola (\(\infty\)).
+    \\ \hline % ----------------------------------------------------------------
+Pony            & \(100\)       & Ogni sede ha in media 4 pony: \(4 \times Sede = 100\).
+    \\ \hline % ----------------------------------------------------------------
+Prenotazione    & \specialcell{\(\infty\)\\\((\approx 10\,000)\)}
+                                & Ipotesi: ogni giorno ogni sede riceve 5 prenotazioni: \(5 \times Sede = 125/giorno\). Per
+                                  il volume totale della tabella approssimiamo quindi ad un
+                                  numero alto: \(\approx 10\,000\). Si veda anche
+                                  la nota a fine tavola (\(\infty\)).
+    \\ \hline % ----------------------------------------------------------------
+Account         & \(1\,000\)    & Ipotesi: nel tempo si registrano circa \(1\,000\) utenti.
+    \\ \hline % ----------------------------------------------------------------
+Proposta        & \(100\)       & In media {\it meno} di un utente su 10 rilascerà una proposta
+                                  sulla piattaforma web, però qualche utente ne rilascerà
+                                  più di una: \(\approx 0.1 \times Account = 100\).
+    \\ \hline % ----------------------------------------------------------------
+Composizione    & \(700\)       & Una ricetta (anche quelle proposte) in media è composta da
+                                  7 ingredienti: \(7 \times Proposta = 700\).
+    \\ \hline % ----------------------------------------------------------------
+Gradimento      & \(600\)       & Ogni proposta ha in media 3 gradimenti; ogni suggerimento
+                                  ha in media 3 gradimenti: \(3 \times Proposta + 3 \times Suggerimento = 600\).
+    \\ \hline % ----------------------------------------------------------------
+Recensione      & \(200\)       & In media solo un utente su 10 si preoccuperà di
+                                  rilasciare recensioni sul sito; ognuno di questi
+                                  rilascerà in media 2 recensioni: \(2 \times 0.1 \times Account = 200\).
+    \\ \hline % ----------------------------------------------------------------
+Valutazione     & \(400\)       & Ogni recensione ha in media 2 valutazioni: \(2 \times Recensione = 400\).
+    \\ \hline % ----------------------------------------------------------------
+Domanda         & \(125\)       & Ogni sede ha un questionario (insieme di domande); ognuno
+                                  di questi questionari è composto in media da 5 domande:
+                                  \(5 \times Sede = 125\).
+    \\ \hline % ----------------------------------------------------------------
+Risposta        & \(375\)       & Ogni domanda ha in media 3 risposte possibili: \(3 \times Domanda = 375\).
+    \\ \hline % ----------------------------------------------------------------
+Questionario    & \(1\,000\)    & L'associazione {\tt Questionario} mette in relazione
+                                  {\tt Recensione} e {\tt Risposta} associando ad ogni
+                                  recensione le varie risposte date al questionario. Ogni
+                                  questionario è composto in media da 5 domande: \(Recensione \times 5 = 1\,000\).
+    \\ \hline % ----------------------------------------------------------------
 \end{longtabu} }
-\noindent{\bf NOTA (\(\infty\)):}
+
+\noindent{\large\bf NOTA (\(\infty\)):}
 
 Per alcune tabelle ({\tt Comanda}, {\tt Piatto}, ecc\ldots) al posto del volume è stato
 inserito il simbolo di infinito (\(\infty\)) e, tra parentesi, un'approssimazione del volume. Per
-queste tabelle non è possibile fare una stima veramente precisa del volume in quanto dipendente
-da fattori molto aleatori (come il tempo).
+queste tabelle non è possibile fare una stima che si possa ritenere {\it precisa} del volume in
+quanto dipendente da fattori molto aleatori (come il tempo).
 
 Ad esempio il numero di comande (e quindi anche dei piatti ordinati) aumenta notevolmente
 via via che il tempo passa: dopo un intero anno il volume della tabella {\tt Comanda} può essere
