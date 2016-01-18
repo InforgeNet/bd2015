@@ -5,6 +5,13 @@ Elenchiamo di seguito alcune delle {\it business rules}:
 \item Un pony può prendersi in carico una consegna se e solo se il suo stato è {\it libero} (non è in viaggio per un'altra consegna).
 \item In ogni sede deve essere applicato un solo menu alla volta.
 \item\label{br.menuenddate} La data di fine dell'applicazione di un menu deve essere inserita al momento dell'inserimento del menu nel database.
+\item Un cliente può apportare un massimo di 3 variazioni per ogni piatto.
 \item\label{br.variations} Ogni variazione deve poter modificare anche più di una fase del procedimento strutturato.\footnote{Il motivo di questa business rule è spiegato nel paragrafo \vref{sec:structuredprocess}}
-\item \ldots
+\item Una prenotazione può essere fatta telefonicamente o mediante il sito Web, previa creazione di un account.
+\item Il cliente, al momento della prenotazione mediante il sito web, può scegliere un particolare tavolo. Ulteriori informazioni che il cliente deve specificare al momento della prenotazione sono un giorno e un
+orario di prenotazione, e il numero di persone. Se il cliente non seleziona un particolare tavolo, allora li sarà assegnato automaticamente da una funzionalità di back-end.
+\item Se non ci sono tavoli disponibili con un numero sufficiente di posti, la prenotazione non può essere effettuata.
+\item Una prenotazione, una volta esegeuita, è rettificabile con un anticipo minimo di 48 ore.
+\item L'annullamento di una prenotazione è possibile fino a 72 ore prima.
+\item Se il cliente che ha effettuato una prenotazione mediante il sito web non si presenta, l'area del sito web nella quale si effettuano le prenotazini diviene non fruibile per tale cliente.
 \end{enumbusinessrules}

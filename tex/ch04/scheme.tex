@@ -1,6 +1,7 @@
 \section{Schema logico}\label{sec:scheme}
-Di seguito è mostrato lo {\it schema logico} risultante dalla fase di {\it progettazione logica}.\\
+Di seguito è mostrato lo {\it schema logico} risultante dalla fase di {\it progettazione logica}.
 
+\vspace{10pt}
 Si noti che le entità {\tt Comanda} e {\tt Consegna} potevano venir anche accorpate in un'unica entità. Abbiamo
 però deciso di lasciarle separate così da evitare valori {\tt NULL} in più (nel caso di comanda da tavolo).
 
@@ -9,7 +10,7 @@ la fase {\it successiva} (invece della precedente). Non c'è alcuna differenza
 tra l'una e l'altra rappresentazione --- decidiamo quindi di rappresentare la fase
 {\it precedente} così da rimanere fedeli al nome dell'associazione.
 
-Per tutte le {\it associazioni uno-a-molti con partecipazione opzionale}, ossia del tipo {\tt (0,1) --- (X,N)} (ad
+Per tutte le {\it associazioni uno-a-molti con partecipazione opzionale}, ossia del tipo \hbox{\tt (0,1) --- (X,N)} (ad
 esempio: {\tt Utilizzo}, {\tt Aggiunta}, {\tt Riserva}, {\tt Mittente}, ecc\ldots) si è sempre
 deciso di {\bf non} creare una tabella aggiuntiva per la relazione e di inserire invece
 attributi opzionali. Questa scelta aumenta il numero di valori {\tt NULL} ma riduce il numero
@@ -18,8 +19,9 @@ associazioni. Cerchiamo così di ottimizzare le prestazioni della base di dati.
 
 Per il resto, la traduzione dal {\it diagramma entità-relazione ristrutturato} di pagina \pageref{diagram.2}
 allo {\it schema logico} mostrato in questo paragrafo è del tutto ovvia e immediata. Non
-sono quindi necessarie ulteriori spiegazioni.\\
+sono quindi necessarie ulteriori spiegazioni.
 
+\vspace{10pt}
 Le {\it chiavi primarie} sono mostrate \underline{sottolineate} mentre gli {\it attributi opzionali}
 sono rappresentati in \textit{corsivo}.
 

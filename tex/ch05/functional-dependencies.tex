@@ -2,14 +2,135 @@
 \begin{samepage}
 \begin{funcdep}{Sede}
     Città, Via $\to$ CAP\\
-    Nome $\to$ Città, CAP, Via, NumeroCivico
+    Nome $\to$ Città, Via, NumeroCivico
 \end{funcdep}
 Poiché ({\tt Città}, {\tt Via}) non è superchiave, {\tt Sede} non
-è in BCNF.\footnote{Si veda il paragrafo precedente.}
+è in BCNF.\footnote{\label{note:nonbcnf}Si veda il paragrafo~\vref{sec:sedeaccount}}
 \end{samepage}
 \begin{funcdep}{Magazzino}
     $\emptyset$
 \end{funcdep}
 Poiché non ha alcuna dipendenza funzionale non banale, {\tt Magazzino} è in BCNF.
-
-\ldots\ldots
+\begin{funcdep}{Confezione}
+    CodiceLotto $\to$ Ingrediente, Scadenza\\
+    CodiceLotto, Numero $\to$ Peso, Prezzo, DataAcquisto, DataCarico,\\
+        \indent\indent\indent\indent\indent  Sede, Magazzino, Collocazione, Aspetto, Stato
+\end{funcdep}
+Poiché {\tt CodiceLotto} (da sé) non è superchiave, {\tt Confezione} non è in BCNF.\footnote{Si veda il paragrafo~\vref{sec:confezione}}
+\begin{funcdep}{Ingrediente}
+    Nome $\to$ Provienienza, TipoProduzione, Genere, Allergene
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Ingrediente} è in BCNF.
+\begin{funcdep}{Cucina}
+    Sede, Strumento $\to$ Quantità
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Cucina} è in BCNF.
+\begin{funcdep}{Strumento}
+    $\emptyset$
+\end{funcdep}
+Poiché non ha alcuna dipendenza funzionale non banale, {\tt Strumento} è in BCNF.
+\begin{funcdep}{Funzione}
+    $\emptyset$
+\end{funcdep}
+Poiché non ha alcuna dipendenza funzionale non banale, {\tt Funzione} è in BCNF.
+\begin{funcdep}{Menu}
+    ID $\to$ Sede, DataInizio, Quantità
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Menu} è in BCNF.
+\begin{funcdep}{Elenco}
+    Menu, Ricetta $\to$ Novità
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Elenco} è in BCNF.
+\begin{funcdep}{Ricetta}
+    Nome $\to$ Testo
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Ricetta} è in BCNF.
+\begin{funcdep}{Fase}
+    Ricetta, Numero $\to$ Ingrediente, Dose, Primario, Strumento, Testo,\\
+        \indent\indent\indent\indent\indent Durata
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Ricetta} è in BCNF.
+\begin{funcdep}{SequenzaFasi}
+    $\emptyset$
+\end{funcdep}
+Poiché non ha alcuna dipendenza funzionale non banale, {\tt SequenzaFasi} è in BCNF.
+\begin{funcdep}{Piatto}
+    ID $\to$ Comanda, Ricetta, Stato
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Piatto} è in BCNF.
+\begin{funcdep}{Modifica}
+    $\emptyset$
+\end{funcdep}
+Poiché non ha alcuna dipendenza funzionale non banale, {\tt Modifica} è in BCNF.
+\begin{funcdep}{Variazione}
+    ID $\to$ Nome, Account
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Variazione} è in BCNF.
+\begin{funcdep}{ModificaFase}
+    ID, Variazione $\to$ Ricetta, FaseVecchia, FaseNuova
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt ModificaFase} è in BCNF.
+\begin{funcdep}{Comanda}
+    ID $\to$ Timestamp, Sede, Sala, Tavolo, Account
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Comanda} è in BCNF.
+\begin{funcdep}{Tavolo}
+    ID, Sala, Sede $\to$ Posti
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Tavolo} è in BCNF.
+\begin{funcdep}{Sala}
+    $\emptyset$
+\end{funcdep}
+Poiché non ha alcuna dipendenza non banale, {\tt Sala} è in BCNF.
+\begin{funcdep}{Consegna}
+    Comanda, Pony $\to$ Sede, Partenza, Arrivo, Ritorno
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Consegna} non è in BCNF. 
+\begin{funcdep}{Pony}
+    Sede, ID $\to$ Ruote, Stato
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Pony} è in BCNF.
+\begin{funcdep}{Prenotazione}
+    ID $\to$ Sede, Data, Numero, Account, Nome, Telefono, Sala,\\
+        \indent\indent\indent\indent\indent Tavolo, Descrizione, Approvato
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Prenotazione} è in BCNF.
+\begin{funcdep}{Account}
+    Città, Via $\to$ CAP\\
+    Username $\to$ Email, Password, Nome, Cognome, Città, Via,\\
+        \indent\indent\indent\indent\indent NumeroCivico, Telefono, PuòPrenotare
+\end{funcdep}
+Poiché ({\tt Città}, {\tt Via}) non è superchiave, {\tt Account} non
+è in BCNF.\footnote{Si veda il paragrafo~\vref{sec:sedeaccount}.}
+\begin{funcdep}{Proposta}
+    ID $\to$ Account, Nome, Procedimento
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Proposta} è in BCNF.
+\begin{funcdep}{Composizione}
+    $\emptyset$
+\end{funcdep}
+Poiché non ha alcuna dipendenza funzionale non banale, {\tt Composizione} è in BCNF.
+\begin{funcdep}{Gradimento}
+    ID $\to$ Account, Proposta, Variazione, Punteggio
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Gradimento} è in BCNF.
+\begin{funcdep}{Recensione}
+    ID $\to$ Account, Ricetta, Testa, Giudizio
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Recensione} è in BCNF.
+\begin{funcdep}{Valutazione}
+    Account, Recensione $\to$ Veridicità, Accuratezza, Testo
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Valutazione} è in BCNF.
+\begin{funcdep}{Domanda}
+    Numero, Sede $\to$ Testo
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Domanda} è in BCNF.
+\begin{funcdep}{Risposta}
+    Numero, Domanda, Sede $\to$ Testo, Efficienza
+\end{funcdep}
+Poiché la parte a sinistra è superchiave, {\tt Risposta} è in BCNF.
+\begin{funcdep}{QuestionarioSvolto}
+    $\emptyset$
+\end{funcdep}
+Poiché non ha alcuna dipendenza funzionale non banale, {\tt QuestionarioSvolto} è in BCNF.

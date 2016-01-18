@@ -1,0 +1,20 @@
+\section{Sede e Account}\label{sec:sedeaccount}
+Le relazioni {\tt Sede} e {\tt Account} non rispettano la BCNF. A causare il problema
+sono le seguenti dipendenze funzionali:
+\begin{itemize}
+\item {\tt Sede}: {\tt Città}, {\tt Via} $\rightarrow$ {\tt CAP}
+\item {\tt Account}: {\tt Città}, {\tt Via} $\rightarrow$ {\tt CAP}
+\end{itemize}
+Queste dipendenze funzionali {\it non} sono però normalizzabili (a meno di non avere una tabella
+che metta in relazione tutte le coppie ({\tt Città}, {\tt Via}) con il relativo {\tt CAP}). Si
+noti inoltre che, per quanto riguarda la relazione {\tt Sede}, non saranno mai presenti
+due sedi con la stessa coppia ({\tt Città}, {\tt Via}) --- è infatti assurdo che una catena
+di ristorazione possieda più di una sede nella stessa via --- e quindi la {\it decomposizione}
+di tale dipendenza funzionale non porterebbe a nessun vantaggio. Per quanto riguarda la
+relazione {\tt Account}, l'introduzione dell'attributo {\tt CAP} non è richiesto dalle
+specifiche e non è necessario in quanto il {\it Codice di Avviamento Postale} è utile solo
+nel caso in cui sia necessario spedire un bene utilizzando i {\it servizi postali italiani}: le
+uniche {\it spedizioni} effettuate dalla catena di ristorazione sono le {\it consegne a
+domicilio} effettuate dai {\it pony}, che non hanno bisogno del {\it CAP} --- volendo quindi
+normalizzare anche la tabella {\tt Account}, si potrebbe semplicemente eliminare
+l'attributo {\tt CAP}.\footnote{In questo progetto l'attributo {\tt CAP} sarà comunque mantenuto sia per {\tt Sede} che per {\tt Account}.}

@@ -36,3 +36,7 @@
     font=\itshape,
     itemindent=0em,
     leftmargin=*}
+
+\makeatletter
+\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
+\makeatother

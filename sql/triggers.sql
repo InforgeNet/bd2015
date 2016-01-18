@@ -16,7 +16,7 @@ BEGIN
                         FROM Pony P
                         WHERE P.ID = NEW.Pony);
 
-    SET @StatoComanda = (SELECT C.stato AS StatoComanda
+    SET @StatoComanda = (SELECT C.Stato AS StatoComanda
                                 FROM Comanda C
                                 WHERE C.ID = NEW.ID);
                                 
@@ -39,7 +39,7 @@ BEFORE INSERT
 ON Prenotazione
 FOR EACH ROW
 BEGIN
-    IF NEW.Account <> NULL THEN
+    IF NEW.Account IS NOT NULL THEN
         SET @PrenotazioniAbilitate = (SELECT A.PuoPrenotare
                                         FROM Account A
                                         WHERE A.Username = NEW.Account);
@@ -61,7 +61,7 @@ BEGIN
         SET MESSAGE_TEXT = 'La sala scelta è già prenotata per allestimento.';
     END IF;
     
-    IF NEW.Tavolo <> NULL THEN
+    IF NEW.Tavolo IS NOT NULL THEN
         SET @PostiTavolo = (SELECT T.Posti
                             FROM Tavolo T
                             WHERE T.ID = NEW.Tavolo
@@ -120,11 +120,48 @@ BEGIN
         SET MESSAGE_TEXT = 'Non è possibile modificare la prenotazione.';
     END IF;
     
-    -- TODO: controllare stesse cose INSERT (con procedura?)
+    IF NEW.Sala IS NOT NULL THEN
+        SET @AllestimentiSala = (SELECT SUM(DATE(P.Date) = DATE(NEW.Date))
+                                    FROM Prenotazione P
+                                    WHERE P.Sala = NEW.Sala
+                                        AND P.Sede = NEW.Sede
+                                        AND P.Tavolo = NULL);
+                            
+        IF @AllestimentiSala > 0 THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'La sala scelta è prenotata per allestimento.';
+        END IF;
+    END IF;
+    
+    IF NEW.Tavolo IS NOT NULL THEN
+        SET @PostiTavolo = (SELECT T.Posti
+                            FROM Tavolo T
+                            WHERE T.ID = NEW.Tavolo
+                                AND T.Sala = NEW.Sala
+                                AND T.Sede = NEW.Sede);
+        
+        IF @PostiTavolo < NEW.Numero THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Il tavolo non ha un numero adeguato di posti.';
+        END IF;
+
+        SET @TavoloLibero = (SELECT SUM(P.Date 
+                                        BETWEEN (NEW.Date - INTERVAL 2 HOUR)
+                                            AND (NEW.Date + INTERVAL 2 HOUR))
+                            FROM Prenotazione P
+                            WHERE P.Tavolo = NEW.Tavolo
+                                AND P.Sala = NEW.Sala
+                                AND P.Sede = NEW.Sede);
+
+        IF @TavoloLibero > 0 THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Il tavolo scelto è già prenotato.';
+        END IF;
+    END IF;
 END$$
 
 /******************************************************************************
- * rettifica_prenotazione controlla che l'annullamento della prenotazione     *
+ * annulla_prenotazione controlla che l'annullamento della prenotazione       *
  * venga fatta al max. 72 ore prima della data della prenotazione.            *
  ******************************************************************************/
 CREATE TRIGGER annulla_prenotazione
@@ -142,7 +179,122 @@ BEGIN
     END IF;
 END$$
 
--- TODO: Vanno fatti anche tutti gli altri trigger in quanto MySQL non supporta
---       i CHECK constraint!
+/******************************************************************************
+* limite_valori_x controlla che i valori immessi per gli attributi riguardanti* 
+* un voto non siano inferiori di 1 o maggiori di 5                            *
+ ******************************************************************************/
+CREATE TRIGGER limite_valori_punteggio
+BEFORE INSERT
+ON Gradimento
+FOR EACH ROW
+BEGIN
+    IF NEW.Punteggio < 1 OR NEW.Punteggio > 5 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Punteggio deve essere compreso tra 1 e 5';
+    END IF;
+END$$
 
-DELIMITER ;
+CREATE TRIGGER limite_valori_giudizio
+BEFORE INSERT
+ON Recensione
+FOR EACH ROW
+BEGIN
+    IF NEW.Giudizio < 1 OR NEW.Giudizio > 5 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Giudizio deve essere compreso tra 1 e 5';
+    END IF;
+END$$
+
+CREATE TRIGGER limite_valori_veridicità_accuratezza
+BEFORE INSERT
+ON Valutazione
+FOR EACH ROW
+BEGIN
+    IF NEW.Veridicità < 1 OR NEW.Veridicità > 5 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Veridicita deve essere compreso tra 1 e 5';
+    END IF;
+    IF NEW.Accuratezza < 1 OR NEW.Accuratezza > 5 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Accuratezza deve essere compreso tra 1 e 5';
+    END IF;
+END$$
+
+CREATE TRIGGER limite_valori_efficienza
+BEFORE INSERT
+ON Risposta
+FOR EACH ROW
+BEGIN
+    IF NEW.Efficienza < 1 OR NEW.Efficienza > 5 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Efficienza deve essere compreso tra 1 e 5';
+    END IF;
+END$$
+
+/******************************************************************************
+ * aggiorna_consegna si assicura che l'arrivo registrato sia sempre successivo*
+ * alla partenza e che il ritorno sia sempre successivo all'arrivo.           *
+ ******************************************************************************/
+CREATE TRIGGER aggiorna_consegna
+BEFORE UPDATE
+ON Consegna
+FOR EACH ROW
+BEGIN
+    IF NEW.Arrivo IS NOT NULL AND NEW.Arrivo < OLD.Partenza THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Arrivo precedente a partenza.';
+    END IF;
+    
+    IF NEW.Ritorno IS NOT NULL AND NEW.Ritorno < OLD.Arrivo THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Ritorno precedente a arrivo.';
+    END IF;
+END$$
+
+/******************************************************************************
+ * gestione_menu controlla che con l'inserimento di un nuovo menu, datafine   * 
+ * sia successiva a data inizio.                                              *
+ ******************************************************************************/
+CREATE TRIGGER gestione_menu
+BEFORE INSERT
+ON Menu
+FOR EACH ROW
+BEGIN
+    IF NEW.DataFine <= NEW.DataInizio THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'DataFine precedente a DataInizio.';
+    END IF;
+    
+END$$
+ 
+/******************************************************************************
+ *gestione_confezioni controlla che DataCarico, se presente, non sia          * 
+ *precedente a DataAcquisto.                                                  * 
+******************************************************************************/ 
+CREATE TRIGGER gestione_confezioni
+BEFORE INSERT
+ON Confezioni
+FOR EACH ROW
+BEGIN
+    IF NEW.DataCarico IS NOT NULL AND NEW.DataCarico < NEW.DataAcquisto THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'DataCarico precedente a DataAcquisto.';
+    END IF;
+END$$
+
+/******************************************************************************
+ * registrazione_account controlla che i valori relativi ad account abbiamo le*
+ * giuste lunghezze.                                                          *
+ ******************************************************************************/
+CREATE TRIGGER  registrazione_account 
+BEFORE INSERT
+ON Account
+FOR EACH ROW
+BEGIN
+    IF NEW.CAP < 10000 OR NEW.CAP > 99999 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'CAP deve essere di 5 cifre.';
+    END IF;
+END$$   
+
+ DELIMITER ;

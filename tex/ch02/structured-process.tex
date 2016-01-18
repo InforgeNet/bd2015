@@ -12,9 +12,9 @@ di preparazione di una ricetta tramite una struttura come la seguente:
 
 Dove ogni {\it nodo numerato} rappresenta una {\it fase}. Ogni fase (nodo) ha zero o più fasi
 che la {\it precedono} e zero o più fasi che la {\it seguono}. Le uniche regole da imporre
-sono: deve esserci {\it una ed una sola} fase ($F_{9}$) che non ha alcuna fase successiva (una sola
-foglia), altrimenti si verebbe a produrre più di un piatto (che è assurdo); non devono esserci
-{\it cicli}, altrimenti la produzione del piatto non terminerebbe mai (altrettanto assurdo).
+sono: deve esserci {\it una ed una sola} fase ($F_{9}$) che non ha alcuna fase successiva (un
+solo {\it exit-node}), altrimenti si verebbe a produrre più di un piatto (che è assurdo); non
+devono esserci {\it cicli}, altrimenti la produzione del piatto non terminerebbe mai (altrettanto assurdo).
 
 Con una struttura del genere è possibile ad esempio imporre che per iniziare una fase,
 tutte le fasi precedenti ad essa devono essere portate a termine. Ad esempio nella struttura precedente:
