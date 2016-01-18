@@ -14,6 +14,8 @@
 %\usepackage{mathtools}     % matematica avanzata
 \usepackage{xfrac}          % frazioni
 \usepackage{graphicx}       % immagini
+%\usepackage{epstopdf}      % conversione da EPS a PDF (decommentare se la propria implementazione di pdflatex lo richiede)
+\usepackage[firstpage=true]{background} % watermark in prima pagina
 \usepackage{fancyhdr}       % header e footer fighi
 \usepackage{fancyvrb}       % serve a minted
 \usepackage{xparse}         % parsing dei comandi user-defined
@@ -42,8 +44,8 @@
                 %./tex/ch09,
                 %./tex/ch10}
                 
-\graphicspath{ {./images/} }                % percorso dove vengono prese le immagini
-\DeclareGraphicsExtensions{.pdf,.png,.jpg}  % estensioni dei file di immagine (in ordine di preferenza)
+\graphicspath{ {./images/} }                    % percorso dove vengono prese le immagini
+\DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg} % estensioni dei file di immagine (in ordine di preferenza)
 
 \input{./tex/style}         % stile del documento
 %\input{./tex/lang-style}   % per l'uso con listings - ma noi usiamo minted

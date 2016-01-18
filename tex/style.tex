@@ -1,5 +1,11 @@
-%\renewcommand*\sfdefault{phv} % Helvetica Font
-%\renewcommand*{\familydefault}{\sfdefault}
+% watermark setup
+\backgroundsetup{
+contents={\includegraphics{cherubino_black}},
+angle=0,
+scale=2,
+color=black,
+opacity=0.04
+}
 
 \ttfamily\hyphenchar\font=45 % hyp in monospace font
 
@@ -13,7 +19,3 @@
 \renewcommand{\theFancyVerbLine}{\sffamily\textcolor[RGB]{75,75,75}{\footnotesize\oldstylenums{\arabic{FancyVerbLine}}}}
 
 \usemintedstyle{vs} % SET DI COLORI DECENTI POSSIBILI: manni, colorful, pastie, vs, friendly, tango
-
-%\everymath{\mathtt{\xdef\tmp{\fam\the\fam\relax}\aftergroup\tmp}}
-%\everydisplay{\mathtt{\xdef\tmp{\fam\the\fam\relax}\aftergroup\tmp}}
-%\setbox0\hbox{\[ \]}
