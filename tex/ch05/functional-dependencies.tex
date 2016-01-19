@@ -5,96 +5,161 @@
     Nome $\to$ Città, Via, NumeroCivico
 \end{funcdep}
 Poiché ({\tt Città}, {\tt Via}) non è superchiave, {\tt Sede} non
-è in BCNF.\footnote{\label{note:nonbcnf}Si veda il paragrafo~\vref{sec:sedeaccount}}
+è in BCNF.\footnote{\label{note:nonbcnf}Si veda il paragrafo~\vref{sec:sedeaccount}.}
 \end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Magazzino}
     $\emptyset$
 \end{funcdep}
 Poiché non ha alcuna dipendenza funzionale non banale, {\tt Magazzino} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Confezione}
     CodiceLotto $\to$ Ingrediente, Scadenza\\
     CodiceLotto, Numero $\to$ Peso, Prezzo, DataAcquisto, DataCarico,\\
         \indent\indent\indent\indent\indent  Sede, Magazzino, Collocazione, Aspetto, Stato
 \end{funcdep}
-Poiché {\tt CodiceLotto} (da sé) non è superchiave, {\tt Confezione} non è in BCNF.\footnote{Si veda il paragrafo~\vref{sec:confezione}}
+Poiché {\tt CodiceLotto} (da sé) non è superchiave, {\tt Confezione} non è in BCNF.\footnote{Si veda il paragrafo~\vref{sec:confezione}.}
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Ingrediente}
     Nome $\to$ Provienienza, TipoProduzione, Genere, Allergene
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Ingrediente} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Cucina}
     Sede, Strumento $\to$ Quantità
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Cucina} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Strumento}
     $\emptyset$
 \end{funcdep}
 Poiché non ha alcuna dipendenza funzionale non banale, {\tt Strumento} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Funzione}
     $\emptyset$
 \end{funcdep}
 Poiché non ha alcuna dipendenza funzionale non banale, {\tt Funzione} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Menu}
-    ID $\to$ Sede, DataInizio, Quantità
+    ID $\to$ Sede, DataInizio, DataFine
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Menu} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Elenco}
     Menu, Ricetta $\to$ Novità
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Elenco} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Ricetta}
     Nome $\to$ Testo
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Ricetta} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Fase}
-    Ricetta, Numero $\to$ Ingrediente, Dose, Primario, Strumento, Testo,\\
-        \indent\indent\indent\indent\indent Durata
+    Ricetta, Numero $\to$ Ingrediente, Strumento, Testo, Durata\\
+    Ricetta, Numero, Ingrediente $\to$ Dose, Primario
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Ricetta} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{SequenzaFasi}
     $\emptyset$
 \end{funcdep}
 Poiché non ha alcuna dipendenza funzionale non banale, {\tt SequenzaFasi} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Piatto}
     ID $\to$ Comanda, Ricetta, Stato
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Piatto} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Modifica}
     $\emptyset$
 \end{funcdep}
 Poiché non ha alcuna dipendenza funzionale non banale, {\tt Modifica} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Variazione}
     ID $\to$ Nome, Account
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Variazione} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{ModificaFase}
-    ID, Variazione $\to$ Ricetta, FaseVecchia, FaseNuova
+    Variazione, ID $\to$ Ricetta, FaseVecchia, FaseNuova
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt ModificaFase} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Comanda}
     ID $\to$ Timestamp, Sede, Sala, Tavolo, Account
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Comanda} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Tavolo}
     ID, Sala, Sede $\to$ Posti
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Tavolo} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Sala}
     $\emptyset$
 \end{funcdep}
 Poiché non ha alcuna dipendenza non banale, {\tt Sala} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Consegna}
-    Comanda, Pony $\to$ Sede, Partenza, Arrivo, Ritorno
+    Comanda $\to$ Sede, Pony, Partenza, Arrivo, Ritorno
 \end{funcdep}
-Poiché la parte a sinistra è superchiave, {\tt Consegna} non è in BCNF. 
+Poiché la parte a sinistra è superchiave, {\tt Consegna} non è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Pony}
     Sede, ID $\to$ Ruote, Stato
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Pony} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Prenotazione}
     ID $\to$ Sede, Data, Numero, Account, Nome, Telefono, Sala,\\
         \indent\indent\indent\indent\indent Tavolo, Descrizione, Approvato
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Prenotazione} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Account}
     Città, Via $\to$ CAP\\
     Username $\to$ Email, Password, Nome, Cognome, Città, Via,\\
@@ -102,35 +167,60 @@ Poiché la parte a sinistra è superchiave, {\tt Prenotazione} è in BCNF.
 \end{funcdep}
 Poiché ({\tt Città}, {\tt Via}) non è superchiave, {\tt Account} non
 è in BCNF.\footnote{Si veda il paragrafo~\vref{sec:sedeaccount}.}
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Proposta}
     ID $\to$ Account, Nome, Procedimento
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Proposta} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Composizione}
     $\emptyset$
 \end{funcdep}
 Poiché non ha alcuna dipendenza funzionale non banale, {\tt Composizione} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Gradimento}
     ID $\to$ Account, Proposta, Variazione, Punteggio
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Gradimento} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Recensione}
     ID $\to$ Account, Ricetta, Testa, Giudizio
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Recensione} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Valutazione}
     Account, Recensione $\to$ Veridicità, Accuratezza, Testo
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Valutazione} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Domanda}
     Numero, Sede $\to$ Testo
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Domanda} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{Risposta}
     Numero, Domanda, Sede $\to$ Testo, Efficienza
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Risposta} è in BCNF.
+\end{samepage}
+
+\begin{samepage}
 \begin{funcdep}{QuestionarioSvolto}
     $\emptyset$
 \end{funcdep}
 Poiché non ha alcuna dipendenza funzionale non banale, {\tt QuestionarioSvolto} è in BCNF.
+\end{samepage}
