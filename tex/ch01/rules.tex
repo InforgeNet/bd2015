@@ -1,17 +1,26 @@
 \section{Business rules} \label{sec:businessrules}
 Elenchiamo di seguito alcune delle {\it business rules}:
 \begin{enumbusinessrules}
-\item Una pietanza deve comparire nel menu se e solo se ci sono ingredienti a sufficienza (la quantità viene stimata da funzioni di back-end) per la sua produzione.
-\item Un pony può prendersi in carico una consegna se e solo se il suo stato è {\it libero} (non è in viaggio per un'altra consegna).
+\item Ogni sede ha a disposizione più magazzini nei quali avviene lo stoccaggio degli ingredienti su varie scaffalature.
+\item Un ingrediente può rivestire un ruolo principale in un piatto solo se l'aspetto non è stato rovinato durante il trasporto.
+\item Il procedimento strutturato deve consentire l'individuazione dell'esatto ordine in cui gli ingredienti devono essere uniti, il loro dosaggio, le manovre da compiere su ogni ingrediente e quali sono i macchinari e le attrezzature usate in ogni fase.
+\item Ogni sede può avere un menu diverso.
 \item In ogni sede deve essere applicato un solo menu alla volta.
+\item Il menu applicato in una sede cambia con cadenza non regolare.
+\item Il database deve mantenere le informazioni sui menu passati.
 \item\label{br.menuenddate} La data di fine dell'applicazione di un menu deve essere inserita al momento dell'inserimento del menu nel database.
-\item Un cliente può apportare un massimo di 3 variazioni per ogni piatto.
-\item\label{br.variations} Ogni variazione deve poter modificare anche più di una fase del procedimento strutturato.\footnote{Il motivo di questa business rule è spiegato nel paragrafo \vref{sec:structuredprocess}}
+\item Una pietanza deve comparire nel menu se e solo se ci sono ingredienti a sufficienza (la quantità viene stimata da funzioni di back-end) per la sua produzione, nel magazzino o in arrivo (in tal caso, la pietanza compare nel menu solo se l'ingrediente arriva al max. 3 giorni prima dell'entrata in vigore del menu).
+\item Un cliente può ordinare i piatti anche in più comande successive.
+\item\label{br.variations} Ogni variazione deve poter modificare anche più di una fase del procedimento strutturato.\footnote{Il motivo di questa business rule è spiegato nel paragrafo~\vref{sec:structuredprocess}.}
+\item Un cliente può apportare un massimo di 3 variazioni per ogni piatto, scelte da una lista di variazioni possibili creata dagli chef.
+\item Le comande evase (completate) devono essere mantenute nel database.
 \item Una prenotazione può essere fatta telefonicamente o mediante il sito Web, previa creazione di un account.
-\item Il cliente, al momento della prenotazione mediante il sito web, può scegliere un particolare tavolo. Ulteriori informazioni che il cliente deve specificare al momento della prenotazione sono un giorno e un
-orario di prenotazione, e il numero di persone. Se il cliente non seleziona un particolare tavolo, allora li sarà assegnato automaticamente da una funzionalità di back-end.
+\item Il cliente, al momento della prenotazione mediante il sito web, può scegliere un particolare tavolo. Ulteriori informazioni che il cliente deve specificare al momento della prenotazione sono un giorno e un orario di prenotazione, e il numero di persone (se la prenotazione è effettuata telefonicamente, deve lasciare anche il recapito telefonico). Se il cliente non seleziona un particolare tavolo, allora gli sarà assegnato automaticamente da una funzionalità di back-end.
 \item Se non ci sono tavoli disponibili con un numero sufficiente di posti, la prenotazione non può essere effettuata.
 \item Una prenotazione, una volta esegeuita, è rettificabile con un anticipo minimo di 48 ore.
 \item L'annullamento di una prenotazione è possibile fino a 72 ore prima.
 \item Se il cliente che ha effettuato una prenotazione mediante il sito web non si presenta, l'area del sito web nella quale si effettuano le prenotazini diviene non fruibile per tale cliente.
+\item Un pony può prendersi in carico una consegna se e solo se il suo stato è {\it libero} (non è in viaggio per un'altra consegna).
+\item Quando tutti i piatti della comanda take-away entrano nello stato {\it servizio} deve essergli assegnato automaticamente un pony {\it libero}.
+\item Le serate a tema possono essere organizzate solo se a tali iniziative partecipa un numero di clienti superiore ad una determinata soglia, stabilita dalla direzione.
 \end{enumbusinessrules}
