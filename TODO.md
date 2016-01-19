@@ -2,6 +2,12 @@
 
 - [X] Triggers [triggers.sql](sql/triggers.sql)
 - [ ] Completare la tabella sulle relazioni [relations.tex](tex/ch02/conceptual/relations.tex)
-- [ ] Completare la lista di business rules [rules.tex](tex/ch01/rules.tex)
-- [ ] Operazione: select delle ricette ordinabili
-- [ ] Operazione: ...
+- [X] Completare la lista di business rules [rules.tex](tex/ch01/rules.tex)
+- [ ] Fix: trigger registrazione_account non accetta tutti i CAP possibili
+- [ ] Fix: sistemare tutto [triggers.sql](sql/triggers.sql)
+- [ ] Operazioni
+- [ ] Tavole degli accessi
+- [ ] Ridondanze e nuove tavole degli accessi
+- [ ] Implementazione
+- [ ] Insert Into
+- [ ] Area Analytics
