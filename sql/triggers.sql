@@ -1,31 +1,32 @@
 DELIMITER $$
 
--- TODO: Usare DECLARE invece di SET per tutte le variabili?
-
 /******************************************************************************
- * nuova_consegna si assicura che ogni volta che viene inserita una nuova     *
- * consegna il pony a cui viene assegnata sia libero e che la comanda sia     *
- * effettivamente in attesa di consegna.                                      *
+ * nuovo_menu contolla che il periodo di applicazione del nuovo menu inserito *
+ * non sia in conflitto con il periodo di applicazione di un altro menu nella *
+ * stessa sede (ogni sede applica un solo menu alla volta). Inoltre controlla *
+ * che DataFine sia successiva a DataInizio.                                  *
+ * Business Rule: (BR05)                                                      *
  ******************************************************************************/
-CREATE TRIGGER nuova_consegna
+CREATE TRIGGER nuovo_menu
 BEFORE INSERT
-ON Consegna
+ON Menu
 FOR EACH ROW
 BEGIN
-    SET @StatoPony = (SELECT P.Stato AS StatoPony
-                        FROM Pony P
-                        WHERE P.ID = NEW.Pony);
+    IF NEW.DataFine <= NEW.DataInizio THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'DataFine precedente a DataInizio.';
+    END IF;
 
-    SET @StatoComanda = (SELECT C.Stato AS StatoComanda
-                                FROM Comanda C
-                                WHERE C.ID = NEW.ID);
-                                
-    IF @StatoPony <> 'libero' THEN
+    DECLARE MenuAttiviPeriodo INT;
+    SET MenuAttiviPeriodo = (SELECT COUNT(*)
+        FROM Menu M
+        WHERE M.Sede = NEW.Sede
+            AND M.DataFine >= NEW.DataInizio
+            AND M.DataInizio <= NEW.DataFine);
+            
+    IF MenuAttiviPeriodo > 0 THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Assegnamento di consegna a pony non libero.';
-    ELSE IF @StatoComanda <> 'consegna' THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Comanda relativa non pronta per la consegna.';
+        SET MESSAGE_TEXT = 'Un menu è già attivo in questo periodo.';
     END IF;
 END$$
 
@@ -33,6 +34,7 @@ END$$
  * nuova_prenotazione controlla: se l'account (in caso di prenotazione online)*
  * è abilitato a prenotare; se il tavolo da prenotare è libero; se la sala e  *
  * tutti i tavoli che contiene sono liberi per un allestimento.               *
+ * Business Rule: (BR16) e (BR19)                                             *
  ******************************************************************************/
 CREATE TRIGGER nuova_prenotazione
 BEFORE INSERT
@@ -40,43 +42,47 @@ ON Prenotazione
 FOR EACH ROW
 BEGIN
     IF NEW.Account IS NOT NULL THEN
-        SET @PrenotazioniAbilitate = (SELECT A.PuoPrenotare
+        DECLARE PrenotazioniAbilitate BOOL;
+        SET PrenotazioniAbilitate = (SELECT A.PuoPrenotare
                                         FROM Account A
                                         WHERE A.Username = NEW.Account);
                                         
-        IF @PrenotazioniAbilitate = 0 THEN
+        IF PrenotazioniAbilitate = false THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Prenotazioni disabilitate per l\'account.';
         END IF;
     END IF;    
         
-        SET @AllestimentiSala = (SELECT SUM(DATE(P.Date) = DATE(NEW.Date))
-                                    FROM Prenotazione P
-                                    WHERE P.Sala = NEW.Sala
-                                        AND P.Sede = NEW.Sede
-                                        AND P.Tavolo = NULL);
+    DECLARE AllestimentiSala INT;
+-- NOTA: L'uso di espressioni booleane all'interno di SUM() è possibile solo in
+--       MySQL (che converte l'espressione booleana in int). In altri DBMS si
+--       può utilizzare COUNT() e spostare l'espressione booleana nel WHERE.
+    SET AllestimentiSala = (SELECT SUM(DATE(P.Date) = DATE(NEW.Date))
+                                FROM Prenotazione P
+                                WHERE P.Sala = NEW.Sala
+                                    AND P.Sede = NEW.Sede
+                                    AND P.Tavolo = NULL);
                         
-    IF @AllestimentiSala > 0 THEN
+    IF AllestimentiSala > 0 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'La sala scelta è già prenotata per allestimento.';
     END IF;
     
     IF NEW.Tavolo IS NOT NULL THEN
-        SET @PostiTavolo = (SELECT T.Posti
+        DECLARE PostiTavolo INT;
+        SET PostiTavolo = (SELECT T.Posti
                             FROM Tavolo T
                             WHERE T.ID = NEW.Tavolo
                                 AND T.Sala = NEW.Sala
                                 AND T.Sede = NEW.Sede);
         
-        IF @PostiTavolo < NEW.Numero THEN
+        IF PostiTavolo < NEW.Numero THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Il tavolo non ha un numero adeguato di posti.';
         END IF;
 
--- NOTA: L'uso di espressioni booleane all'interno di SUM() è possibile solo in
---       MySQL (che converte l'espressione booleana in int). In altri DBMS si
---       può utilizzare COUNT() e spostare l'espressione booleana nel WHERE.
-        SET @TavoloLibero = (SELECT SUM(P.Date 
+        DECLARE TavoloLibero INT;
+        SET TavoloLibero = (SELECT SUM(P.Date 
                                         BETWEEN (NEW.Date - INTERVAL 2 HOUR)
                                             AND (NEW.Date + INTERVAL 2 HOUR))
                             FROM Prenotazione P
@@ -84,17 +90,18 @@ BEGIN
                                 AND P.Sala = NEW.Sala
                                 AND P.Sede = NEW.Sede);
 
-        IF @TavoloLibero > 0 THEN
+        IF TavoloLibero > 0 THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Il tavolo scelto è già prenotato.';
         END IF;
     ELSE
-        SET @SalaLibera = (SELECT SUM(DATE(P.Date) = DATE(NEW.Date))
+        DECLARE SalaLibera INT;
+        SET SalaLibera = (SELECT SUM(DATE(P.Date) = DATE(NEW.Date))
                             FROM Prenotazione P
                             WHERE P.Sala = NEW.Sala
                                 AND P.Sede = NEW.Sede);
                             
-        IF @SalaLibera > 0 THEN
+        IF SalaLibera > 0 THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'La sala contiene tavoli prenotati.';
         END IF;
@@ -105,47 +112,52 @@ END$$
  * rettifica_prenotazione controlla che la rettifica della prenotazione venga *
  * fatta al max. 48 ore prima della data della prenotazione. Inoltre controlla*
  * che la nuova prenotazione sia valida.                                      *
+ * Business Rule: (BR16) e (BR17)                                             *
  ******************************************************************************/
 CREATE TRIGGER rettifica_prenotazione
 BEFORE UPDATE
 ON Prenotazione
 FOR EACH ROW
 BEGIN
-    SET @PuoRettificare = (SELECT (NOW() < OLD.Data - INTERVAL 2 DAY)
+    DECLARE PuoRettificare BOOL;
+    SET PuoRettificare = (SELECT (NOW() < OLD.Data - INTERVAL 2 DAY)
                           FROM Prenotazione P
                           WHERE P.ID = OLD.ID); -- ??
                           
-   	IF @PuoRettificare = 0 THEN
+   	IF PuoRettificare = false THEN
    	    SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Non è possibile modificare la prenotazione.';
     END IF;
     
     IF NEW.Sala IS NOT NULL THEN
-        SET @AllestimentiSala = (SELECT SUM(DATE(P.Date) = DATE(NEW.Date))
+        DECLARE AllestimentiSala INT;
+        SET AllestimentiSala = (SELECT SUM(DATE(P.Date) = DATE(NEW.Date))
                                     FROM Prenotazione P
                                     WHERE P.Sala = NEW.Sala
                                         AND P.Sede = NEW.Sede
                                         AND P.Tavolo = NULL);
                             
-        IF @AllestimentiSala > 0 THEN
+        IF AllestimentiSala > 0 THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'La sala scelta è prenotata per allestimento.';
         END IF;
     END IF;
     
     IF NEW.Tavolo IS NOT NULL THEN
-        SET @PostiTavolo = (SELECT T.Posti
+        DECLARE PostiTavolo INT;
+        SET PostiTavolo = (SELECT T.Posti
                             FROM Tavolo T
                             WHERE T.ID = NEW.Tavolo
                                 AND T.Sala = NEW.Sala
                                 AND T.Sede = NEW.Sede);
         
-        IF @PostiTavolo < NEW.Numero THEN
+        IF PostiTavolo < NEW.Numero THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Il tavolo non ha un numero adeguato di posti.';
         END IF;
 
-        SET @TavoloLibero = (SELECT SUM(P.Date 
+        DECLARE TavoloLibero INT;
+        SET TavoloLibero = (SELECT SUM(P.Date 
                                         BETWEEN (NEW.Date - INTERVAL 2 HOUR)
                                             AND (NEW.Date + INTERVAL 2 HOUR))
                             FROM Prenotazione P
@@ -153,7 +165,7 @@ BEGIN
                                 AND P.Sala = NEW.Sala
                                 AND P.Sede = NEW.Sede);
 
-        IF @TavoloLibero > 0 THEN
+        IF TavoloLibero > 0 THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Il tavolo scelto è già prenotato.';
         END IF;
@@ -163,25 +175,27 @@ END$$
 /******************************************************************************
  * annulla_prenotazione controlla che l'annullamento della prenotazione       *
  * venga fatta al max. 72 ore prima della data della prenotazione.            *
+ * Business Rule: (BR18)                                                      *
  ******************************************************************************/
 CREATE TRIGGER annulla_prenotazione
 BEFORE DELETE
 ON Prenotazione
 FOR EACH ROW
 BEGIN
-    SET @PuoAnnullare = (SELECT (NOW() < OLD.Data - INTERVAL 3 DAY)
+    DECLARE PuoAnnullare BOOL;
+    SET PuoAnnullare = (SELECT (NOW() < OLD.Data - INTERVAL 3 DAY)
                           FROM Prenotazione P
                           WHERE P.ID = OLD.ID); -- ??
                           
-   	IF @PuoAnnullare = 0 THEN
+   	IF PuoAnnullare = false THEN
    	    SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Non è possibile annullare la prenotazione.';
     END IF;
 END$$
 
 /******************************************************************************
-* limite_valori_x controlla che i valori immessi per gli attributi riguardanti* 
-* un voto non siano inferiori di 1 o maggiori di 5                            *
+ * limite_valori_x controlla che i valori immessi per gli attributi           * 
+ * riguardanti un voto non siano inferiori di 1 o maggiori di 5.              *
  ******************************************************************************/
 CREATE TRIGGER limite_valori_punteggio
 BEFORE INSERT
@@ -250,27 +264,11 @@ BEGIN
         SET MESSAGE_TEXT = 'Ritorno precedente a arrivo.';
     END IF;
 END$$
-
-/******************************************************************************
- * gestione_menu controlla che con l'inserimento di un nuovo menu, datafine   * 
- * sia successiva a data inizio.                                              *
- ******************************************************************************/
-CREATE TRIGGER gestione_menu
-BEFORE INSERT
-ON Menu
-FOR EACH ROW
-BEGIN
-    IF NEW.DataFine <= NEW.DataInizio THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'DataFine precedente a DataInizio.';
-    END IF;
-    
-END$$
  
 /******************************************************************************
  *gestione_confezioni controlla che DataCarico, se presente, non sia          * 
  *precedente a DataAcquisto.                                                  * 
-******************************************************************************/ 
+ ******************************************************************************/ 
 CREATE TRIGGER gestione_confezioni
 BEFORE INSERT
 ON Confezioni
@@ -280,21 +278,27 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'DataCarico precedente a DataAcquisto.';
     END IF;
-END$$
+END$$ 
 
 /******************************************************************************
- * registrazione_account controlla che i valori relativi ad account abbiamo le*
- * giuste lunghezze.                                                          *
+ * massimo_variazioni_piatto controlla che, per il piatto sul quale si sta    *
+ * applicando la variazione, non siano già state scelte 3 variazioni.         *
+ * Business Rule: (BR12)                                                      *
  ******************************************************************************/
-CREATE TRIGGER  registrazione_account 
+CREATE TRIGGER massimo_variazioni_piatto
 BEFORE INSERT
-ON Account
+ON Modifica
 FOR EACH ROW
 BEGIN
-    IF NEW.CAP < 10000 OR NEW.CAP > 99999 THEN
+    DECLARE NumVariazioni INT;
+    SET NumVariazioni = (SELECT COUNT(*)
+                            FROM Modifica M
+                            WHERE M.Piatto = NEW.Piatto);
+    
+    IF NumVariazioni >= 3 THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'CAP deve essere di 5 cifre.';
+        SET MESSAGE_TEXT = 'Ci sono già 3 variazioni su questo piatto.';
     END IF;
-END$$   
+END$$
 
- DELIMITER ;
+DELIMETER ;
