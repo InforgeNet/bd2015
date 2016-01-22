@@ -12,6 +12,7 @@ clean:
 	rm *.aux
 	rm *.toc
 	rm tex/*.aux
+	rm -r _minted-project
 
 mintedclean:
 	rm -r _minted-project
