@@ -1,2 +1,2 @@
 images/*.eps linguist-vendored
-*.sql linguist-language=SQL
+sql/*.sql linguist-language=SQL
