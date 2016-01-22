@@ -1,17 +1,13 @@
-
-/* Per completare le create table è necessario:
-
-  a)Dare i giusti domini agli attributi, ho messo troppi varchar.
-    Ricordati che il dominio di una chiave esterna deve essere uguale al dominio
-    della chiave primaria che referenzia.
-  b)Controllare le foreign key che puntino alla giusta primary key.
-    Ti consiglio di controllare la referenzialità tra le tabelle FASE,
-    MODIFICAFASE,SEQUENZAFASI e tra le tabelle GRADIMENTO,RECENSIONE,
-    VALUTAZIONE,DOMANDA,RISPOSTA, perchè ho avuto problemi e confusione.
-    
-    */
-
+-- TODO: Aggiungere eventuali UNIQUE KEY constraint
 -- TODO: Fix relazione Cucina in diagrammi (strumento non ha per forza una sede)
+-- TODO: Fix ordine attributi nello schema logico
+-- TODO: Cambia Gradimento(Variazione) in G(Suggerimento) nello schema logico
+-- TODO: Cambiare alcuni ID in Numero in schema logico
+-- TODO: Controllare equivalenza con diagrammi
+-- TODO: Aggiungere tutti i trigger necessari
+-- TODO: QuestionarioSvolto è BCNF?
+-- TODO: Stendere il capitolo 9
+-- TODO: Se graficamente brutto senza, aggiungere i backtick ai nomi
 
 CREATE TABLE Sede
 (
@@ -22,17 +18,185 @@ CREATE TABLE Sede
     NumeroCivico            INT UNSIGNED NOT NULL,
     PRIMARY KEY (Nome),
     UNIQUE KEY (Citta, Via, NumeroCivico)
-) ENGINE = InnoDB
+) ENGINE = InnoDB;
+
+CREATE TABLE Magazzino
+(
+    Sede                    VARCHAR(45) NOT NULL,
+    ID                      INT UNSIGNED NOT NULL,
+    PRIMARY KEY (Sede, ID),
+    FOREIGN KEY (Sede)
+        REFERENCES Sede(Nome)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE Ingrediente
+(
+    Nome                    VARCHAR(45) NOT NULL,
+    Provenienza             VARCHAR(45) NOT NULL,
+    TipoProduzione          VARCHAR(45) NOT NULL,
+    Genere                  VARCHAR(45) NOT NULL,
+    Allergene               BOOL NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (Nome)
+) ENGINE = InnoDB;
+
+CREATE TABLE Lotto
+(
+    Codice                  VARCHAR(32) NOT NULL,
+    Ingrediente             VARCHAR(45) NOT NULL,
+    Scadenza                DATE NOT NULL,
+    PRIMARY KEY (Codice),
+    FOREIGN KEY (Ingrediente)
+        REFERENCES Ingrediente(Nome)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE Confezione
+(
+    CodiceLotto             VARCHAR(32) NOT NULL,
+    Numero                  INT UNSIGNED NOT NULL,
+    Peso                    INT UNSIGNED NOT NULL,
+    Prezzo                  DECIMAL(8,2) UNSIGNED NOT NULL,
+    DataAcquisto            TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    DataCarico              TIMESTAMP,
+    Sede                    VARCHAR(45) NOT NULL,
+    Magazzino               INT UNSIGNED NOT NULL,
+    Collocazione            VARCHAR(45),
+    Aspetto                 BOOL COMMENT 'TRUE = ok; FALSE = danneggiata',
+    Stato                   ENUM('completa', 'parziale', 'in uso'),
+    PRIMARY KEY (CodiceLotto, Numero),
+    FOREIGN KEY (CodiceLotto)
+        REFERENCES Lotto(Codice)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Sede, Magazzino)
+        REFERENCES Magazzino(Sede, ID)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE Strumento
+(
+    Nome                    VARCHAR(45) NOT NULL,
+    PRIMARY KEY (Nome)
+) ENGINE = InnoDB;
+
+CREATE TABLE Funzione
+(
+    Strumento               VARCHAR(45) NOT NULL,
+    Funzione                VARCHAR(45) NOT NULL,
+    PRIMARY KEY (Strumento, Funzione),
+    FOREIGN KEY (Strumento)
+        REFERENCES Strumento(Nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE Cucina
+(
+    Sede                    VARCHAR(45) NOT NULL,
+    Strumento               VARCHAR(45) NOT NULL,
+    Quantita                INT UNSIGNED NOT NULL,
+    PRIMARY KEY (Sede, Strumento),
+    FOREIGN KEY (Sede)
+        REFERENCES Sede(Nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Strumento)
+        REFERENCES Strumento(Nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE Menu
+(
+    ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Sede                    VARCHAR(45) NOT NULL,
+    DataInizio              DATE NOT NULL,
+    DataFine                DATE NOT NULL,
+    PRIMARY KEY (ID),
+    FOREIGN KEY (Sede)
+        REFERENCES Sede(Nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE Ricetta
+(
+    Nome                    VARCHAR(45) NOT NULL,
+    Testo                   TEXT NOT NULL,
+    PRIMARY KEY (Nome)
+) ENGINE = InnoDB;
+
+CREATE TABLE Elenco
+(
+    Menu                    INT UNSIGNED NOT NULL,
+    Ricetta                 VARCHAR(45) NOT NULL,
+    Novita                  BOOL NOT NULL DEFAULT TRUE,
+    PRIMARY KEY (Menu, Ricetta),
+    FOREIGN KEY (Menu)
+        REFERENCES Menu(ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Ricetta)
+        REFERENCES Ricetta(Nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE Fase
+(
+    Ricetta                 VARCHAR(45) NOT NULL,
+    Numero                  INT UNSIGNED NOT NULL,
+    Ingrediente             VARCHAR(45),
+    Dose                    INT UNSIGNED,
+    Primario                BOOL,
+    Strumento               VARCHAR(45),
+    Testo                   TEXT,
+    Durata                  TIME,
+    PRIMARY KEY (Ricetta, Numero),
+    FOREIGN KEY (Ricetta)
+        REFERENCES Ricetta(Nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Ingrediente)
+        REFERENCES Ingrediente(Nome)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Strumento)
+        REFERENCES Strumento(Nome)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE SequenzaFasi
+(
+    Ricetta                 VARCHAR(45) NOT NULL,
+    Fase                    INT UNSIGNED NOT NULL,
+    FasePrecedente          INT UNSIGNED NOT NULL,
+    PRIMARY KEY (Ricetta, Fase, FasePrecedente),
+    FOREIGN KEY (Ricetta, Fase)
+        REFERENCES Fase(Ricetta, Numero)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Ricetta, FasePrecedente)
+        REFERENCES Fase(Ricetta, Numero)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
 
 CREATE TABLE Sala
 (
-    Sede                    VARCHAR(45) NOT NULL
+    Sede                    VARCHAR(45) NOT NULL,
+    Numero                  INT UNSIGNED NOT NULL,
+    PRIMARY KEY (Sede, Numero),
+    FOREIGN KEY (Sede)
         REFERENCES Sede(Nome)
         ON DELETE NO ACTION
-        ON UPDATE CASCADE,
-    Numero                  INT UNSIGNED NOT NULL,
-    PRIMARY KEY (Sede, Numero)
-) ENGINE = InnoDB
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
 
 CREATE TABLE Tavolo
 (
@@ -45,7 +209,7 @@ CREATE TABLE Tavolo
         REFERENCES Sala(Sede, Numero)
         ON DELETE NO ACTION
         ON UPDATE CASCADE
-) ENGINE = InnoDB
+) ENGINE = InnoDB;
 
 CREATE TABLE Account
 (
@@ -64,18 +228,139 @@ CREATE TABLE Account
     UNIQUE KEY (Email),
     UNIQUE KEY (Telefono),
     UNIQUE KEY (Nome, Cognome, Citta, Via, NumeroCivico)
-) ENGINE = InnoDB
+) ENGINE = InnoDB;
+
+CREATE TABLE Comanda
+(
+    ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Timestamp               TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Sede                    VARCHAR(45) NOT NULL,
+    Sala                    INT UNSIGNED,
+    Tavolo                  INT UNSIGNED,
+    Account                 VARCHAR(20),
+    PRIMARY KEY (ID),
+    FOREIGN KEY (Sede)
+        REFERENCES Sede(Nome)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Sede, Sala, Tavolo)
+        REFERENCES Tavolo(Sede, Sala, Numero)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Account)
+        REFERENCES Account(Username)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE        
+) ENGINE = InnoDB;
+
+CREATE TABLE Piatto
+(
+    ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Comanda                 INT UNSIGNED NOT NULL,
+    Ricetta                 VARCHAR(45) NOT NULL,
+    Stato                   ENUM('attesa', 'in preparazione', 'servizio')
+                                NOT NULL DEFAULT 'attesa',
+    PRIMARY KEY (ID),
+    FOREIGN KEY (Comanda)
+        REFERENCES Comanda(ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Ricetta)
+        REFERENCES Ricetta(Nome)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE Variazione
+(
+    ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Nome                    VARCHAR(45),
+    Account                 VARCHAR(20),
+    PRIMARY KEY (ID),
+    FOREIGN KEY (Account)
+        REFERENCES Account(Username)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE ModificaFase
+(
+    Variazione              INT UNSIGNED NOT NULL,
+    ID                      INT UNSIGNED NOT NULL,
+    Ricetta                 VARCHAR(45) NOT NULL,
+    FaseVecchia             INT UNSIGNED,
+    FaseNuova               INT UNSIGNED,
+    PRIMARY KEY (Variazione, ID),
+    FOREIGN KEY (Variazione)
+        REFERENCES Variazione(ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Ricetta, FaseVecchia)
+        REFERENCES Fase(Ricetta, Numero)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Ricetta, FaseNuova)
+        REFERENCES Fase(Ricetta, Numero)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE Modifica
+(
+    Piatto                  INT UNSIGNED NOT NULL,
+    Variazione              INT UNSIGNED NOT NULL,
+    PRIMARY KEY (Piatto, Variazione),
+    FOREIGN KEY (Piatto)
+        REFERENCES Piatto(ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Variazione)
+        REFERENCES Variazione(ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE Pony
+(
+    Sede                    VARCHAR(45) NOT NULL,
+    ID                      INT UNSIGNED NOT NULL,
+    Ruote                   BOOL NOT NULL DEFAULT FALSE
+                                COMMENT 'TRUE = 4 ruote; FALSE = 2 ruote',
+    Stato                   BOOL NOT NULL DEFAULT TRUE
+                                COMMENT 'TRUE = libero; FALSE = occupato',
+    PRIMARY KEY (Sede, ID),
+    FOREIGN KEY (Sede)
+        REFERENCES Sede(Nome)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE Consegna
+(
+    Comanda                 INT UNSIGNED NOT NULL,
+    Sede                    VARCHAR(45) NOT NULL,
+    Pony                    INT UNSIGNED NOT NULL,
+    Partenza                TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Arrivo                  TIMESTAMP,
+    Ritorno                 TIMESTAMP,
+    PRIMARY KEY (Comanda),
+    FOREIGN KEY (Comanda)
+        REFERENCES Comanda(ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Sede, Pony)
+        REFERENCES Pony(Sede, ID)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
 
 CREATE TABLE Prenotazione
 (
     ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
     Sede                    VARCHAR(45) NOT NULL,
-    Data                    DATETIME NOT NULL,
+    Data                    TIMESTAMP NOT NULL,
     Numero                  INT UNSIGNED NOT NULL,
-    Account                 VARCHAR(45)
-        REFERENCES Account(Username)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE,
+    Account                 VARCHAR(45),
     Nome                    VARCHAR(45),
     Telefono                VARCHAR(16),
     Sala                    INT UNSIGNED NOT NULL,
@@ -91,391 +376,140 @@ CREATE TABLE Prenotazione
     FOREIGN KEY (Sede, Sala)
         REFERENCES Sala(Sede, Numero)
         ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Account)
+        REFERENCES Account(Username)
+        ON DELETE SET NULL
         ON UPDATE CASCADE
-) ENGINE = InnoDB
+) ENGINE = InnoDB;
 
-CREATE TABLE Strumento
+CREATE TABLE Proposta
 (
+    ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Account                 VARCHAR(20) NOT NULL,
     Nome                    VARCHAR(45) NOT NULL,
-    PRIMARY KEY (Nome)
-) ENGINE = InnoDB
+    Procedimento            TEXT,
+    PRIMARY KEY (ID),
+    UNIQUE KEY (Account, Nome),
+    FOREIGN KEY (Account)
+        REFERENCES Account(Username)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
 
-CREATE TABLE Funzione
+CREATE TABLE Composizione
 (
-    Strumento               VARCHAR(45) NOT NULL,
-    Funzione                VARCHAR(45) NOT NULL,
-    PRIMARY KEY (Strumento, Funzione),
-    FOREIGN KEY (Strumento)
-        REFERENCES Strumento(Nome)
+    Proposta                INT UNSIGNED NOT NULL,
+    Ingrediente             VARCHAR(45) NOT NULL,
+    PRIMARY KEY (Proposta, Ingrediente),
+    FOREIGN KEY (Proposta)
+        REFERENCES Proposta(ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Ingrediente)
+        REFERENCES Ingrediente(Nome)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE Gradimento
+(
+    ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Account                 VARCHAR(20) NOT NULL,
+    Proposta                INT UNSIGNED,
+    Suggerimento            INT UNSIGNED,
+    Punteggio               TINYINT(1) UNSIGNED NOT NULL,
+    PRIMARY KEY (ID),
+    UNIQUE KEY (Account, Proposta, Suggerimento),
+    FOREIGN KEY (Account)
+        REFERENCES Account(Username)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Proposta)
+        REFERENCES Proposta(ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Suggerimento)
+        REFERENCES Variazione(ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE
-) ENGINE = InnoDB
+) ENGINE = InnoDB;
 
-CREATE TABLE Cucina
+CREATE TABLE Recensione
+(
+    ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Account                 VARCHAR(20) NOT NULL,
+    Ricetta                 VARCHAR(45) NOT NULL,
+    Testo                   TEXT NOT NULL,
+    Giudizio                TINYINT(1) UNSIGNED NOT NULL,
+    PRIMARY KEY (ID),
+    FOREIGN KEY (Account)
+        REFERENCES Account(Username)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Ricetta)
+        REFERENCES Ricetta(Nome)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE Valutazione
+(
+    Account                 VARCHAR(20) NOT NULL,
+    Recensione              INT UNSIGNED NOT NULL,
+    Veridicita              TINYINT(1) UNSIGNED NOT NULL,
+    Accuratezza             TINYINT(1) UNSIGNED NOT NULL,
+    Testo                   TEXT NOT NULL,
+    PRIMARY KEY (Account, Recensione),
+    FOREIGN KEY (Account)
+        REFERENCES Account(Username)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Recensione)
+        REFERENCES Recensione(ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE Domanda
 (
     Sede                    VARCHAR(45) NOT NULL,
-    Strumento               VARCHAR(45) NOT NULL,
-    Quantita                INT UNSIGNED NOT NULL,
-    PRIMARY KEY (Sede, Strumento),
+    Numero                  INT UNSIGNED NOT NULL,
+    Testo                   VARCHAR(1024) NOT NULL,
+    PRIMARY KEY (Sede, Numero),
     FOREIGN KEY (Sede)
         REFERENCES Sede(Nome)
         ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (Strumento)
-        REFERENCES Strumento(Nome)
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE Risposta
+(
+    Sede                    VARCHAR(45) NOT NULL,
+    Domanda                 INT UNSIGNED NOT NULL,
+    Numero                  INT UNSIGNED NOT NULL,
+    Testo                   VARCHAR(1024) NOT NULL,
+    Efficienza              TINYINT(1) UNSIGNED NOT NULL,
+    PRIMARY KEY (Sede, Domanda, Numero),
+    FOREIGN KEY (Sede, Domanda)
+        REFERENCES Domanda(Sede, Numero)
         ON DELETE CASCADE
         ON UPDATE CASCADE
-) ENGINE = InnoDB
+) ENGINE = InnoDB;
 
-/* 8@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
-/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
-/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
-/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
-/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@21 */
-
-create table Menu
+CREATE TABLE QuestionarioSvolto
 (
-    ID                  numeric(4) primary key,
-    Sede                varchar(20),
-    DataInizio          data,
-    DataFine            data,
-    foreign key(Sede) references Sede(Nome)
-        on delete cascade
-		on update set null
-)
-
-create table Elenco 
-(
-    Menu                numeric(4),
-    Ricetta             varchar(20),
-    Novita              varchar(20),
-    primary key(Menu,Ricetta),
-    foreign key(Menu) references Menu(ID)
-        on delete cascade
-		on update set null,
-    foreign key(Ricetta) references Ricetta(Nome)
-        on delete cascade
-		on update set null         
-
-)
-
-
-
-create table Proposta 
-(
-    ID                  varchar(20),
-    Procedimento        varchar(20),
-    Account             varchar(20),
-    Nome                varchar(20),
-    primary key(ID),
-    foreign key(Account) references Account(Username)
-        on delete cascade
-		on update set null,
-    foreign key(Nome) references Ingrediente(Nome)
-        on delete cascade
-		on update set null
-)
-
-create table Gradimento
-(
-    ID                 varchar(20),
-    Account            varchar(20),
-    Proposta           varchar(20),
-    Variazione         varchar(20),
-    Punteggio          integer(2),
-    primary key(ID),
-    foreign key(Account) references Account(Username)
-        on delete cascade
-		on update set null,
-    foreign key(Proposta) references Proposta(ID)
-        on delete cascade
-		on update set null,
-    foreign key(Variazione) references Variazione(ID)
-        on delete cascade
-		on update set null,
-    
-
-)
-
-
-create table Recensione
-(
-    ID                varchar(20),
-    Account           varchar(20),
-    Ricetta           varchar(20),
-    Testo             varchar(255),
-    Giudizio          varchar(20),
-    primary key(ID),
-    foreign key(Account) references Account(Username)
-        on delete cascade
-		on update set null,
-    foreign key(Ricetta) references Ricetta(Nome)
-        on delete cascade
-		on update set null
- )
-
- create table Valutazione
-(
-    Account           varchar(20),
-    Recensione        varchar(20),
-    Veridicita        varchar(20),
-    Accuratezza       varchar(20),
-    Testo             varchar(255),
-    primary key(Account,Recensione),
-    foreign key(Account) references Account(Username)
-        on delete cascade
-		on update set null,
-    foreign key(Recensione) references Recensione(ID)
-        on delete cascade
-		on update set null
- )
-
- create table Domanda /*manca l'attributo Domanda nella tabella DOMANDA di pag 22?? */
-(
-    Numero            integer(2),
-    Sede              varchar(20),
-    Domanda           varchar(63),
-    Testo             varchar(255),
-    primary key(Numero,Sede,Domanda),
-    foreign key(Sede) references Sede(Nome)
-        on delete cascade
-		on update set null
- )
- 
- 
-  create table Risposta
-(
-    Numero            integer(2),
-    Domanda           varchar(63),
-    Sede              varchar(20),
-    Testo             varchar(255),
-    Efficienza        varchar(20),
-    primary key(Numero,Domanda,Sede),
-    foreign key(Domanda,Sede) references Domanda(Domanda,Sede)
-        on delete cascade
-		on update set null
- )
- 
- create table QuestionarioSvolto
- (
-    Recensione             varchar(20),
-    Sede                   varchar(20),
-    Domanda                varchar(20),
-    Risposta               varchar(20),
-    primary key(Recensione,Sede,Domanda,Risposta),
-    foreign key(Recensione) references Recensione(ID)
-        on delete cascade
-		on update set null,
-    foreign key(Recensione) references Recensione(ID)
-        on delete cascade
-		on update set null,
-    foreign key(Sede,Domanda,Risposta) references Risposta(Sede,Domanda,Numero) 
-    /*non sono sicuro, non mi tornano le chiavi primarie di DOMANDA , RISPOSTA, QUESTIONARIOSVOLTO */
-        on delete cascade
-		on update set null
- 
- )
- 
- 
-create table Composizione
-(
-    Proposta             varchar(20),
-    Ingrediente          varchar(20),
-    primary key(Proposta,Ingrediente),
-    foreign key(Proposta) references Proposta(ID)
-        on delete cascade
-		on update set null,
-    foreign key(Ingrediente) references Ingrediente(Nome)
-        on delete cascade
-		on update set null
-    
-)
-
-create table Ingrediente
-(
-    Nome                varchar(20) primary key,
-    Provenienza         varchar(20),
-    TipoProduzione      varchar(20),
-    Genere              varchar(20),
-    Allergene           bool
-
-)
-
-create table Magazzino
-(
-    ID                  numeric(4),
-    Sede                varchar(20),
-    primary key(ID,Sede),
-    foreign key(Sede) references Sede(Nome)
-        on delete cascade
-		on update set null
-     
-)
-create table Confezione
-( 
-    Numero                 varchar(20),
-    CodiceLotto            varchar(20),
-    Ingrediente            varchar(20),
-    Peso                   varchar(20),
-    Prezzo                 varchar(20),
-    DataAcquisto           data,
-    DataCarico             data,
-    Sede                   varchar(20),
-    Magazzino              varchar(20),
-    Collocazione           varchar(20),
-    Scadenza               varchar(20),
-    Aspetto                varchar(20),
-    Stato                  varchar(20),
-    
-    primary key(Numero,CodiceLotto),
-    foreign key(Magazzino,Sede) references Magazzino(ID,Sede)
-        on delete cascade
-		on update set null
-
-)
-
-
-
-
-create table Pony
-(
-    ID                  varchar(20),
-    Sede                varchar(20),
-    Ruote               smallint,
-    Stato               varchar(20),
-    primary key(ID,Sede),
-    foreign key(Sede) references Sede(Nome)
-        on delete cascade
-		on update set null
-)
-
-create table Consegna
-(
-    Comanda             varchar(20),
-    Sede                varchar(20),
-    Pony                varchar(20),
-    Partenza            varchar(20),
-    Arrivo              date,
-    Ritorno             date,
-    primary key(Comanda,Pony),
-    foreign key(Comanda) references Comanda(ID)
-        on delete cascade
-		on update set null,
-    foreign key(Pony) references Pony(ID)
-        on delete cascade
-		on update set null
-)
-
-create table Comanda  
-( 
-    ID                  varchar(20),
-    Timestamp           time,
-    Sede                varchar(20),
-    Sala                varchar(20),
-    Tavolo              varchar(20),
-    Account             varchar(20),
- 
-    primary key(ID),
-    foreign key(Tavolo,Sala) references Tavolo(ID,Sala)
-        on delete cascade
-		on update set null,
-    /*per la relazione Gestione*/
-    foreign key(Sede) references Sede(Nome)
-        on delete cascade
-		on update set null
-)
-
-create table  Piatto
-(
-    ID                  varchar(20) primary key,
-    Comanda             varchar(20),
-    Ricetta             varchar(20),
-    Stato               varchar(20),
-    
-    foreign key(Comanda) references Comanda(ID)
-        on delete cascade
-		on update set null,
-    foreign key(Ricetta) references Ricetta(Nome)
-        on delete cascade
-		on update set null
-        
-)
-
-create table Variazione
-(
-    ID                  varchar(20) primary key,
-    Nome                varchar(20),
-    Account             varchar(20),
-    
-    foreign key(Account) references Account(Username)
-         on delete cascade
-		 on update set null
-   
-)
-
-create table ModificaFase
-( 
-    ID                  varchar(20),
-    Variazione          varchar(20),
-    Ricetta             varchar(20),
-    FaseVecchia         varchar(20),
-    FaseNuova           varchar(20),
-    /*ero in dubbio riguardo le references */
-    primary key(ID,Variazione)
-    foreign key(Variazione) references Variazione(ID)
-        on delete cascade
-		on update set null,
-    foreign key(Ricetta,FaseVecchia) references Fase(Ricetta,Numero)
-        on delete cascade
-		on update set null,
-    foreign key(Ricetta,FaseNuova) references Fase(Ricetta,Numero)
-        on delete cascade
-		on update set null
-    
-
-)
-
-create table Fase
-(   
-
-   Ricetta              varchar(20),
-   Numero               integer,
-   Ingrediente          varchar(20),
-   Dose                 integer,
-   Primario             varchar(20),
-   Strumento            varchar(20),
-   Testo                varchar(255),
-   Durata               time,
-   
-   primary key(Numero,Ricetta),
-   foreign key(Ricetta) references Ricetta(Nome)
-        on delete cascade
-		on update set null,
-   foreign key(Strumento) references Strumento(Nome)
-        on delete cascade
-		on update set null,
-   foreign key(Ingrediente) references Ingrediente(Nome)
-        on delete cascade
-		on update set null
-
-)
-
-
-create table SequenzaFasi
-(
-    Ricetta           varchar(20),
-    Fase              numeric(4), /*secondo me è più chiaro chiamare NumFase e NumFasePrecedente,se non ho capito male.*/
-    FasePrecedente    numeric(4),
-    primary key(Ricetta,Fase),
-    foreign key(Fase) references Fase(Numero)
-        on delete cascade
-		on update set null,
-    foreign key(FasePrecedente) references Fase(Numero)
-        on delete cascade
-		on update set null,
-    foreign key(Ricetta) references Ricetta(Nome)
-        on delete cascade
-		on update set null
-)
-
-
+    Recensione              INT UNSIGNED NOT NULL,
+    Sede                    VARCHAR(45) NOT NULL,
+    Domanda                 INT UNSIGNED NOT NULL,
+    Risposta                INT UNSIGNED NOT NULL,
+    PRIMARY KEY (Recensione, Sede, Domanda, Risposta),
+    FOREIGN KEY (Recensione)
+        REFERENCES Recensione(ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Sede, Domanda, Risposta)
+        REFERENCES Risposta(Sede, Domanda, Numero)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
