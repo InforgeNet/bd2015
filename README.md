@@ -106,7 +106,7 @@ Nella *root* del progetto c'è:
 * [images/](images) - cartella contenente tutte le immagini che vengono incluse nel documento.  
 * [sql/](sql) - tutti i codici SQL che vengono inclusi nel documento.  
 * [tex/](tex) - tutti i file `.tex` che vengono inclusi da `project.tex`. Questi file contengono il *vero contenuto* del documento.  
-* [workbench/](workbench) - contiene il progetto workbench con il diagramma. **NON AGGIORNATO**  
+* [workbench/](workbench) - contiene il progetto workbench con il diagramma. 
 
 Dentro alla cartella `tex/` la struttura è un po' complessa:  
 - Per ogni capitolo del progetto c'è un file `chXY.tex` che contiene il capitolo `XY` del progetto.  
