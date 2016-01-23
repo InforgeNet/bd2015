@@ -1,1 +1,10 @@
-\chapter{Implementazione MySQL} \label{ch:sqlcode}
+\chapter{Implementazione MySQL}\label{ch:sqlcode}
+In questo Capitolo viene presentato lo {\it script MySQL che implementa il database}.
+
+\inputminted[%
+              frame=leftline,           % bordo a sinistra
+              linenos,                  % attiva numeri di linea
+              stepnumber=5,             % solo multipli di 5 come numeri di linea
+              tabsize=4,                % dimensione del tasto tab in spazi
+              fontsize=\small]%         % dimensione del font (perché stia nella pagina bisogna assicurarsi che ogni riga di codice abbia al max 80 caratteri)
+                              {mysql}{./sql/tables.sql}
