@@ -1,8 +1,10 @@
 -- TODO: Controllare equivalenza con diagrammi
--- TODO: QuestionarioSvolto è BCNF? ModificaFase?
 -- TODO: Aggiungere tutti i trigger necessari
 -- TODO: Stendere il capitolo 9
 -- TODO: Se graficamente brutto senza, aggiungere i backtick ai nomi
+
+-- CREATE SCHEMA IF NOT EXISTS unipi_project DEFAULT CHARACTER SET utf8;
+-- USE unipi_project;
 
 CREATE TABLE Sede
 (
@@ -211,7 +213,7 @@ CREATE TABLE Account
 (
     Username                VARCHAR(20) NOT NULL,
     Email                   VARCHAR(100) NOT NULL,
-    Password                CHAR(32) NOT NULL,
+    `Password`              CHAR(32) NOT NULL,
     Nome                    VARCHAR(45) NOT NULL,
     Cognome                 VARCHAR(45) NOT NULL,
     Citta                   VARCHAR(45) NOT NULL,
@@ -229,14 +231,14 @@ CREATE TABLE Account
 CREATE TABLE Comanda
 (
     ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    Timestamp               TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `Timestamp`             TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Sede                    VARCHAR(45) NOT NULL,
     Sala                    INT UNSIGNED,
     Tavolo                  INT UNSIGNED,
     Account                 VARCHAR(20),
     PRIMARY KEY (ID),
-    UNIQUE KEY (Timestamp, Sede, Sala, Tavolo),
-    UNIQUE KEY (Timestamp, Account),
+    UNIQUE KEY (`Timestamp`, Sede, Sala, Tavolo),
+    UNIQUE KEY (`Timestamp`, Account),
     FOREIGN KEY (Sede)
         REFERENCES Sede(Nome)
         ON DELETE NO ACTION
