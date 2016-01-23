@@ -1,3 +1,4 @@
+-- TODO: Fix all triggers
 DELIMITER $$
 
 /******************************************************************************
@@ -12,23 +13,24 @@ BEFORE INSERT
 ON Menu
 FOR EACH ROW
 BEGIN
+    DECLARE MenuAttiviPeriodo INT;
+    
     IF NEW.DataFine <= NEW.DataInizio THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'DataFine precedente a DataInizio.';
     END IF;
 
-    DECLARE MenuAttiviPeriodo INT;
     SET MenuAttiviPeriodo = (SELECT COUNT(*)
-        FROM Menu M
-        WHERE M.Sede = NEW.Sede
-            AND M.DataFine >= NEW.DataInizio
-            AND M.DataInizio <= NEW.DataFine);
+                                FROM Menu M
+                                WHERE M.Sede = NEW.Sede
+                                    AND M.DataFine >= NEW.DataInizio
+                                    AND M.DataInizio <= NEW.DataFine);
             
     IF MenuAttiviPeriodo > 0 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Un menu è già attivo in questo periodo.';
     END IF;
-END$$
+END;$$
 
 /******************************************************************************
  * nuova_prenotazione controlla: se l'account (in caso di prenotazione online)*
@@ -106,7 +108,7 @@ BEGIN
             SET MESSAGE_TEXT = 'La sala contiene tavoli prenotati.';
         END IF;
     END IF;
-END$$
+END;$$
 
 /******************************************************************************
  * rettifica_prenotazione controlla che la rettifica della prenotazione venga *
@@ -170,7 +172,7 @@ BEGIN
             SET MESSAGE_TEXT = 'Il tavolo scelto è già prenotato.';
         END IF;
     END IF;
-END$$
+END;$$
 
 /******************************************************************************
  * annulla_prenotazione controlla che l'annullamento della prenotazione       *
@@ -191,7 +193,7 @@ BEGIN
    	    SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Non è possibile annullare la prenotazione.';
     END IF;
-END$$
+END;$$
 
 /******************************************************************************
  * limite_valori_x controlla che i valori immessi per gli attributi           * 
@@ -206,7 +208,7 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Punteggio deve essere compreso tra 1 e 5';
     END IF;
-END$$
+END;$$
 
 CREATE TRIGGER limite_valori_giudizio
 BEFORE INSERT
@@ -217,7 +219,7 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Giudizio deve essere compreso tra 1 e 5';
     END IF;
-END$$
+END;$$
 
 CREATE TRIGGER limite_valori_veridicità_accuratezza
 BEFORE INSERT
@@ -232,7 +234,7 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Accuratezza deve essere compreso tra 1 e 5';
     END IF;
-END$$
+END;$$
 
 CREATE TRIGGER limite_valori_efficienza
 BEFORE INSERT
@@ -243,7 +245,7 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Efficienza deve essere compreso tra 1 e 5';
     END IF;
-END$$
+END;$$
 
 /******************************************************************************
  * aggiorna_consegna si assicura che l'arrivo registrato sia sempre successivo*
@@ -263,22 +265,46 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Ritorno precedente a arrivo.';
     END IF;
-END$$
+END;$$
  
 /******************************************************************************
  *gestione_confezioni controlla che DataCarico, se presente, non sia          * 
  *precedente a DataAcquisto.                                                  * 
  ******************************************************************************/ 
-CREATE TRIGGER gestione_confezioni
+CREATE TRIGGER nuova_confezione
 BEFORE INSERT
-ON Confezioni
+ON Confezione
 FOR EACH ROW
 BEGIN
-    IF NEW.DataCarico IS NOT NULL AND NEW.DataCarico < NEW.DataAcquisto THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'DataCarico precedente a DataAcquisto.';
+    IF NEW.Numero IS NULL THEN
+        SET NEW.Numero = (SELECT IFNULL(MAX(Numero), 0) + 1
+                            FROM Confezione	
+                            WHERE CodiceLotto = NEW.CodiceLotto);
     END IF;
-END$$ 
+                        
+    IF NEW.DataCarico IS NOT NULL THEN
+        IF NEW.DataCarico < NEW.DataAcquisto THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'DataCarico precedente a DataAcquisto.';
+        END IF;
+        IF NEW.Collocazione IS NULL THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'L\'attributo Collocazione non può essere NULL.';
+        END IF;
+        IF NEW.Aspetto IS NULL THEN
+            SET NEW.Aspetto = TRUE; -- Default: nessun danno
+        END IF;
+        IF NEW.Stato IS NULL THEN
+            SET NEW.Stato = 'completa'; -- Default
+        END IF;
+    ELSEIF (NEW.Collocazione IS NOT NULL
+            OR NEW.Aspetto IS NOT NULL
+            OR NEW.Stato IS NOT NULL) THEN
+                SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'DataCarico, Collocazione, Aspetto e Stato '
+                                   'devono essere tutti NULL o tutti non-NULL.';
+    END IF;
+END;$$
 
 /******************************************************************************
  * massimo_variazioni_piatto controlla che, per il piatto sul quale si sta    *
@@ -299,6 +325,6 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Ci sono già 3 variazioni su questo piatto.';
     END IF;
-END$$
+END;$$
 
 DELIMETER ;
