@@ -5,7 +5,7 @@
     Nome $\to$ Città, Via, NumeroCivico
 \end{funcdep}
 Poiché ({\tt Città}, {\tt Via}) non è superchiave, {\tt Sede} non
-è in BCNF.\footnote{\label{note:nonbcnf}Si veda il paragrafo~\vref{sec:sedeaccount}.}
+è in BCNF.\footnote{Si veda il paragrafo~\vref{sec:sedeaccount}.}
 \end{samepage}
 
 \begin{samepage}
@@ -111,9 +111,10 @@ Poiché la parte a sinistra è superchiave, {\tt Variazione} è in BCNF.
 
 \begin{samepage}
 \begin{funcdep}{ModificaFase}
-    Variazione, ID $\to$ Ricetta, FaseVecchia, FaseNuova
+    Variazione $\to$ Ricetta\\
+    Variazione, ID $\to$ FaseVecchia, FaseNuova
 \end{funcdep}
-Poiché la parte a sinistra è superchiave, {\tt ModificaFase} è in BCNF.
+Poiché {\tt Variazione} (da sé) non è superchiave, {\tt ModificaFase} non è in BCNF.\footnote{Si veda il paragrafo~\vref{sec:modificafase}.}
 \end{samepage}
 
 \begin{samepage}
@@ -125,7 +126,7 @@ Poiché la parte a sinistra è superchiave, {\tt Comanda} è in BCNF.
 
 \begin{samepage}
 \begin{funcdep}{Tavolo}
-    ID, Sala, Sede $\to$ Posti
+    Sede, Sala, Numero $\to$ Posti
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Tavolo} è in BCNF.
 \end{samepage}
@@ -185,7 +186,7 @@ Poiché non ha alcuna dipendenza funzionale non banale, {\tt Composizione} è in
 
 \begin{samepage}
 \begin{funcdep}{Gradimento}
-    ID $\to$ Account, Proposta, Variazione, Punteggio
+    ID $\to$ Account, Proposta, Suggerimento, Punteggio
 \end{funcdep}
 Poiché la parte a sinistra è superchiave, {\tt Gradimento} è in BCNF.
 \end{samepage}
@@ -220,7 +221,7 @@ Poiché la parte a sinistra è superchiave, {\tt Risposta} è in BCNF.
 
 \begin{samepage}
 \begin{funcdep}{QuestionarioSvolto}
-    $\emptyset$
+    Recensione $\to$ Sede
 \end{funcdep}
-Poiché non ha alcuna dipendenza funzionale non banale, {\tt QuestionarioSvolto} è in BCNF.
+Poiché {\tt Recensione} (da sé) non è superchiave, {\tt QuestionarioSvolto} non è in BCNF.\footnote{Si veda il paragrafo~\vref{sec:questionariosvolto}.}
 \end{samepage}

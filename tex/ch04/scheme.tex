@@ -27,9 +27,9 @@ sono rappresentati in \textit{corsivo}.
 
 \begin{Verbatim}[commandchars=+\[\]]
 SEDE(+underline[Nome], Città, CAP, Via, NumeroCivico)
-MAGAZZINO(+underline[ID], +underline[Sede])
+MAGAZZINO(+underline[Sede], +underline[ID])
 CONFEZIONE(+underline[CodiceLotto], +underline[Numero], Ingrediente, Peso, Prezzo, DataAcquisto,
-    +textit[DataCarico], Sede, Magazzino, +textit[Collocazione], +textit[Scadenza], +textit[Aspetto], +textit[Stato])
+    +textit[DataCarico], Sede, Magazzino, +textit[Collocazione], Scadenza, +textit[Aspetto], +textit[Stato])
 INGREDIENTE(+underline[Nome], Provenienza, TipoProduzione, Genere, Allergene)
 CUCINA(+underline[Sede], +underline[Strumento], Quantità)
 STRUMENTO(+underline[Nome])
@@ -45,8 +45,8 @@ MODIFICA(+underline[Piatto], +underline[Variazione])
 VARIAZIONE(+underline[ID], +textit[Nome], +textit[Account])
 MODIFICAFASE(+underline[Variazione], +underline[ID], Ricetta, +textit[FaseVecchia], +textit[FaseNuova])
 COMANDA(+underline[ID], Timestamp, Sede, +textit[Sala], +textit[Tavolo], +textit[Account])
-TAVOLO(+underline[ID], +underline[Sala], +underline[Sede], Posti)
-SALA(+underline[ID], +underline[Sede])
+TAVOLO(+underline[Sede], +underline[Sala], +underline[Numero], Posti)
+SALA(+underline[Sede], +underline[Numero])
 CONSEGNA(+underline[Comanda], Sede, Pony, Partenza, +textit[Arrivo], +textit[Ritorno])
 PONY(+underline[Sede], +underline[ID], Ruote, Stato)
 PRENOTAZIONE(+underline[ID], Sede, Data, Numero, +textit[Account], +textit[Nome], +textit[Telefono], Sala,
@@ -55,10 +55,10 @@ ACCOUNT(+underline[Username], Email, Password, Nome, Cognome, Città, CAP, Via,
     NumeroCivico, Telefono, PuòPrenotare)
 PROPOSTA(+underline[ID], Account, Nome, +textit[Procedimento])
 COMPOSIZIONE(+underline[Proposta], +underline[Ingrediente])
-GRADIMENTO(+underline[ID], Account, +textit[Proposta], +textit[Variazione], Punteggio)
+GRADIMENTO(+underline[ID], Account, +textit[Proposta], +textit[Suggerimento], Punteggio)
 RECENSIONE(+underline[ID], Account, Ricetta, Testo, Giudizio)
 VALUTAZIONE(+underline[Account], +underline[Recensione], Veridicità, Accuratezza, Testo)
-DOMANDA(+underline[Numero], +underline[Sede], Testo)
-RISPOSTA(+underline[Numero], +underline[Domanda], +underline[Sede], Testo, Efficienza)
+DOMANDA(+underline[Sede], +underline[Numero], Testo)
+RISPOSTA(+underline[Sede], +underline[Domanda], +underline[Numero], Testo, Efficienza)
 QUESTIONARIOSVOLTO(+underline[Recensione], +underline[Sede], +underline[Domanda], +underline[Risposta])
 \end{Verbatim}

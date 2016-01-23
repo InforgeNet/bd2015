@@ -1,0 +1,28 @@
+\section{QuestionarioSvolto}\label{sec:questionariosvolto}
+La relazione {\tt QuestionarioSvolto} non rispetta la BCNF. Riportiamo di seguito tutte
+le dipendenze funzionali non banali della relazione in questione:
+\begin{funcdep}{QuestionarioSvolto}
+    Recensione $\to$ Sede
+\end{funcdep}
+\noindent\texttt{Recensione}, da sé, non è infatti {\it superchiave} della relazione {\tt QuestionarioSvolto}.
+Per poter normalizzare tale relazione è necessario spostare l'attributo {\tt Sede} nella
+relazione {\tt Recensione}. Questo però ci impone anche di dover trovare un nuovo identificatore
+per le relazioni {\tt Risposta} e {\tt Domanda} --- useremo quindi un campo {\tt ID} per {\tt Domanda} e
+toglieremo {\tt Numero} (superfluo in quanto l'ordine delle domande può essere dato dalla sequenza
+degli {\tt ID}). Bisognerà quindi modificare le relazioni coinvolte come segue:
+
+\begin{Verbatim}[commandchars=+\[\]]
+RECENSIONE(+underline[ID], Account, Sede, Ricetta, Testo, Giudizio)
+DOMANDA(+underline[ID], Sede, Testo)
+RISPOSTA(+underline[Domanda], +underline[Numero], Testo, Efficienza)
+QUESTIONARIOSVOLTO(+underline[Recensione], +underline[Domanda], +underline[Risposta])
+\end{Verbatim}
+Anche i {\it vincoli di integrità referenziale} dovranno cambiare di conseguenza: dovrà
+essere aggiunto il vincolo tra {\tt Sede} di {\tt Recensione} e {\tt Nome} di {\tt Sede}; dovranno
+inoltre essere sistemati il vincolo tra {\tt QuestionarioSvolto} e {\tt Risposta} in quanto le tuple di quest'ultima
+adesso vengono identificate dai soli attributi {\tt Domanda} e {\tt Numero}. Ovviamente deve essere
+sistemato anche il vincolo tra {\tt Risposta} e {\tt Domanda} in quanto le tuple di quest'ultima adesso
+vengono identificato dall'unico attributo {\tt ID}.
+
+\vspace{10pt}
+\noindent Si vede immediatamente che, così facendo, la BCNF è rispettata per tutte le relazioni modificate.

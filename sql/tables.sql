@@ -1,10 +1,6 @@
--- TODO: Fix relazione Cucina in diagrammi (strumento non ha per forza una sede)
--- TODO: Fix ordine attributi nello schema logico
--- TODO: Cambia Gradimento(Variazione) in G(Suggerimento) nello schema logico
--- TODO: Cambiare alcuni ID in Numero in schema logico
 -- TODO: Controllare equivalenza con diagrammi
--- TODO: Aggiungere tutti i trigger necessari
 -- TODO: QuestionarioSvolto è BCNF? ModificaFase?
+-- TODO: Aggiungere tutti i trigger necessari
 -- TODO: Stendere il capitolo 9
 -- TODO: Se graficamente brutto senza, aggiungere i backtick ai nomi
 
@@ -85,8 +81,8 @@ CREATE TABLE Strumento
 CREATE TABLE Funzione
 (
     Strumento               VARCHAR(45) NOT NULL,
-    Funzione                VARCHAR(45) NOT NULL,
-    PRIMARY KEY (Strumento, Funzione),
+    Nome                    VARCHAR(45) NOT NULL,
+    PRIMARY KEY (Strumento, Nome),
     FOREIGN KEY (Strumento)
         REFERENCES Strumento(Nome)
         ON DELETE CASCADE
@@ -149,15 +145,15 @@ CREATE TABLE Elenco
 
 CREATE TABLE Fase
 (
+    ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
     Ricetta                 VARCHAR(45) NOT NULL,
-    Numero                  INT UNSIGNED NOT NULL,
     Ingrediente             VARCHAR(45),
     Dose                    INT UNSIGNED,
     Primario                BOOL,
     Strumento               VARCHAR(45),
     Testo                   TEXT,
     Durata                  TIME,
-    PRIMARY KEY (Ricetta, Numero),
+    PRIMARY KEY (ID),
     FOREIGN KEY (Ricetta)
         REFERENCES Ricetta(Nome)
         ON DELETE CASCADE
@@ -174,16 +170,15 @@ CREATE TABLE Fase
 
 CREATE TABLE SequenzaFasi
 (
-    Ricetta                 VARCHAR(45) NOT NULL,
     Fase                    INT UNSIGNED NOT NULL,
     FasePrecedente          INT UNSIGNED NOT NULL,
-    PRIMARY KEY (Ricetta, Fase, FasePrecedente),
-    FOREIGN KEY (Ricetta, Fase)
-        REFERENCES Fase(Ricetta, Numero)
+    PRIMARY KEY (Fase, FasePrecedente),
+    FOREIGN KEY (Fase)
+        REFERENCES Fase(ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (Ricetta, FasePrecedente)
-        REFERENCES Fase(Ricetta, Numero)
+    FOREIGN KEY (FasePrecedente)
+        REFERENCES Fase(ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;
@@ -277,9 +272,14 @@ CREATE TABLE Piatto
 CREATE TABLE Variazione
 (
     ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Ricetta                 VARCHAR(45) NOT NULL,
     Nome                    VARCHAR(45),
     Account                 VARCHAR(20),
     PRIMARY KEY (ID),
+    FOREIGN KEY (Ricetta)
+        REFERENCES Ricetta(Nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     FOREIGN KEY (Account)
         REFERENCES Account(Username)
         ON DELETE SET NULL
@@ -290,7 +290,6 @@ CREATE TABLE ModificaFase
 (
     Variazione              INT UNSIGNED NOT NULL,
     ID                      INT UNSIGNED NOT NULL,
-    Ricetta                 VARCHAR(45) NOT NULL,
     FaseVecchia             INT UNSIGNED,
     FaseNuova               INT UNSIGNED,
     PRIMARY KEY (Variazione, ID),
@@ -298,12 +297,12 @@ CREATE TABLE ModificaFase
         REFERENCES Variazione(ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (Ricetta, FaseVecchia)
-        REFERENCES Fase(Ricetta, Numero)
+    FOREIGN KEY (FaseVecchia)
+        REFERENCES Fase(ID)
         ON DELETE NO ACTION
         ON UPDATE CASCADE,
-    FOREIGN KEY (Ricetta, FaseNuova)
-        REFERENCES Fase(Ricetta, Numero)
+    FOREIGN KEY (FaseNuova)
+        REFERENCES Fase(ID)
         ON DELETE NO ACTION
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;
@@ -443,12 +442,17 @@ CREATE TABLE Recensione
 (
     ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
     Account                 VARCHAR(20) NOT NULL,
+    Sede                    VARCHAR(45) NOT NULL,
     Ricetta                 VARCHAR(45) NOT NULL,
     Testo                   TEXT NOT NULL,
     Giudizio                TINYINT(1) UNSIGNED NOT NULL,
     PRIMARY KEY (ID),
     FOREIGN KEY (Account)
         REFERENCES Account(Username)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Sede)
+        REFERENCES Sede(Nome)
         ON DELETE NO ACTION
         ON UPDATE CASCADE,
     FOREIGN KEY (Ricetta)
@@ -477,10 +481,10 @@ CREATE TABLE Valutazione
 
 CREATE TABLE Domanda
 (
+    ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
     Sede                    VARCHAR(45) NOT NULL,
-    Numero                  INT UNSIGNED NOT NULL,
     Testo                   VARCHAR(1024) NOT NULL,
-    PRIMARY KEY (Sede, Numero),
+    PRIMARY KEY (ID),
     FOREIGN KEY (Sede)
         REFERENCES Sede(Nome)
         ON DELETE CASCADE
@@ -489,14 +493,13 @@ CREATE TABLE Domanda
 
 CREATE TABLE Risposta
 (
-    Sede                    VARCHAR(45) NOT NULL,
     Domanda                 INT UNSIGNED NOT NULL,
     Numero                  INT UNSIGNED NOT NULL,
     Testo                   VARCHAR(1024) NOT NULL,
     Efficienza              TINYINT(1) UNSIGNED NOT NULL,
-    PRIMARY KEY (Sede, Domanda, Numero),
-    FOREIGN KEY (Sede, Domanda)
-        REFERENCES Domanda(Sede, Numero)
+    PRIMARY KEY (Domanda, Numero),
+    FOREIGN KEY (Domanda)
+        REFERENCES Domanda(ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;
@@ -504,17 +507,15 @@ CREATE TABLE Risposta
 CREATE TABLE QuestionarioSvolto
 (
     Recensione              INT UNSIGNED NOT NULL,
-    Sede                    VARCHAR(45) NOT NULL,
     Domanda                 INT UNSIGNED NOT NULL,
     Risposta                INT UNSIGNED NOT NULL,
-    PRIMARY KEY (Recensione, Sede, Domanda, Risposta),
-    UNIQUE KEY (Recensione, Sede),
+    PRIMARY KEY (Recensione, Domanda, Risposta),
     FOREIGN KEY (Recensione)
         REFERENCES Recensione(ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (Sede, Domanda, Risposta)
-        REFERENCES Risposta(Sede, Domanda, Numero)
+    FOREIGN KEY (Domanda, Risposta)
+        REFERENCES Risposta(Domanda, Numero)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;

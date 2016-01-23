@@ -1,0 +1,28 @@
+\section{ModificaFase}\label{sec:modificafase}
+La relazione {\tt Confezione} non rispetta la BCNF. Riportiamo di seguito tutte
+le dipendenze funzionali non banali della relazione in questione:
+\begin{funcdep}{ModificaFase}
+    Variazione $\to$ Ricetta\\
+    Variazione, ID $\to$ FaseVecchia, FaseNuova
+\end{funcdep}
+\noindent\texttt{Variazione}, da sé, non è infatti {\it superchiave} della relazione {\tt ModificaFase}.
+Per poter normalizzare tale relazione è necessario spostare l'attributo {\tt Ricetta} nella
+relazione {\tt Variazione}. Questo però ci impone anche di dover trovare un nuovo identificatore
+per {\tt Fase} --- useremo quindi un campo {\tt ID} e toglieremo {\tt Numero} (superfluo in quanto l'ordine
+delle fasi è dato dalla relazione {\tt SequenzaFasi}). Bisognerà quindi modificare le
+relazioni coinvolte come segue:
+
+\begin{Verbatim}[commandchars=+\[\]]
+FASE(+underline[ID], Ricetta, +textit[Ingrediente], +textit[Dose], +textit[Primario], +textit[Strumento], +textit[Testo],
+    +textit[Durata])
+SEQUENZAFASI(+underline[Fase], +underline[FasePrecedente])
+VARIAZIONE(+underline[ID], Ricetta, +textit[Nome], +textit[Account])
+MODIFICAFASE(+underline[Variazione], +underline[ID], +textit[FaseVecchia], +textit[FaseNuova])
+\end{Verbatim}
+Anche i {\it vincoli di integrità referenziale} dovranno cambiare di conseguenza: dovrà
+essere aggiunto il vincolo tra {\tt Ricetta} di {\tt Variazione} e {\tt Nome} di {\tt Ricetta}; dovranno
+inoltre essere sistemati tutti i vincoli che si riferiscono alle tuple di {\tt Fase} in quanto
+adesso vengono identificate dall'unico attributo {\tt ID}.
+
+\vspace{10pt}
+\noindent Si vede immediatamente che, così facendo, la BCNF è rispettata per tutte le relazioni modificate.
