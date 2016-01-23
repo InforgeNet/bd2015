@@ -1,11 +1,10 @@
--- TODO: Aggiungere eventuali UNIQUE KEY constraint
 -- TODO: Fix relazione Cucina in diagrammi (strumento non ha per forza una sede)
 -- TODO: Fix ordine attributi nello schema logico
 -- TODO: Cambia Gradimento(Variazione) in G(Suggerimento) nello schema logico
 -- TODO: Cambiare alcuni ID in Numero in schema logico
 -- TODO: Controllare equivalenza con diagrammi
 -- TODO: Aggiungere tutti i trigger necessari
--- TODO: QuestionarioSvolto è BCNF?
+-- TODO: QuestionarioSvolto è BCNF? ModificaFase?
 -- TODO: Stendere il capitolo 9
 -- TODO: Se graficamente brutto senza, aggiungere i backtick ai nomi
 
@@ -117,6 +116,8 @@ CREATE TABLE Menu
     DataInizio              DATE NOT NULL,
     DataFine                DATE NOT NULL,
     PRIMARY KEY (ID),
+    UNIQUE KEY (Sede, DataInizio),
+    UNIQUE KEY (Sede, DataFine),
     FOREIGN KEY (Sede)
         REFERENCES Sede(Nome)
         ON DELETE CASCADE
@@ -239,6 +240,8 @@ CREATE TABLE Comanda
     Tavolo                  INT UNSIGNED,
     Account                 VARCHAR(20),
     PRIMARY KEY (ID),
+    UNIQUE KEY (Timestamp, Sede, Sala, Tavolo),
+    UNIQUE KEY (Timestamp, Account),
     FOREIGN KEY (Sede)
         REFERENCES Sede(Nome)
         ON DELETE NO ACTION
@@ -344,6 +347,7 @@ CREATE TABLE Consegna
     Arrivo                  TIMESTAMP,
     Ritorno                 TIMESTAMP,
     PRIMARY KEY (Comanda),
+    UNIQUE KEY (Pony, Partenza),
     FOREIGN KEY (Comanda)
         REFERENCES Comanda(ID)
         ON DELETE CASCADE
@@ -504,6 +508,7 @@ CREATE TABLE QuestionarioSvolto
     Domanda                 INT UNSIGNED NOT NULL,
     Risposta                INT UNSIGNED NOT NULL,
     PRIMARY KEY (Recensione, Sede, Domanda, Risposta),
+    UNIQUE KEY (Recensione, Sede),
     FOREIGN KEY (Recensione)
         REFERENCES Recensione(ID)
         ON DELETE CASCADE
