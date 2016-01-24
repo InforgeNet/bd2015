@@ -451,6 +451,7 @@ CREATE TABLE Recensione
     Testo                   TEXT NOT NULL,
     Giudizio                TINYINT(1) UNSIGNED NOT NULL,
     PRIMARY KEY (ID),
+    UNIQUE KEY (Account, Sede, Ricetta),
     FOREIGN KEY (Account)
         REFERENCES Account(Username)
         ON DELETE NO ACTION
@@ -513,7 +514,7 @@ CREATE TABLE QuestionarioSvolto
     Recensione              INT UNSIGNED NOT NULL,
     Domanda                 INT UNSIGNED NOT NULL,
     Risposta                INT UNSIGNED NOT NULL,
-    PRIMARY KEY (Recensione, Domanda, Risposta),
+    PRIMARY KEY (Recensione, Domanda),
     FOREIGN KEY (Recensione)
         REFERENCES Recensione(ID)
         ON DELETE CASCADE

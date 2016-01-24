@@ -222,7 +222,8 @@ Poiché la parte a sinistra è superchiave, {\tt Risposta} è in BCNF.
 
 \begin{samepage}
 \begin{funcdep}{QuestionarioSvolto}
-    Recensione $\to$ Sede
+    Recensione $\to$ Sede\\
+    Recensione, Domanda $\to$ Risposta
 \end{funcdep}
-Poiché {\tt Recensione} (da sé) non è superchiave, {\tt QuestionarioSvolto} non è in BCNF.\footnote{Si veda il paragrafo~\vref{sec:questionariosvolto}.}
+Poiché {\tt Recensione} (da sé) non è superchiave (e neanche ({\tt Recensione}, {\tt Domanda})), {\tt QuestionarioSvolto} non è in BCNF.\footnote{Si veda il paragrafo~\vref{sec:questionariosvolto}.}
 \end{samepage}
