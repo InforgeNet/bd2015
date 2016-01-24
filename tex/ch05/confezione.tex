@@ -4,7 +4,8 @@ le dipendenze funzionali non banali della relazione in questione:
 \begin{funcdep}{Confezione}
     CodiceLotto $\to$ Ingrediente, Scadenza\\
     CodiceLotto, Numero $\to$ Peso, Prezzo, DataAcquisto, DataCarico,\\
-        \indent\indent\indent\indent\indent  Sede, Magazzino, Collocazione, Aspetto, Stato
+        \indent\indent\indent\indent\indent DataArrivo, Sede, Magazzino, Collocazione,\\
+        \indent\indent\indent\indent\indent Aspetto, Stato
 \end{funcdep}
 
 \noindent\texttt{CodiceLotto}, da sé, non è infatti {\it superchiave} della relazione {\tt Confezione}.
@@ -12,7 +13,7 @@ Per poter normalizzare tale relazione è necessario scomporla in due relazioni:
 
 \begin{Verbatim}[commandchars=+\[\]]
 CONFEZIONE(+underline[CodiceLotto], +underline[Numero], Peso, Prezzo, DataAcquisto, +textit[DataCarico],
-    Sede, Magazzino, +textit[Collocazione], +textit[Aspetto], +textit[Stato])
+    +textit[DataArrivo], Sede, Magazzino, +textit[Collocazione], +textit[Aspetto], +textit[Stato])
 LOTTO(+underline[Codice], Ingrediente, Scadenza)
 \end{Verbatim}
 Dobbiamo anche aggiungere il {\it vincolo di integrità referenziale} tra {\tt CodiceLotto}

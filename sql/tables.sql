@@ -2,6 +2,7 @@
 -- TODO: Aggiungere tutti i trigger necessari
 -- TODO: Stendere il capitolo 9
 -- TODO: Se graficamente brutto senza, aggiungere i backtick ai nomi
+-- TODO: Nei diagrammi: spostare DataArrivo nell'associazione InOrdine (nullable)
 
 -- CREATE SCHEMA IF NOT EXISTS unipi_project DEFAULT CHARACTER SET utf8;
 -- USE unipi_project;
@@ -56,8 +57,9 @@ CREATE TABLE Confezione
     Numero                  INT UNSIGNED NOT NULL,
     Peso                    INT UNSIGNED NOT NULL,
     Prezzo                  DECIMAL(8,2) UNSIGNED NOT NULL,
-    DataAcquisto            TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    DataCarico              TIMESTAMP,
+    DataAcquisto            DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    DataArrivo              DATETIME,
+    DataCarico              DATETIME,
     Sede                    VARCHAR(45) NOT NULL,
     Magazzino               INT UNSIGNED NOT NULL,
     Collocazione            VARCHAR(45),
@@ -344,9 +346,9 @@ CREATE TABLE Consegna
     Comanda                 INT UNSIGNED NOT NULL,
     Sede                    VARCHAR(45) NOT NULL,
     Pony                    INT UNSIGNED NOT NULL,
-    Partenza                TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    Arrivo                  TIMESTAMP,
-    Ritorno                 TIMESTAMP,
+    Partenza                DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Arrivo                  DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    Ritorno                 DATETIME,
     PRIMARY KEY (Comanda),
     UNIQUE KEY (Pony, Partenza),
     FOREIGN KEY (Comanda)
@@ -363,7 +365,7 @@ CREATE TABLE Prenotazione
 (
     ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
     Sede                    VARCHAR(45) NOT NULL,
-    Data                    TIMESTAMP NOT NULL,
+    Data                    DATETIME NOT NULL,
     Numero                  INT UNSIGNED NOT NULL,
     Account                 VARCHAR(45),
     Nome                    VARCHAR(45),

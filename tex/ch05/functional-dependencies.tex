@@ -19,7 +19,8 @@ Poiché non ha alcuna dipendenza funzionale non banale, {\tt Magazzino} è in BC
 \begin{funcdep}{Confezione}
     CodiceLotto $\to$ Ingrediente, Scadenza\\
     CodiceLotto, Numero $\to$ Peso, Prezzo, DataAcquisto, DataCarico,\\
-        \indent\indent\indent\indent\indent  Sede, Magazzino, Collocazione, Aspetto, Stato
+        \indent\indent\indent\indent\indent DataArrivo, Sede, Magazzino, Collocazione,\\
+        \indent\indent\indent\indent\indent Aspetto, Stato
 \end{funcdep}
 Poiché {\tt CodiceLotto} (da sé) non è superchiave, {\tt Confezione} non è in BCNF.\footnote{Si veda il paragrafo~\vref{sec:confezione}.}
 \end{samepage}
