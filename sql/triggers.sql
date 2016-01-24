@@ -585,18 +585,35 @@ BEFORE UPDATE
 ON Consegna
 FOR EACH ROW
 BEGIN
-    IF NEW.Arrivo IS NOT NULL AND NEW.Arrivo < OLD.Partenza THEN
+    IF NEW.Arrivo IS NOT NULL AND NEW.Arrivo < NEW.Partenza THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Arrivo precedente a partenza.';
     END IF;
     
-    IF NEW.Ritorno IS NOT NULL AND NEW.Ritorno < OLD.Arrivo THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Ritorno precedente a arrivo.';
+    IF NEW.Ritorno IS NOT NULL AND NEW.Ritorno < NEW.Arrivo THEN
+        IF NEW.Arrivo IS NULL THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Se Ritorno viene specificato anche Arrivo deve '
+                                'essere specificato.';
+        ELSEIF NEW.Ritorno < NEW.Arrivo THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Ritorno precedente a arrivo.';
+        END IF;
     END IF;
 END;$$
 
--- TODO: CONTINUE FROM HERE
+CREATE TRIGGER libera_pony
+AFTER UPDATE
+ON Consegna
+FOR EACH ROW
+BEGIN    
+    IF NEW.Ritorno IS NOT NULL THEN
+        UPDATE Pony SET Stato = 'libero' WHERE Sede = NEW.Sede
+                                            AND ID = NEW.Pony;
+    END IF;
+END;$$
+
+-- TODO: Trigger su prenotazione
 
 /******************************************************************************
  * nuova_prenotazione controlla: se l'account (in caso di prenotazione online)*
@@ -677,12 +694,12 @@ BEGIN
 END;$$
 
 /******************************************************************************
- * rettifica_prenotazione controlla che la rettifica della prenotazione venga *
+ * aggiorna_prenotazione controlla che la rettifica della prenotazione venga  *
  * fatta al max. 48 ore prima della data della prenotazione. Inoltre controlla*
  * che la nuova prenotazione sia valida.                                      *
  * Business Rule: (BR16) e (BR17)                                             *
  ******************************************************************************/
-CREATE TRIGGER rettifica_prenotazione
+CREATE TRIGGER aggiorna_prenotazione
 BEFORE UPDATE
 ON Prenotazione
 FOR EACH ROW
@@ -741,11 +758,11 @@ BEGIN
 END;$$
 
 /******************************************************************************
- * annulla_prenotazione controlla che l'annullamento della prenotazione       *
+ * elimina_prenotazione controlla che l'annullamento della prenotazione       *
  * venga fatta al max. 72 ore prima della data della prenotazione.            *
  * Business Rule: (BR18)                                                      *
  ******************************************************************************/
-CREATE TRIGGER annulla_prenotazione
+CREATE TRIGGER elimina_prenotazione
 BEFORE DELETE
 ON Prenotazione
 FOR EACH ROW
@@ -761,22 +778,25 @@ BEGIN
     END IF;
 END;$$
 
-/******************************************************************************
- * limite_valori_x controlla che i valori immessi per gli attributi           * 
- * riguardanti un voto non siano inferiori di 1 o maggiori di 5.              *
- ******************************************************************************/
-CREATE TRIGGER limite_valori_punteggio
+CREATE TRIGGER nuovo_gradimento
 BEFORE INSERT
 ON Gradimento
 FOR EACH ROW
 BEGIN
+    IF (NEW.Proposta IS NOT NULL AND NEW.Suggerimento IS NOT NULL)
+        OR (NEW.Proposta IS NULL AND NEW.Suggerimento IS NULL) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Un gradimento deve riferirsi a una proposta o a '
+                            'un suggerimento. Non ad entrambi.';
+    END IF;
+    
     IF NEW.Punteggio < 1 OR NEW.Punteggio > 5 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Punteggio deve essere compreso tra 1 e 5';
     END IF;
 END;$$
 
-CREATE TRIGGER limite_valori_giudizio
+CREATE TRIGGER nuova_recensione
 BEFORE INSERT
 ON Recensione
 FOR EACH ROW
@@ -787,7 +807,7 @@ BEGIN
     END IF;
 END;$$
 
-CREATE TRIGGER limite_valori_veridicità_accuratezza
+CREATE TRIGGER nuova_valutazione
 BEFORE INSERT
 ON Valutazione
 FOR EACH ROW
@@ -802,7 +822,7 @@ BEGIN
     END IF;
 END;$$
 
-CREATE TRIGGER limite_valori_efficienza
+CREATE TRIGGER nuova_risposta
 BEFORE INSERT
 ON Risposta
 FOR EACH ROW
@@ -811,6 +831,12 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Efficienza deve essere compreso tra 1 e 5';
     END IF;
+    
+    -- Simula AUTO_INCREMENT
+    IF NEW.Numero IS NULL THEN
+        SET NEW.Numero = (SELECT IFNULL(MAX(Numero), 0) + 1
+                            FROM Risposta
+                            WHERE Domanda = NEW.Domanda);
 END;$$
 
 DELIMITER ;
