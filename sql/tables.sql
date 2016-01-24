@@ -1,11 +1,8 @@
 -- TODO: Controllare equivalenza con diagrammi
--- TODO: Aggiungere tutti i trigger necessari
--- TODO: Stendere il capitolo 9
--- TODO: Se graficamente brutto senza, aggiungere i backtick ai nomi
--- TODO: Nei diagrammi: spostare DataArrivo nell'associazione InOrdine (nullable)
 
--- CREATE SCHEMA IF NOT EXISTS unipi_project DEFAULT CHARACTER SET utf8;
--- USE unipi_project;
+DROP SCHEMA IF EXISTS unipi_project
+CREATE SCHEMA unipi_project DEFAULT CHARACTER SET utf8;
+USE unipi_project;
 
 CREATE TABLE Sede
 (
