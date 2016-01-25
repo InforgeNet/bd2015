@@ -7,7 +7,7 @@ stati anche aggiunti i codici per {\it simulare} il comportamento dell'{\tt AUTO
 l'{\it engine} {\tt InnoDB} non permette di avere l'{\tt AUTO\_INCREMENT} sull'attributo {\tt ID} in tabelle
 come {\tt Magazzino}. Infatti in {\tt Magazzino} le tuple dovrebbero assumere la seguente forma:
 \begin{Verbatim}
-\$ SELECT * FROM Magazzino;
+$ SELECT * FROM Magazzino;
 +-------+----+
 | Sede  | ID |
 +-------+----+
@@ -23,7 +23,7 @@ come {\tt Magazzino}. Infatti in {\tt Magazzino} le tuple dovrebbero assumere la
 \end{Verbatim}
 Impostando l'{\tt AUTO\_INCREMENT} sull'attributo {\tt ID} si avrebbe invece:
 \begin{Verbatim}
-\$ SELECT * FROM Magazzino;
+$ SELECT * FROM Magazzino;
 +-------+----+
 | ID | Sede  |
 +-------+----+
