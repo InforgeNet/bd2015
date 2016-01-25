@@ -89,6 +89,9 @@ Per farlo:
 * **Windows:** eseguire più volte il file [make.bat](make.bat) oppure eseguire una volta il file [make-full.bat](make-full.bat). *non testato*  
 * **Linux:** dare più volte il comando `make` oppure dare una volta il comando `make full`.  
 
+Se si sono modificati i file che compongono lo script MySQL finale bisogna rigenerare lo script completo con:
+* **Linux:** dare il comando `make script`.
+
 Se si desidera ripulire tutta la sporcizia lasciata nella cartella dalla compilazione (file `.log`, `.aux`, `.toc`):  
 * **Windows:** eseguire il file [make-clean.bat](make-clean.bat). *non testato*  
 * **Linux:** dare il comando `make clean`.  
