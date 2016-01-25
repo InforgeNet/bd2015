@@ -1,6 +1,4 @@
--- TODO: Controllare equivalenza con diagrammi
-
-DROP SCHEMA IF EXISTS unipi_project
+DROP SCHEMA IF EXISTS unipi_project;
 CREATE SCHEMA unipi_project DEFAULT CHARACTER SET utf8;
 USE unipi_project;
 
