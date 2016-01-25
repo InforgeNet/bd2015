@@ -633,6 +633,14 @@ BEGIN
     DECLARE TavoloLibero INT;
     DECLARE SalaLibera INT;
     
+    IF NEW.Tavolo IS NOT NULL THEN
+        SET PostiTavolo = (SELECT T.Posti
+                            FROM Tavolo T
+                            WHERE T.ID = NEW.Tavolo
+                                AND T.Sala = NEW.Sala
+                                AND T.Sede = NEW.Sede);
+    END IF;
+    
     IF NEW.Account IS NOT NULL THEN
         SET PrenotazioniAbilitate = (SELECT A.PuoPrenotare
                                         FROM Account A
@@ -719,14 +727,7 @@ BEGIN
                             'allestimento.';
     END IF;
     
-        IF NEW.Tavolo IS NOT NULL THEN
-        SET PostiTavolo = (SELECT T.Posti
-                            FROM Tavolo T
-                            WHERE T.ID = NEW.Tavolo
-                                AND T.Sala = NEW.Sala
-                                AND T.Sede = NEW.Sede);
-        
-        IF PostiTavolo < NEW.Numero THEN
+        IF NEW.Tavolo IS NOT NULL AND PostiTavolo < NEW.Numero THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Il tavolo scelto non ha un numero adeguato di '
                                 'posti.';
@@ -758,8 +759,6 @@ BEGIN
     END IF;
 END;$$
 
--- TODO: Fix aggiorna_prenotazione
-
 /******************************************************************************
  * aggiorna_prenotazione controlla che la rettifica della prenotazione venga  *
  * fatta al max. 48 ore prima della data della prenotazione. Inoltre controlla*
@@ -770,45 +769,73 @@ CREATE TRIGGER aggiorna_prenotazione
 BEFORE UPDATE
 ON Prenotazione
 FOR EACH ROW
-BEGIN
-    DECLARE PuoRettificare BOOL;
-    SET PuoRettificare = (SELECT (NOW() < OLD.Data - INTERVAL 2 DAY)
-                          FROM Prenotazione P
-                          WHERE P.ID = OLD.ID); -- ??
-                          
-   	IF PuoRettificare = FALSE THEN
+BEGIN                          
+   	IF CURRENT_DATETIME < (OLD.Data - INTERVAL 2 DAY) THEN
    	    SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Non è possibile modificare la prenotazione.';
     END IF;
     
-    IF NEW.Sala IS NOT NULL THEN
-        DECLARE AllestimentiSala INT;
-        SET AllestimentiSala = (SELECT SUM(DATE(P.Data) = DATE(NEW.Data))
-                                    FROM Prenotazione P
-                                    WHERE P.Sala = NEW.Sala
-                                        AND P.Sede = NEW.Sede
-                                        AND P.Tavolo = NULL);
-                            
-        IF AllestimentiSala > 0 THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'La sala scelta è prenotata per allestimento.';
-        END IF;
-    END IF;
+    DECLARE TavoloAssegnato INT;
+    DECLARE AllestimentiSala INT;
+    DECLARE PostiTavolo INT;
+    DECLARE TavoloLibero INT;
+    DECLARE SalaLibera INT;
     
     IF NEW.Tavolo IS NOT NULL THEN
-        DECLARE PostiTavolo INT;
         SET PostiTavolo = (SELECT T.Posti
                             FROM Tavolo T
                             WHERE T.ID = NEW.Tavolo
                                 AND T.Sala = NEW.Sala
                                 AND T.Sede = NEW.Sede);
-        
-        IF PostiTavolo < NEW.Numero THEN
+    END IF;
+    
+    IF NEW.Account IS NOT NULL THEN
+        SET NEW.Telefono = NULL;
+        IF NEW.Tavolo IS NOT NULL THEN
+            SET NEW.Nome = NULL;
+            SET NEW.Descrizione = NULL;
+            SET NEW.Approvato = NULL;
+            
+            IF PostiTavolo > NEW.Numero + 3 THEN
+                SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Il tavolo scelto non ha un numero adeguato '
+                                    'di posti.';
+            END IF;
+        ELSEIF NEW.Nome IS NULL OR NEW.Descrizione IS NULL THEN
             SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Il tavolo non ha un numero adeguato di posti.';
+            SET MESSAGE_TEXT = 'Nome e Descrizione devono essere specificati '
+                                'per gli allestimenti.';
+        ELSEIF NEW.Approvato IS NULL THEN
+            NEW.Approvato = FALSE; -- Default
+        END IF;
+    ELSE
+        SET NEW.Descrizione = NULL;
+        SET NEW.Approvato = NULL;
+        IF NEW.Nome IS NULL OR NEW.Telefono IS NULL OR NEW.Tavolo IS NULL THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Nome, Telefono e Tavolo devono essere '
+                                'specificati per le prenotazioni telefoniche.';
+        END IF;
+    END IF;    
+
+    SET AllestimentiSala = (SELECT SUM(DATE(P.Data) = DATE(NEW.Data))
+                                FROM Prenotazione P
+                                WHERE P.Sala = NEW.Sala
+                                    AND P.Sede = NEW.Sede
+                                    AND P.Tavolo = NULL);
+                        
+    IF AllestimentiSala > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'La sala scelta è già prenotata per un '
+                            'allestimento.';
+    END IF;
+    
+        IF NEW.Tavolo IS NOT NULL AND PostiTavolo < NEW.Numero THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Il tavolo scelto non ha un numero adeguato di '
+                                'posti.';
         END IF;
 
-        DECLARE TavoloLibero INT;
         SET TavoloLibero = (SELECT SUM(P.Data >
                                             (NEW.Data - INTERVAL 2 HOUR)
                                             AND P.Data <
@@ -822,10 +849,18 @@ BEGIN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Il tavolo scelto è già prenotato.';
         END IF;
+    ELSE
+        SET SalaLibera = (SELECT SUM(DATE(P.Data) = DATE(NEW.Data))
+                            FROM Prenotazione P
+                            WHERE P.Sala = NEW.Sala
+                                AND P.Sede = NEW.Sede);
+                            
+        IF SalaLibera > 0 THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'La sala contiene tavoli già prenotati.';
+        END IF;
     END IF;
 END;$$
-
--- TODO: Fix elimina_prenotazione
 
 /******************************************************************************
  * elimina_prenotazione controlla che l'annullamento della prenotazione       *
@@ -836,13 +871,8 @@ CREATE TRIGGER elimina_prenotazione
 BEFORE DELETE
 ON Prenotazione
 FOR EACH ROW
-BEGIN
-    DECLARE PuoAnnullare BOOL;
-    SET PuoAnnullare = (SELECT (NOW() < OLD.Data - INTERVAL 3 DAY)
-                          FROM Prenotazione P
-                          WHERE P.ID = OLD.ID); -- ??
-                          
-   	IF PuoAnnullare = FALSE THEN
+BEGIN                          
+   	IF CURRENT_DATETIME < (OLD.Data - INTERVAL 3 DAY) THEN
    	    SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Non è possibile annullare la prenotazione.';
     END IF;
