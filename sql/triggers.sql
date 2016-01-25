@@ -1,4 +1,3 @@
--- TODO: Fix all triggers
 DELIMITER $$
 
 CREATE TRIGGER nuovo_magazzino
@@ -214,12 +213,12 @@ BEGIN
     SET StessaRicetta = (SELECT COUNT(*)
                             FROM (SELECT F1.ID, F1.Ricetta
                                     FROM Fase F1
-                                    WHERE F1.ID = NEW.Fase)
+                                    WHERE F1.ID = NEW.Fase) AS Fase1
                             INNER JOIN
                                 (SELECT F2.ID, F2.Ricetta
                                     FROM Fase F2
-                                    WHERE F2.ID = NEW.FasePrecedente)
-                            ON F1.Ricetta = F2.Ricetta);
+                                    WHERE F2.ID = NEW.FasePrecedente) AS Fase2
+                            ON Fase1.Ricetta = Fase2.Ricetta);
     
     IF StessaRicetta = 0 THEN
         SIGNAL SQLSTATE '45000'
@@ -228,7 +227,7 @@ BEGIN
 END;$$
 
 CREATE TRIGGER aggiorna_sequenza_fasi
-BEFORE INSERT
+BEFORE UPDATE
 ON SequenzaFasi
 FOR EACH ROW
 BEGIN
@@ -236,12 +235,12 @@ BEGIN
     SET StessaRicetta = (SELECT COUNT(*)
                             FROM (SELECT F1.ID, F1.Ricetta
                                     FROM Fase F1
-                                    WHERE F1.ID = NEW.Fase)
+                                    WHERE F1.ID = NEW.Fase) AS Fase1
                             INNER JOIN
                                 (SELECT F2.ID, F2.Ricetta
                                     FROM Fase F2
-                                    WHERE F2.ID = NEW.FasePrecedente)
-                            ON F1.Ricetta = F2.Ricetta);
+                                    WHERE F2.ID = NEW.FasePrecedente) AS Fase2
+                            ON Fase1.Ricetta = Fase2.Ricetta);
     
     IF StessaRicetta = 0 THEN
         SIGNAL SQLSTATE '45000'
@@ -318,7 +317,7 @@ BEGIN
     DECLARE PonyScelto INT;
     
     IF NEW.Stato = 'servizio' THEN
-        SET ComandaTakeAway = (SELECT IFNULL(C.Account, FALSE, TRUE)
+        SET ComandaTakeAway = (SELECT C.Account <> NULL
                                 FROM Comanda C
                                 WHERE C.ID = NEW.Comanda);
                                 
@@ -511,12 +510,12 @@ BEGIN
     SET StessaRicetta = (SELECT COUNT(*)
                             FROM (SELECT P.ID, P.Ricetta
                                     FROM Piatto P
-                                    WHERE P.ID = NEW.Piatto)
+                                    WHERE P.ID = NEW.Piatto) AS Pi
                             INNER JOIN
                                 (SELECT V.ID, V.Ricetta
                                     FROM Variazione V
-                                    WHERE V.ID = NEW.Variazione)
-                            ON P.Ricetta = V.Ricetta);
+                                    WHERE V.ID = NEW.Variazione) AS Va
+                            ON Pi.Ricetta = Va.Ricetta);
     
     IF StessaRicetta = 0 THEN
         SIGNAL SQLSTATE '45000'
@@ -535,12 +534,12 @@ BEGIN
     SET StessaRicetta = (SELECT COUNT(*)
                             FROM (SELECT P.ID, P.Ricetta
                                     FROM Piatto P
-                                    WHERE P.ID = NEW.Piatto)
+                                    WHERE P.ID = NEW.Piatto) AS Pi
                             INNER JOIN
                                 (SELECT V.ID, V.Ricetta
                                     FROM Variazione V
-                                    WHERE V.ID = NEW.Variazione)
-                            ON P.Ricetta = V.Ricetta);
+                                    WHERE V.ID = NEW.Variazione) AS Va
+                            ON Pi.Ricetta = Va.Ricetta);
     
     IF StessaRicetta = 0 THEN
         SIGNAL SQLSTATE '45000'
@@ -700,7 +699,7 @@ BEGIN
             SET MESSAGE_TEXT = 'Descrizione deve essere specificato per gli '
                                 'allestimenti.';
         ELSEIF NEW.Approvato IS NULL THEN
-            NEW.Approvato = FALSE; -- Default
+            SET NEW.Approvato = FALSE; -- Default
         END IF;
     ELSE
         SET NEW.Descrizione = NULL;
@@ -727,10 +726,12 @@ BEGIN
                             'allestimento.';
     END IF;
     
-        IF NEW.Tavolo IS NOT NULL AND PostiTavolo < NEW.Numero THEN
+    IF NEW.Tavolo IS NOT NULL THEN
+    
+        IF PostiTavolo < NEW.Numero THEN
             SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Il tavolo scelto non ha un numero adeguato di '
-                                'posti.';
+            SET MESSAGE_TEXT = 'Il tavolo scelto non ha un numero adeguato '
+                            'di posti.';
         END IF;
 
         SET TavoloLibero = (SELECT SUM(P.Data >
@@ -769,17 +770,17 @@ CREATE TRIGGER aggiorna_prenotazione
 BEFORE UPDATE
 ON Prenotazione
 FOR EACH ROW
-BEGIN                          
-   	IF CURRENT_DATETIME < (OLD.Data - INTERVAL 2 DAY) THEN
-   	    SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Non è possibile modificare la prenotazione.';
-    END IF;
-    
+BEGIN
     DECLARE TavoloAssegnato INT;
     DECLARE AllestimentiSala INT;
     DECLARE PostiTavolo INT;
     DECLARE TavoloLibero INT;
     DECLARE SalaLibera INT;
+    
+   	IF CURRENT_DATETIME < (OLD.Data - INTERVAL 2 DAY) THEN
+   	    SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Non è possibile modificare la prenotazione.';
+    END IF;
     
     IF NEW.Tavolo IS NOT NULL THEN
         SET PostiTavolo = (SELECT T.Posti
@@ -806,7 +807,7 @@ BEGIN
             SET MESSAGE_TEXT = 'Nome e Descrizione devono essere specificati '
                                 'per gli allestimenti.';
         ELSEIF NEW.Approvato IS NULL THEN
-            NEW.Approvato = FALSE; -- Default
+            SET NEW.Approvato = FALSE; -- Default
         END IF;
     ELSE
         SET NEW.Descrizione = NULL;
@@ -830,10 +831,11 @@ BEGIN
                             'allestimento.';
     END IF;
     
-        IF NEW.Tavolo IS NOT NULL AND PostiTavolo < NEW.Numero THEN
+    IF NEW.Tavolo IS NOT NULL THEN
+        IF PostiTavolo < NEW.Numero THEN
             SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Il tavolo scelto non ha un numero adeguato di '
-                                'posti.';
+            SET MESSAGE_TEXT = 'Il tavolo scelto non ha un numero adeguato '
+                            'di posti.';
         END IF;
 
         SET TavoloLibero = (SELECT SUM(P.Data >
@@ -912,7 +914,7 @@ BEFORE INSERT
 ON Valutazione
 FOR EACH ROW
 BEGIN
-    IF NEW.Veridicità < 1 OR NEW.Veridicità > 5 THEN
+    IF NEW.Veridicita < 1 OR NEW.Veridicita > 5 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Veridicita deve essere compreso tra 1 e 5';
     END IF;
@@ -937,6 +939,7 @@ BEGIN
         SET NEW.Numero = (SELECT IFNULL(MAX(Numero), 0) + 1
                             FROM Risposta
                             WHERE Domanda = NEW.Domanda);
+    END IF;
 END;$$
 
 DELIMITER ;
