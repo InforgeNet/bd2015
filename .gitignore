@@ -1,6 +1,9 @@
 ## Ignore output
 project.pdf
 
+## Ignore auto-generated script
+sql/unipi_project.sql
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
