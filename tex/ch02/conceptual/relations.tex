@@ -12,65 +12,227 @@ Relazione   & \specialcell{Entità A\\(Cardinalità)}
 Disponibilità
             & \specialcell{Sede\\(1,N)}
                             & \specialcell{Magazzino\\(1,1)}
-                                            & Una sede possiede uno o più magazzini.
-                                              Un magazzino appartiene a una e una
-                                              sola sede.
+& Una sede può avere uno o più magazzini. Un magazzino appartiene solo a una sede.
     \\ \hline % ----------------------------------------------------------------
 Stoccaggio  & \specialcell{Magazzino\\(0,N)}
                             & \specialcell{Confezione\\(0,1)}
-                                            & Le confezioni sono mantenute
-                                              all'interno dei magazzini. Una confezione,
-                                              rispetto a magazzino, può anche essere in ordine
-                                              (e quindi non in stoccaggio).
+& Le confezioni sono mantenute all'interno dei magazzini. Una confezione può anche essere in ordine (e quindi non in stoccaggio).
     \\ \hline % ----------------------------------------------------------------
-InOrdine    & \specialcell{Magazzino\\(0,N)}
+InOrdine
+            & \specialcell{Magazzino\\(0,N)}
                             & \specialcell{Confezione\\(0,1)}
-                                            & Se una confezione non è in stoccaggio
-                                              allora è in ordine. In questo caso
-                                              non dovrà avere alcuni attributi (Collocazione,
-                                              Aspetto, ecc.)
+& Una confezione può essere in ordine o in stoccaggio ad un solo magazzino. Un magazzino può avere in ordine molte confezioni.
     \\ \hline % ----------------------------------------------------------------
 Contenuto   & \specialcell{Confezione\\(1,1)}
                             & \specialcell{Ingrediente\\(0,N)}
-                                            & Una confezione contiene uno e un solo
-                                              tipo di ingrediente. Un certo ingrediente
-                                              può essere contenuto in più confezioni (anche
-                                              zero nel caso un ingrediente sia stato
-                                              esaurito).
+& Una confezione contiene un solo ingrediente. Un certo ingrediente può essere contenuto in più confezioni (zero nel caso di ingrediente esaurito).
     \\ \hline % ----------------------------------------------------------------
-Cucina      & \specialcell{Sede\\(0,N)}
-                            & \specialcell{Strumento\\(1,N)}
-                                            & La cucina mette in relazione gli strumenti
-                                              con la sede alla quale appartengono.
-                                              Dovrà riportare anche la quantità di strumenti
-                                              di un certo tipo appartenenti alla sede.
+Cucina
+            & \specialcell{Sede\\(0,N)}
+                            & \specialcell{Strumento\\(0,N)}
+& In una cucina della sede ci possono essere più tipologie di strumenti. Un tipo di strumento può essere utilizzato in più sedi.
     \\ \hline % ----------------------------------------------------------------
 Applicazione
             & \specialcell{Sede\\(1,N)}
                             & \specialcell{Menu\\(1,1)}
-                                            & Una sede applica un menu alla volta.
-                                              I menu passati vengono comunque mantenuti
-                                              ma un menu appartiene solo ad una sede
-                                              (nel caso di menu uguali in sedi diversi
-                                              saranno rappresentati come 2 menu diversi).
+& Una sede applica un menu alla volta. I menu passati vengono comunque mantenuti ma un menu appartiene solo ad una sede.
     \\ \hline % ----------------------------------------------------------------
 Elenco      & \specialcell{Menu\\(1,N)}
                             & \specialcell{Ricetta\\(0,N)}
-                                            & Una ricetta appartiene a zero o più menu
-                                              e un menu possiede più ricette (almeno una).
+& Una ricetta appartiene a zero o più menu e un menu possiede più ricette (almeno una).
     \\ \hline % ----------------------------------------------------------------
-% ...FASE...
+Procedimento
+            & \specialcell{Ricetta\\(1,N)}
+                            & \specialcell{Fase\\(1,1)}
+& Ogni ricetta è formata da almeno una fase. Ogni fase appartiene a una sola ricetta.
+    \\ \hline % ----------------------------------------------------------------
+Precedente
+            & \specialcell{Fase\\(0,N)}
+                            & \specialcell{Fase\\(0,N)}
+& Questa relazione permette di rappresentare la sequenza delle fasi. Una fase può precedere zero o più fasi e avere zero o più fasi precedenti.
+    \\ \hline % ----------------------------------------------------------------
+Aggiunta
+            & \specialcell{Fase\\(1,1)}
+                            & \specialcell{Ingrediente\\(0,N)}
+& Un ingrediente può essere usato da zero o più fasi. Una fase aggiunge al massimo un ingrediente.
+    \\ \hline % ----------------------------------------------------------------
+Utilizzo
+            & \specialcell{Fase\\(0,1)}
+                            & \specialcell{Strumento\\(0,N)}
+& Uno strumento può essere utilizzato in zero o più fasi. Una fase può utilizzare al massimo uno strumento.
+    \\ \hline % ----------------------------------------------------------------
 Produzione  & \specialcell{Ricetta\\(0,N)}
                             & \specialcell{Piatto\\(1,1)}
-                                            & Un piatto è prodotto secondo una e una sola
-                                              ricetta. Ogni ricetta può essere scelta
-                                              anche più volte da tanti clienti (e per ogni
-                                              scelta viene prodotto un piatto).
+& Un piatto è prodotto secondo una sola ricetta. Ogni ricetta può essere scelta anche più volte da tanti clienti (e per ogni scelta viene prodotto un piatto).
     \\ \hline % ----------------------------------------------------------------
-\ldots      & \specialcell{\ldots\\(\ldots)}
-                            & \specialcell{\ldots\\(\ldots)}
-                                            & \ldots
+Modifica
+            & \specialcell{Piatto\\(0,N)}
+                            & \specialcell{VariazionePiatto\\(0,N)}
+& Un piatto può applicare da zero a tre variazioni. Una variazione può essere scelta in più piatti (della stessa ricetta).
     \\ \hline % ----------------------------------------------------------------
-% ...VARIAZIONE...
-% ... continuare
+Procedura
+            & \specialcell{Variazione\\(1,N)}
+                            & \specialcell{ModificaFase\\(1,1)}
+& Una variazione prevede almeno la modifica di una fase. Ogni modifica di fase appartiene a una sola variazione.
+    \\ \hline % ----------------------------------------------------------------
+Nuova
+            & \specialcell{AggiuntaFase\\(1,1)}
+                            & \specialcell{Fase\\(0,N)}
+& Una aggiunta di fase può aggiungere una fase. Una fase può essere aggiunta da più aggiunte di fasi.
+    \\ \hline % ----------------------------------------------------------------
+Vecchia
+            & \specialcell{EliminazioneFase\\(1,1)}
+                            & \specialcell{Fase\\(0,N)}
+& Una eliminazione di fase può rimuovere una fase. Una fase può essere rimossa da più eliminazioni di fasi.
+    \\ \hline % ----------------------------------------------------------------
+Nuova
+            & \specialcell{SostituzioneFase\\(1,1)}
+                            & \specialcell{Fase\\(0,N)}
+& Una sostituzione di fase deve aggiungere una fase. Una fase può essere aggiunta in più sostituzioni di fasi.
+    \\ \hline % ----------------------------------------------------------------
+Vecchia
+            & \specialcell{SostituzioneFase\\(1,1)}
+                            & \specialcell{Fase\\(0,N)}
+& Una sostituzione di fase può rimuovere una fase. Una fase può essere rimossa in più sostituzioni di fasi.
+    \\ \hline % ----------------------------------------------------------------
+Ordine
+            & \specialcell{Comanda\\(1,N)}
+                            & \specialcell{Piatto\\(1,1)}
+& Una comanda può ordinare uno o più piatti. Ogni piatto è ordinato da una sola comanda. 
+    \\ \hline % ----------------------------------------------------------------
+Gestione
+            & \specialcell{Sede\\(0,N)}
+                            & \specialcell{Comanda\\(1,1)}
+& Una sede può aver ricevuto zero o più comande. Una comanda è inviata a una sola sede.
+    \\ \hline % ----------------------------------------------------------------
+Suddivisione
+            & \specialcell{Sede\\(1,N)}
+                            & \specialcell{Sala\\(1,1)}
+& Una sede è suddivisa in più sale, minimo una. Ogni sala appartiente a una Sede.
+    \\ \hline % ----------------------------------------------------------------
+Disposizione
+            & \specialcell{Sala\\(1,N)}
+                            & \specialcell{Tavolo\\(1,1)}
+& Una sala può contenere uno o più tavoli. Ogni tavolo è sempre situato in una sala.
+    \\ \hline % ----------------------------------------------------------------
+Mittente
+            & \specialcell{Tavolo\\(0,N)}
+                            & \specialcell{ComandaTavolo\\(1,1)}
+& Un tavolo può aver inviato zero o più comande. Una comanda è inviata da un solo tavolo.
+    \\ \hline % ----------------------------------------------------------------
+Richiesta
+            & \specialcell{ComandaTakeAway\\(0,1)}
+                            & \specialcell{Consegna\\(1,1)}
+& Ogni consegna corrisponde a una sola comanda. A una comanda viene associata una consegna solo quando è pronta.
+    \\ \hline % ----------------------------------------------------------------
+Flotta
+            & \specialcell{Sede\\(0,N)}
+                            & \specialcell{Pony\\(1,1)}
+& Un pony lavora presso una sola sede. Ogni flotta è composta anche da più pony.
+    \\ \hline % ----------------------------------------------------------------
+Trasporto
+            & \specialcell{Consegna\\(1,1)}
+                            & \specialcell{Pony\\(0,N)}
+& Un pony può aver effettuato zero o più consegne. Ogni consegna è gestita da un solo pony.
+    \\ \hline % ----------------------------------------------------------------
+Riserva
+            & \specialcell{Prenotazione\\(0,1)}
+                            & \specialcell{Tavolo\\(0,N)}
+& Un tavolo può essere stato riservato da più prenotazioni (in momenti diversi). Una prenotazione può riservare solo un tavolo.
+    \\ \hline % ----------------------------------------------------------------
+InvioPre
+            & \specialcell{PrenotazioneOnline\\(1,1)}
+                            & \specialcell{Account\\(0,N)}
+& Con un account è possibile effettuare prenotazioni online. Una prenotazione può essere effettuata da un solo account.
+    \\ \hline % ----------------------------------------------------------------
+Ordinazione
+            & \specialcell{Account\\(0,N)}
+                            & \specialcell{ComandaTakeAway\\(1,1)}
+& Da un account è possibile effettuare ordinazioni. Ogni comanda take-away è ordinata da un solo account.
+    \\ \hline % ----------------------------------------------------------------
+InvioPro
+            & \specialcell{Account\\(0,N)}
+                            & \specialcell{Proposta\\(1,1)}
+& Con un account è possibile inviare delle proposte. Ogni proposta è inviata da un solo account.
+    \\ \hline % ----------------------------------------------------------------
+Composizione
+            & \specialcell{Proposta\\(1,N)}
+                            & \specialcell{Ingrediente\\(0,N)}
+& Una proposta è composta da almeno un ingrediente. Un ingrediente può essere presente in zero o più proposte.
+    \\ \hline % ----------------------------------------------------------------
+InvioSug
+            & \specialcell{Account\\(0,N)}
+                            & \specialcell{Suggerimento\\(1,1)}
+& Un cliente che ha un account può rilasciare suggerimenti per le ricette. Un suggerimento può essere inviato da un solo account.
+    \\ \hline % ----------------------------------------------------------------
+InvioGra
+            & \specialcell{Account\\(0,N)}
+                            & \specialcell{Gradimento\\(1,1)}
+& Con un account è possibile inviare zero o più gradimenti. Ogni gradimento è inviato da un solo account.
+    \\ \hline % ----------------------------------------------------------------
+RiferimentoP 
+            & \specialcell{GradimentoProposta\\(1,1)}
+                            & \specialcell{Proposta\\(0,N)}
+& Una proposta può essere valutata da zero o più gradimenti. Ogni gradimento si riferisce solo a una proposta.
+    \\ \hline % ----------------------------------------------------------------
+RiferimentoS
+            & \specialcell{GradimentoSuggerimento\\(1,1)}
+                            & \specialcell{Suggerimento\\(0,N)}
+& Un gradimento valuta un solo suggerimento. Una suggerimento può essere valutato da zero o più gradimenti.
+    \\ \hline % ----------------------------------------------------------------
+Rilascio
+            & \specialcell{Account\\(0,N)}
+                            & \specialcell{Recensione\\(1,1)}
+& Con un account è possibile rilasciare più recensioni. Ogni recensione è rilasciata da un solo account.
+    \\ \hline % ----------------------------------------------------------------
+InvioVal
+            & \specialcell{Account\\(0,N)}
+                            & \specialcell{Valutazione\\(1,1)}
+& Con un account è possibile inviare valutazioni. Ogni valutazione è rilasciata da un solo account.
+    \\ \hline % ----------------------------------------------------------------
+RelativaA
+            & \specialcell{Valutazione\\(1,1)}
+                            & \specialcell{Recensione\\(0,N)}
+& Una recensione può avere nessuna o molte valutazioni. Ogni valutazione valuta una sola recensione.
+    \\ \hline % ----------------------------------------------------------------
+Consiglio
+            & \specialcell{Recensione\\(1,1)}
+                            & \specialcell{Ricetta\\(0,N)}
+& Ogni recensione si riferisce a una sola ricetta. Una ricetta può essere stata recensita zero o più volte.
+    \\ \hline % ----------------------------------------------------------------
+Relazione
+            & \specialcell{Sede\\(1,1)}
+                            & \specialcell{Questionario\\(1,1)}
+& Ogni sede ha uno e un solo questionario. Ogni questionario appartiene a una sola sede.
+    \\ \hline % ----------------------------------------------------------------
+Quiz
+            & \specialcell{Questionario\\(1,N)}
+                            & \specialcell{Domanda\\(1,1)}
+& Un questionario è composto da una o più domande. Una domanda appartiene a un solo questionario.
+    \\ \hline % ----------------------------------------------------------------
+Opzione
+            & \specialcell{Domanda\\(1,N)}
+                            & \specialcell{Risposta\\(1,1)}
+& Una domanda può avere una o più risposte (di solito almeno due). Ogni risposta si riferisce a una sola domanda.
+    \\ \hline % ----------------------------------------------------------------
+IstanzaDi
+            & \specialcell{Questionario\\(0,N)}
+                            & \specialcell{QuestionarioSvolto\\(1,1)}
+& Un questionario svolto è istanza di un solo questionario. Un questionario può essere svolto da diverse persone in diverse recensioni.
+    \\ \hline % ----------------------------------------------------------------
+Compilazione
+            & \specialcell{QuestionarioSvolto\\(1,N)}
+                            & \specialcell{Risposta\\(0,1)}
+& Un questionario svolto contiene le risposte alle domande. Una risposta può essere stata data in zero o più questionari svolti.
+    \\ \hline % ----------------------------------------------------------------
+Appartenenza
+            & \specialcell{QuestionarioSvolto\\(1,1)}
+                            & \specialcell{Recensione\\(1,1)}
+& Un questionario svolto appartiene a una e una sola recensione. Una recensione ha un solo questionario svolto.
+    \\ \hline % ----------------------------------------------------------------
+SerataTema
+            & \specialcell{Allestimento\\(1,1)}
+                            & \specialcell{Sala\\(0,N)}
+& Un'allestimento prenota una sola sala per una serata a tema. In una sala possono essere state svolte zero o più serate a tema.
+    \\ \hline % ----------------------------------------------------------------
 \end{longtabu} }
