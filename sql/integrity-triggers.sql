@@ -110,7 +110,7 @@ BEGIN
         SET NEW.Testo = NULL;
         IF NEW.Strumento IS NOT NULL THEN
             SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Una fase deve impiegare o uno strumento o un '
+            SET MESSAGE_TEXT = 'Una fase può impiegare o uno strumento o un '
                                 'ingrediente. Non entrambi.';
         END IF;
         IF NEW.Dose IS NULL THEN
@@ -123,19 +123,14 @@ BEGIN
     ELSE
         SET NEW.Dose = NULL;
         SET NEW.Primario = NULL;
-        IF NEW.Strumento IS NULL THEN
+
+        IF NEW.Durata = NULL THEN
+            SET NEW.Durata = '00:00:00'; -- Default
+        END IF;
+        IF NEW.Testo = NULL THEN
             SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Una fase deve specificare o un ingrediente o '
-                                'uno strumento.';
-        ELSE
-            IF NEW.Durata = NULL THEN
-                SET NEW.Durata = '00:00:00'; -- Default
-            END IF;
-            IF NEW.Testo = NULL THEN
-                SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'L\'attributo Testo deve essere '
-                                    'specificato.';
-            END IF;
+            SET MESSAGE_TEXT = 'L\'attributo Testo deve essere '
+                                'specificato.';
         END IF;
     END IF;
 END;$$
@@ -150,7 +145,7 @@ BEGIN
         SET NEW.Testo = NULL;
         IF NEW.Strumento IS NOT NULL THEN
             SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Una fase deve impiegare o uno strumento o un '
+            SET MESSAGE_TEXT = 'Una fase può impiegare o uno strumento o un '
                                 'ingrediente. Non entrambi.';
         END IF;
         IF NEW.Dose IS NULL THEN
@@ -163,19 +158,14 @@ BEGIN
     ELSE
         SET NEW.Dose = NULL;
         SET NEW.Primario = NULL;
-        IF NEW.Strumento IS NULL THEN
+
+        IF NEW.Durata = NULL THEN
+            SET NEW.Durata = '00:00:00'; -- Default
+        END IF;
+        IF NEW.Testo = NULL THEN
             SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Una fase deve specificare o un ingrediente o '
-                                'uno strumento.';
-        ELSE
-            IF NEW.Durata = NULL THEN
-                SET NEW.Durata = '00:00:00'; -- Default
-            END IF;
-            IF NEW.Testo = NULL THEN
-                SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'L\'attributo Testo deve essere '
-                                    'specificato.';
-            END IF;
+            SET MESSAGE_TEXT = 'L\'attributo Testo deve essere '
+                                'specificato.';
         END IF;
     END IF;
 END;$$
