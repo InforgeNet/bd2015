@@ -1,454 +1,279 @@
-INSERT INTO Sede(Nome, Citta, CAP, Via, NumeroCivico) VALUES ('Pizzeria da Cecco', 'Milano', 20121, 'Mercato', 3);
-INSERT INTO Sede(Nome, Citta, CAP, Via, NumeroCivico) VALUES ('L\'ostrica ubriaca', 'Golfo Aranci', 07020, 'Libertà', 10);
-INSERT INTO Sede(Nome, Citta, CAP, Via, NumeroCivico) VALUES ('Il girasole', 'Torino', 10138, 'Giambattista Gropello', 17);
-INSERT INTO Sede(Nome, Citta, CAP, Via, NumeroCivico) VALUES ('Il pozzo', 'Milano', 20121, 'S. Carpoforo', 7);
-INSERT INTO Sede(Nome, Citta, CAP, Via, NumeroCivico) VALUES ('Ristorante da Giovanni', 'Cagliari', 09127, 'Giardini', 147);
-INSERT INTO Sede(Nome, Citta, CAP, Via, NumeroCivico) VALUES ('Ristorante Venezia', 'Viareggio', 55049, 'Michele Coppino', 201);
-INSERT INTO Sede(Nome, Citta, CAP, Via, NumeroCivico) VALUES ('Il paiolo magico', 'Livorno', 57125, 'Calzabigi', 13);
-INSERT INTO Sede(Nome, Citta, CAP, Via, NumeroCivico) VALUES ('Pizzeria da Gennaro', 'Napoli', 80124, 'Lucio Silla', 67);
-INSERT INTO Sede(Nome, Citta, CAP, Via, NumeroCivico) VALUES ('L\'aragosta', 'Viareggio', 57121, 'Piero Gobetti', 10);
-INSERT INTO Sede(Nome, Citta, CAP, Via, NumeroCivico) VALUES ('Tatooine', 'Roma', 00165, 'San Francesco di Sales', 16);
+INSERT INTO Sede(Nome, Citta, CAP, Via, NumeroCivico) VALUES
+('Pizzeria da Cecco', 'Milano', 20121, 'Mercato', 3),
+('L\'ostrica ubriaca', 'Golfo Aranci', 07020, 'Libertà', 10),
+('Il girasole', 'Torino', 10138, 'Giambattista Gropello', 17),
+('Il pozzo', 'Milano', 20121, 'S. Carpoforo', 7),
+('Ristorante da Giovanni', 'Cagliari', 09127, 'Giardini', 147),
+('Ristorante Venezia', 'Viareggio', 55049, 'Michele Coppino', 201),
+('Il paiolo magico', 'Livorno', 57125, 'Calzabigi', 13),
+('Pizzeria da Gennaro', 'Napoli', 80124, 'Lucio Silla', 67),
+('L\'aragosta', 'Viareggio', 57121, 'Piero Gobetti', 10),
+('Tatooine', 'Roma', 00165, 'San Francesco di Sales', 16);
 
-INSERT INTO Magazzino(Sede, ID) VALUES ('Pizzeria da Cecco', NULL);
-INSERT INTO Magazzino(Sede, ID) VALUES ('L\'ostrica ubriaca', NULL);
-INSERT INTO Magazzino(Sede, ID) VALUES ('L\'ostrica ubriaca', NULL);
-INSERT INTO Magazzino(Sede, ID) VALUES ('Il girasole', NULL);
-INSERT INTO Magazzino(Sede, ID) VALUES ('Il pozzo', NULL);
-INSERT INTO Magazzino(Sede, ID) VALUES ('Ristorante da Giovanni', NULL);
-INSERT INTO Magazzino(Sede, ID) VALUES ('Ristorante Venezia', NULL);
-INSERT INTO Magazzino(Sede, ID) VALUES ('Ristorante Venezia', NULL);
-INSERT INTO Magazzino(Sede, ID) VALUES ('Il paiolo magico', NULL);
-INSERT INTO Magazzino(Sede, ID) VALUES ('Il paiolo magico', NULL);
-INSERT INTO Magazzino(Sede, ID) VALUES ('Il paiolo magico', NULL);
-INSERT INTO Magazzino(Sede, ID) VALUES ('Pizzeria da Gennaro', NULL);
-INSERT INTO Magazzino(Sede, ID) VALUES ('L\'aragosta', NULL);
-INSERT INTO Magazzino(Sede, ID) VALUES ('Tatooine', NULL);
+INSERT INTO Magazzino(Sede, ID) VALUES
+('Pizzeria da Cecco', NULL),            ('L\'ostrica ubriaca', NULL),
+('L\'ostrica ubriaca', NULL),           ('Il girasole', NULL),
+('Il pozzo', NULL),                     ('Ristorante da Giovanni', NULL),
+('Ristorante Venezia', NULL),           ('Ristorante Venezia', NULL),
+('Il paiolo magico', NULL),             ('Il paiolo magico', NULL),
+('Il paiolo magico', NULL),             ('Pizzeria da Gennaro', NULL),
+('L\'aragosta', NULL),                  ('Tatooine', NULL);
 
-INSERT INTO Sala(Sede, Numero) VALUES ('Pizzeria da Cecco', NULL);
-INSERT INTO Sala(Sede, Numero) VALUES ('L\'ostrica ubriaca', NULL);
-INSERT INTO Sala(Sede, Numero) VALUES ('L\'ostrica ubriaca', NULL);
-INSERT INTO Sala(Sede, Numero) VALUES ('Il girasole', NULL);
-INSERT INTO Sala(Sede, Numero) VALUES ('Il girasole', NULL);
-INSERT INTO Sala(Sede, Numero) VALUES ('Il pozzo', NULL);
-INSERT INTO Sala(Sede, Numero) VALUES ('Ristorante da Giovanni', NULL);
-INSERT INTO Sala(Sede, Numero) VALUES ('Ristorante Venezia', NULL);
-INSERT INTO Sala(Sede, Numero) VALUES ('Il paiolo magico', NULL);
-INSERT INTO Sala(Sede, Numero) VALUES ('Il paiolo magico', NULL);
-INSERT INTO Sala(Sede, Numero) VALUES ('Il paiolo magico', NULL);
-INSERT INTO Sala(Sede, Numero) VALUES ('Pizzeria da Gennaro', NULL);
-INSERT INTO Sala(Sede, Numero) VALUES ('Pizzeria da Gennaro', NULL);
-INSERT INTO Sala(Sede, Numero) VALUES ('Pizzeria da Gennaro', NULL);
-INSERT INTO Sala(Sede, Numero) VALUES ('L\'aragosta', NULL);
-INSERT INTO Sala(Sede, Numero) VALUES ('Tatooine', NULL);
+INSERT INTO Sala(Sede, Numero) VALUES
+('Pizzeria da Cecco', NULL),            ('L\'ostrica ubriaca', NULL),
+('L\'ostrica ubriaca', NULL),           ('Il girasole', NULL),
+('Il girasole', NULL),                  ('Il pozzo', NULL),
+('Ristorante da Giovanni', NULL),       ('Ristorante Venezia', NULL),
+('Il paiolo magico', NULL),             ('Il paiolo magico', NULL),
+('Il paiolo magico', NULL),             ('Pizzeria da Gennaro', NULL),
+('Pizzeria da Gennaro', NULL),          ('Pizzeria da Gennaro', NULL),
+('L\'aragosta', NULL),                  ('Tatooine', NULL);
 
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 12);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 12);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 14);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Cecco', 1, NULL, 16);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 5);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 14);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 15);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 16);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 1, NULL, 16);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 5);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 5);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 12);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 14);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'ostrica ubriaca', 2, NULL, 14);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 1, NULL, 5);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 2, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 2, NULL, 12);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 2, NULL, 16);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il girasole', 2, NULL, 16);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 5);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 12);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 12);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 12);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 12);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 12);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 14);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 14);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 15);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il pozzo', 1, NULL, 15);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 16);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante da Giovanni', 1, NULL, 16);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 5);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 12);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 12);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 14);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 15);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 16);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Ristorante Venezia', 1, NULL, 18);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 5);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 14);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 16);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 18);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 1, NULL, 18);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 5);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 5);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 12);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 12);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 14);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 14);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 15);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 18);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 20);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Il paiolo magico', 3, NULL, 24);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 2, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 2, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 2, NULL, 5);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 2, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 2, NULL, 15);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 3, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 3, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 3, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 3, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 3, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 3, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 3, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 3, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Pizzeria da Gennaro', 3, NULL, 12);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'aragosta', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'aragosta', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'aragosta', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'aragosta', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'aragosta', 1, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'aragosta', 1, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'aragosta', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'aragosta', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'aragosta', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'aragosta', 1, NULL, 5);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'aragosta', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'aragosta', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'aragosta', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'aragosta', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('L\'aragosta', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 2);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 3);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 4);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 5);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 6);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 8);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 10);
-INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES ('Tatooine', 1, NULL, 12);
+INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES
+('Pizzeria da Cecco', 1, NULL, 2),      ('Pizzeria da Cecco', 1, NULL, 2),
+('Pizzeria da Cecco', 1, NULL, 2),      ('Pizzeria da Cecco', 1, NULL, 3),
+('Pizzeria da Cecco', 1, NULL, 3),      ('Pizzeria da Cecco', 1, NULL, 4),
+('Pizzeria da Cecco', 1, NULL, 4),      ('Pizzeria da Cecco', 1, NULL, 4),
+('Pizzeria da Cecco', 1, NULL, 6),      ('Pizzeria da Cecco', 1, NULL, 6),
+('Pizzeria da Cecco', 1, NULL, 8),      ('Pizzeria da Cecco', 1, NULL, 8),
+('Pizzeria da Cecco', 1, NULL, 10),     ('Pizzeria da Cecco', 1, NULL, 12),
+('Pizzeria da Cecco', 1, NULL, 12),     ('Pizzeria da Cecco', 1, NULL, 14),
+('Pizzeria da Cecco', 1, NULL, 16),     ('L\'ostrica ubriaca', 1, NULL, 2),
+('L\'ostrica ubriaca', 1, NULL, 2),     ('L\'ostrica ubriaca', 1, NULL, 2),
+('L\'ostrica ubriaca', 1, NULL, 2),     ('L\'ostrica ubriaca', 1, NULL, 2),
+('L\'ostrica ubriaca', 1, NULL, 3),     ('L\'ostrica ubriaca', 1, NULL, 3),
+('L\'ostrica ubriaca', 1, NULL, 4),     ('L\'ostrica ubriaca', 1, NULL, 4),
+('L\'ostrica ubriaca', 1, NULL, 4),     ('L\'ostrica ubriaca', 1, NULL, 4),
+('L\'ostrica ubriaca', 1, NULL, 5),     ('L\'ostrica ubriaca', 1, NULL, 6),
+('L\'ostrica ubriaca', 1, NULL, 6),     ('L\'ostrica ubriaca', 1, NULL, 10),
+('L\'ostrica ubriaca', 1, NULL, 10),    ('L\'ostrica ubriaca', 1, NULL, 14),
+('L\'ostrica ubriaca', 1, NULL, 15),    ('L\'ostrica ubriaca', 1, NULL, 16),
+('L\'ostrica ubriaca', 1, NULL, 16),    ('L\'ostrica ubriaca', 2, NULL, 2),
+('L\'ostrica ubriaca', 2, NULL, 2),     ('L\'ostrica ubriaca', 2, NULL, 2),
+('L\'ostrica ubriaca', 2, NULL, 2),     ('L\'ostrica ubriaca', 2, NULL, 2),
+('L\'ostrica ubriaca', 2, NULL, 2),     ('L\'ostrica ubriaca', 2, NULL, 3),
+('L\'ostrica ubriaca', 2, NULL, 4),     ('L\'ostrica ubriaca', 2, NULL, 4),
+('L\'ostrica ubriaca', 2, NULL, 4),     ('L\'ostrica ubriaca', 2, NULL, 4),
+('L\'ostrica ubriaca', 2, NULL, 5),     ('L\'ostrica ubriaca', 2, NULL, 5),
+('L\'ostrica ubriaca', 2, NULL, 6),     ('L\'ostrica ubriaca', 2, NULL, 6),
+('L\'ostrica ubriaca', 2, NULL, 6),     ('L\'ostrica ubriaca', 2, NULL, 8),
+('L\'ostrica ubriaca', 2, NULL, 10),    ('L\'ostrica ubriaca', 2, NULL, 12),
+('L\'ostrica ubriaca', 2, NULL, 14),    ('L\'ostrica ubriaca', 2, NULL, 14),
+('Il girasole', 1, NULL, 2),            ('Il girasole', 1, NULL, 2),
+('Il girasole', 1, NULL, 2),            ('Il girasole', 1, NULL, 4),
+('Il girasole', 1, NULL, 4),            ('Il girasole', 1, NULL, 4),
+('Il girasole', 1, NULL, 4),            ('Il girasole', 1, NULL, 4),
+('Il girasole', 1, NULL, 5),            ('Il girasole', 1, NULL, 6),
+('Il girasole', 1, NULL, 8),            ('Il girasole', 1, NULL, 8),
+('Il girasole', 2, NULL, 4),            ('Il girasole', 2, NULL, 4),
+('Il girasole', 2, NULL, 4),            ('Il girasole', 2, NULL, 4),
+('Il girasole', 2, NULL, 10),           ('Il girasole', 2, NULL, 12),
+('Il girasole', 2, NULL, 16),           ('Il girasole', 2, NULL, 16),
+('Il pozzo', 1, NULL, 2),               ('Il pozzo', 1, NULL, 2),
+('Il pozzo', 1, NULL, 2),               ('Il pozzo', 1, NULL, 2),
+('Il pozzo', 1, NULL, 2),               ('Il pozzo', 1, NULL, 2),
+('Il pozzo', 1, NULL, 2),               ('Il pozzo', 1, NULL, 2),
+('Il pozzo', 1, NULL, 3),               ('Il pozzo', 1, NULL, 3),
+('Il pozzo', 1, NULL, 4),               ('Il pozzo', 1, NULL, 4),
+('Il pozzo', 1, NULL, 4),               ('Il pozzo', 1, NULL, 4),
+('Il pozzo', 1, NULL, 4),               ('Il pozzo', 1, NULL, 4),
+('Il pozzo', 1, NULL, 5),               ('Il pozzo', 1, NULL, 6),
+('Il pozzo', 1, NULL, 6),               ('Il pozzo', 1, NULL, 8),
+('Il pozzo', 1, NULL, 8),               ('Il pozzo', 1, NULL, 8),
+('Il pozzo', 1, NULL, 8),               ('Il pozzo', 1, NULL, 8),
+('Il pozzo', 1, NULL, 10),              ('Il pozzo', 1, NULL, 12),
+('Il pozzo', 1, NULL, 12),              ('Il pozzo', 1, NULL, 12),
+('Il pozzo', 1, NULL, 12),              ('Il pozzo', 1, NULL, 12),
+('Il pozzo', 1, NULL, 14),              ('Il pozzo', 1, NULL, 14),
+('Il pozzo', 1, NULL, 15),              ('Il pozzo', 1, NULL, 15),
+('Ristorante da Giovanni', 1, NULL, 2), ('Ristorante da Giovanni', 1, NULL, 2),
+('Ristorante da Giovanni', 1, NULL, 3), ('Ristorante da Giovanni', 1, NULL, 3),
+('Ristorante da Giovanni', 1, NULL, 4), ('Ristorante da Giovanni', 1, NULL, 4),
+('Ristorante da Giovanni', 1, NULL, 4), ('Ristorante da Giovanni', 1, NULL, 6),
+('Ristorante da Giovanni', 1, NULL, 6), ('Ristorante da Giovanni', 1, NULL, 6),
+('Ristorante da Giovanni', 1, NULL, 8), ('Ristorante da Giovanni', 1, NULL, 8),
+('Ristorante da Giovanni', 1, NULL, 10),('Ristorante da Giovanni', 1, NULL, 10),
+('Ristorante da Giovanni', 1, NULL, 10),('Ristorante da Giovanni', 1, NULL, 16),
+('Ristorante da Giovanni', 1, NULL, 16),('Ristorante Venezia', 1, NULL, 2),
+('Ristorante Venezia', 1, NULL, 2),     ('Ristorante Venezia', 1, NULL, 2),
+('Ristorante Venezia', 1, NULL, 2),     ('Ristorante Venezia', 1, NULL, 2),
+('Ristorante Venezia', 1, NULL, 4),     ('Ristorante Venezia', 1, NULL, 4),
+('Ristorante Venezia', 1, NULL, 4),     ('Ristorante Venezia', 1, NULL, 4),
+('Ristorante Venezia', 1, NULL, 4),     ('Ristorante Venezia', 1, NULL, 5),
+('Ristorante Venezia', 1, NULL, 6),     ('Ristorante Venezia', 1, NULL, 6),
+('Ristorante Venezia', 1, NULL, 6),     ('Ristorante Venezia', 1, NULL, 8),
+('Ristorante Venezia', 1, NULL, 8),     ('Ristorante Venezia', 1, NULL, 10),
+('Ristorante Venezia', 1, NULL, 10),    ('Ristorante Venezia', 1, NULL, 12),
+('Ristorante Venezia', 1, NULL, 12),    ('Ristorante Venezia', 1, NULL, 14),
+('Ristorante Venezia', 1, NULL, 15),    ('Ristorante Venezia', 1, NULL, 16),
+('Ristorante Venezia', 1, NULL, 18),    ('Il paiolo magico', 1, NULL, 2),
+('Il paiolo magico', 1, NULL, 2),       ('Il paiolo magico', 1, NULL, 2),
+('Il paiolo magico', 1, NULL, 2),       ('Il paiolo magico', 1, NULL, 2),
+('Il paiolo magico', 1, NULL, 3),       ('Il paiolo magico', 1, NULL, 3),
+('Il paiolo magico', 1, NULL, 4),       ('Il paiolo magico', 1, NULL, 4),
+('Il paiolo magico', 1, NULL, 4),       ('Il paiolo magico', 1, NULL, 4),
+('Il paiolo magico', 1, NULL, 4),       ('Il paiolo magico', 1, NULL, 4),
+('Il paiolo magico', 1, NULL, 5),       ('Il paiolo magico', 1, NULL, 6),
+('Il paiolo magico', 1, NULL, 6),       ('Il paiolo magico', 1, NULL, 8),
+('Il paiolo magico', 1, NULL, 10),      ('Il paiolo magico', 1, NULL, 10),
+('Il paiolo magico', 1, NULL, 14),      ('Il paiolo magico', 1, NULL, 16),
+('Il paiolo magico', 1, NULL, 18),      ('Il paiolo magico', 1, NULL, 18),
+('Il paiolo magico', 2, NULL, 2),       ('Il paiolo magico', 2, NULL, 2),
+('Il paiolo magico', 2, NULL, 2),       ('Il paiolo magico', 2, NULL, 2),
+('Il paiolo magico', 2, NULL, 2),       ('Il paiolo magico', 2, NULL, 2),
+('Il paiolo magico', 2, NULL, 2),       ('Il paiolo magico', 2, NULL, 4),
+('Il paiolo magico', 2, NULL, 4),       ('Il paiolo magico', 2, NULL, 4),
+('Il paiolo magico', 2, NULL, 4),       ('Il paiolo magico', 2, NULL, 4),
+('Il paiolo magico', 3, NULL, 2),       ('Il paiolo magico', 3, NULL, 2),
+('Il paiolo magico', 3, NULL, 2),       ('Il paiolo magico', 3, NULL, 2),
+('Il paiolo magico', 3, NULL, 2),       ('Il paiolo magico', 3, NULL, 2),
+('Il paiolo magico', 3, NULL, 3),       ('Il paiolo magico', 3, NULL, 3),
+('Il paiolo magico', 3, NULL, 4),       ('Il paiolo magico', 3, NULL, 4),
+('Il paiolo magico', 3, NULL, 4),       ('Il paiolo magico', 3, NULL, 4),
+('Il paiolo magico', 3, NULL, 5),       ('Il paiolo magico', 3, NULL, 5),
+('Il paiolo magico', 3, NULL, 6),       ('Il paiolo magico', 3, NULL, 6),
+('Il paiolo magico', 3, NULL, 6),       ('Il paiolo magico', 3, NULL, 8),
+('Il paiolo magico', 3, NULL, 8),       ('Il paiolo magico', 3, NULL, 10),
+('Il paiolo magico', 3, NULL, 10),      ('Il paiolo magico', 3, NULL, 10),
+('Il paiolo magico', 3, NULL, 12),      ('Il paiolo magico', 3, NULL, 12),
+('Il paiolo magico', 3, NULL, 14),      ('Il paiolo magico', 3, NULL, 14),
+('Il paiolo magico', 3, NULL, 15),      ('Il paiolo magico', 3, NULL, 18),
+('Il paiolo magico', 3, NULL, 20),      ('Il paiolo magico', 3, NULL, 24),
+('Pizzeria da Gennaro', 1, NULL, 2),    ('Pizzeria da Gennaro', 1, NULL, 2),
+('Pizzeria da Gennaro', 1, NULL, 2),    ('Pizzeria da Gennaro', 1, NULL, 2),
+('Pizzeria da Gennaro', 1, NULL, 4),    ('Pizzeria da Gennaro', 1, NULL, 4),
+('Pizzeria da Gennaro', 1, NULL, 4),    ('Pizzeria da Gennaro', 1, NULL, 6),
+('Pizzeria da Gennaro', 1, NULL, 8),    ('Pizzeria da Gennaro', 2, NULL, 2),
+('Pizzeria da Gennaro', 2, NULL, 2),    ('Pizzeria da Gennaro', 2, NULL, 2),
+('Pizzeria da Gennaro', 2, NULL, 2),    ('Pizzeria da Gennaro', 2, NULL, 2),
+('Pizzeria da Gennaro', 2, NULL, 4),    ('Pizzeria da Gennaro', 2, NULL, 4),
+('Pizzeria da Gennaro', 2, NULL, 4),    ('Pizzeria da Gennaro', 2, NULL, 4),
+('Pizzeria da Gennaro', 2, NULL, 5),    ('Pizzeria da Gennaro', 2, NULL, 8),
+('Pizzeria da Gennaro', 2, NULL, 15),   ('Pizzeria da Gennaro', 3, NULL, 2),
+('Pizzeria da Gennaro', 3, NULL, 2),    ('Pizzeria da Gennaro', 3, NULL, 3),
+('Pizzeria da Gennaro', 3, NULL, 4),    ('Pizzeria da Gennaro', 3, NULL, 4),
+('Pizzeria da Gennaro', 3, NULL, 6),    ('Pizzeria da Gennaro', 3, NULL, 6),
+('Pizzeria da Gennaro', 3, NULL, 10),   ('Pizzeria da Gennaro', 3, NULL, 12),
+('L\'aragosta', 1, NULL, 2),            ('L\'aragosta', 1, NULL, 2),
+('L\'aragosta', 1, NULL, 2),            ('L\'aragosta', 1, NULL, 2),
+('L\'aragosta', 1, NULL, 3),            ('L\'aragosta', 1, NULL, 3),
+('L\'aragosta', 1, NULL, 4),            ('L\'aragosta', 1, NULL, 4),
+('L\'aragosta', 1, NULL, 4),            ('L\'aragosta', 1, NULL, 5),
+('L\'aragosta', 1, NULL, 6),            ('L\'aragosta', 1, NULL, 6),
+('L\'aragosta', 1, NULL, 8),            ('L\'aragosta', 1, NULL, 10),
+('L\'aragosta', 1, NULL, 10),           ('Tatooine', 1, NULL, 2),
+('Tatooine', 1, NULL, 2),               ('Tatooine', 1, NULL, 2),
+('Tatooine', 1, NULL, 2),               ('Tatooine', 1, NULL, 2),
+('Tatooine', 1, NULL, 2),               ('Tatooine', 1, NULL, 3),
+('Tatooine', 1, NULL, 3),               ('Tatooine', 1, NULL, 4),
+('Tatooine', 1, NULL, 4),               ('Tatooine', 1, NULL, 4),
+('Tatooine', 1, NULL, 4),               ('Tatooine', 1, NULL, 5),
+('Tatooine', 1, NULL, 6),               ('Tatooine', 1, NULL, 6),
+('Tatooine', 1, NULL, 8),               ('Tatooine', 1, NULL, 8),
+('Tatooine', 1, NULL, 10),              ('Tatooine', 1, NULL, 10),
+('Tatooine', 1, NULL, 10),              ('Tatooine', 1, NULL, 12);
 
-INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via, NumeroCivico, Telefono) VALUES ('Expinguith59', 'ritabeneventi@gmail.com', 'fd13d544b4e1b8edc45f9afa166768d1', 'Rita', 'Beneventi', 'Messina', 98125, 'San Domenico Soriano', 42, 03356005799);
-INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via, NumeroCivico, Telefono) VALUES ('Lopurter', 'giulianagallo@hotmail.it', '0a075e925efc9f88680a078384bd8220', 'Giuliana', 'Gallo', 'Renate', 20055, 'San Cosmo', 142, 3342718302);
-INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via, NumeroCivico, Telefono) VALUES ('DCattaneo', 'dcattaneo@gmail.com', 'b19348e0258035828fa08ea5eb624aac', 'Delinda', 'Cattaneo', 'Milano', 20121, 'Hoepli', 6, 3318428014);
-INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via, NumeroCivico, Telefono) VALUES ('Monan1980', 'p.costa@live.it', 'a1bed8ee8ee314d3cd701986d4dd9d68', 'Pantaleone', 'Costa', 'Mezzana Bigli', 27030, 'Alessandro Manzoni', 33, 03647734886);
-INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via, NumeroCivico, Telefono) VALUES ('Nhoya', 'nhoyaif@insicuri.net', 'b616ea18bd0dc06b412ed37d6a4f1ab8', 'Francesco', 'Giordano', 'Cagliari', 09127, 'Ottone Bacaredda', 97, 3313342124);
-INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via, NumeroCivico, Telefono) VALUES ('domenicoboni', 'domenicoboni@gmail.com', '1b7039dce362525ab13e4ec48adc5f04', 'Domenico', 'Boni', 'Livorno', 57128, 'dell\'Ardenza', 80, 0586282497);
-INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via, NumeroCivico, Telefono) VALUES ('lorythebest', 'lorythebest@outlook.com', 'd50393f04f7d81491f2c8e393bc2ff6e', 'Ilda', 'Lori', 'Viareggio', 57121, 'Piero Gobetti', 11, 3348468115);
-INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via, NumeroCivico, Telefono) VALUES ('murdercode', 'murdersexy@inforge.net', '2bfd12dabc628020c97d396e039a731f', 'Stefano', 'Novelli', 'Golfo Aranci', 07020, 'Libertà', 179, 3339282019);
-INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via, NumeroCivico, Telefono) VALUES ('lolasd', 'dfijdefierku@guerrillamail.com', 'd40d7a569d5a84e404ccc6c2b44a4165', 'Matteo', 'De Luca', 'Milano', 44444, 'Giuseppe Garibaldi', 15, 3333333333);
-INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via, NumeroCivico, Telefono) VALUES ('SpeedJack', 'speedjack@inforge.net', '9173039d5e505f44dfa151663ce5ee52', 'Niccolò', 'Scatena', 'Pisa', 56124, 'Pungilupo', 7, 3314432120);
-INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via, NumeroCivico, Telefono) VALUES ('Serendipity', 'grazia.casci@yahoo.com', 'f68c4445228eb1b1a49e3df10f2d51df', 'Grazia', 'Casci', 'Pisa', 56124, 'Caduti El-Alamein', 12, 3347282923);
-INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via, NumeroCivico, Telefono) VALUES ('maffeimarraccini', 'gabri95@gmail.com', 'd7938f4f7741d580a1056771b62a62b9', 'Gabriele', 'Marraccini', 'Roma', 00163, 'Ernesto Guevara', 8, 3348293712);
-INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via, NumeroCivico, Telefono) VALUES ('lorytony', 'lorenzo.tone@hotmail.it', '54d2188aa605e98ab72134125afa108e', 'Lorenzo', 'Tonelli', 'Torino', 10134, 'Corso Re Umberto', 7, 3313738263);
+INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via,
+    NumeroCivico, Telefono) VALUES
+('Expinguith59', 'ritabeneventi@gmail.com', '0d13d544b4e1b8edc45f9afa166768d1',
+    'Rita', 'Beneventi', 'Messina', 98125, 'San Domenico Soriano', 42,
+    03356005799),
+('Lopurter', 'giulianagallo@hotmail.it', '1a075e925efc9f88680a078384bd8220',
+    'Giuliana', 'Gallo', 'Renate', 20055, 'San Cosmo', 142, 3342718302),
+('DCattaneo', 'dcattaneo@gmail.com', '219348e0258035828fa08ea5eb624aac',
+    'Delinda', 'Cattaneo', 'Milano', 20121, 'Hoepli', 6, 3318428014),
+('Monan1980', 'p.costa@live.it', '31bed8ee8ee314d3cd701986d4dd9d68',
+    'Pantaleone', 'Costa', 'Mezzana Bigli', 27030, 'Alessandro Manzoni', 33,
+    03647734886),
+('Nhoya', 'nhoyaif@insicuri.net', '4616ea18bd0dc06b412ed37d6a4f1ab8',
+    'Francesco', 'Giordano', 'Cagliari', 09127, 'Ottone Bacaredda', 97,
+    3313342124),
+('domenicoboni', 'domenicoboni@gmail.com', '5b7039dce362525ab13e4ec48adc5f04',
+    'Domenico', 'Boni', 'Livorno', 57128, 'dell\'Ardenza', 80, 0586282497),
+('lorythebest', 'lorythebest@outlook.com', '650393f04f7d81491f2c8e393bc2ff6e',
+    'Ilda', 'Lori', 'Viareggio', 57121, 'Piero Gobetti', 11, 3348468115),
+('murdercode', 'murdersexy@inforge.net', '7bfd12dabc628020c97d396e039a731f',
+    'Stefano', 'Novelli', 'Golfo Aranci', 07020, 'Libertà', 179, 3339282019),
+('lolasd', 'dfijdefierku@guerrillamail.com', '840d7a569d5a84e404ccc6c2b44a4165',
+    'Matteo', 'De Luca', 'Milano', 44444, 'Giuseppe Garibaldi', 15, 3333333333),
+('SpeedJack', 'speedjack@inforge.net', '9173039d5e505f44dfa151663ce5ee52',
+    'Niccolò', 'Scatena', 'Pisa', 56124, 'Pungilupo', 7, 3314432120),
+('Serendipity', 'grazia.casci@yahoo.com', 'a68c4445228eb1b1a49e3df10f2d51df',
+    'Grazia', 'Casci', 'Pisa', 56124, 'Caduti El-Alamein', 12, 3347282923),
+('maffeimarraccini', 'gabri95@gmail.com', 'b7938f4f7741d580a1056771b62a62b9',
+    'Gabriele', 'Marraccini', 'Roma', 00163, 'Ernesto Guevara', 8, 3348293712),
+('lorytony', 'lorenzo.tone@hotmail.it', 'c4d2188aa605e98ab72134125afa108e',
+    'Lorenzo', 'Tonelli', 'Torino', 10134, 'Corso Re Umberto', 7, 3313738263);
 
-INSERT INTO Pony(Sede, ID) VALUES ('Pizzeria da Cecco', NULL);
-INSERT INTO Pony(Sede, ID) VALUES ('L\'ostrica ubriaca', NULL);
-INSERT INTO Pony(Sede, ID) VALUES ('L\'ostrica ubriaca', NULL);
-INSERT INTO Pony(Sede, ID) VALUES ('Il girasole', NULL);
-INSERT INTO Pony(Sede, ID) VALUES ('Il pozzo', NULL);
-INSERT INTO Pony(Sede, ID, Ruote) VALUES ('Ristorante da Giovanni', NULL, TRUE);
-INSERT INTO Pony(Sede, ID, Ruote) VALUES ('Ristorante da Giovanni', NULL, TRUE);
-INSERT INTO Pony(Sede, ID) VALUES ('Ristorante Venezia', NULL);
-INSERT INTO Pony(Sede, ID) VALUES ('Il paiolo magico', NULL);
-INSERT INTO Pony(Sede, ID, Ruote) VALUES ('Il paiolo magico', NULL, TRUE);
-INSERT INTO Pony(Sede, ID) VALUES ('Pizzeria da Gennaro', NULL);
-INSERT INTO Pony(Sede, ID) VALUES ('Pizzeria da Gennaro', NULL);
-INSERT INTO Pony(Sede, ID) VALUES ('Pizzeria da Gennaro', NULL);
-INSERT INTO Pony(Sede, ID) VALUES ('L\'aragosta', NULL);
-INSERT INTO Pony(Sede, ID, Ruote) VALUES ('Tatooine', NULL, TRUE);
+INSERT INTO Pony(Sede, ID) VALUES       ('Pizzeria da Cecco', NULL),
+('L\'ostrica ubriaca', NULL),           ('L\'ostrica ubriaca', NULL),
+('Il girasole', NULL),                  ('Il pozzo', NULL),
+('Ristorante Venezia', NULL),           ('Il paiolo magico', NULL),
+('Pizzeria da Gennaro', NULL),          ('Pizzeria da Gennaro', NULL),
+('Pizzeria da Gennaro', NULL),          ('L\'aragosta', NULL);
+INSERT INTO Pony(Sede, ID, Ruote) VALUES
+('Ristorante da Giovanni', NULL, TRUE), ('Ristorante da Giovanni', NULL, TRUE),
+('Il paiolo magico', NULL, TRUE),       ('Tatooine', NULL, TRUE);
 
-INSERT INTO Domanda(Sede, Testo) VALUES ('Pizzeria da Cecco', 'Come valuta la qualità del cibo in rapporto al prezzo?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('Pizzeria da Cecco', 'Come valuta l\'efficienza del personale del ristorante?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('L\'ostrica ubriaca', 'Consiglierebbe questo ristorante ad un amico?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('L\'ostrica ubriaca', 'Le porzioni erano adeguate?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('Il girasole', 'L\'ambiente del ristorante è stato di suo gradimento?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('Il girasole', 'Come valuta la qualità del cibo in rapporto al prezzo?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('Il girasole', 'Le porzioni erano adeguate?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('Il pozzo', 'Come valuta la qualità del cibo in rapporto al prezzo?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('Il pozzo', 'Come valuta l\'efficienza del personale del ristorante?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('Ristorante da Giovanni', 'Come valuta l\'efficienza del personale del ristorante?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('Ristorante da Giovanni', 'Consiglierebbe questo ristorante ad un amico?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('Ristorante Venezia', 'Qual\'è la sua valutazione complessiva sul ristorante?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('Il paiolo magico', 'Le porzioni erano adeguate?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('Il paiolo magico', 'Consiglierebbe questo ristorante ad un amico?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('Pizzeria da Gennaro', 'Come valuta la qualità del cibo in rapporto al prezzo?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('Pizzeria da Gennaro', 'Consiglierebbe questo ristorante ad un amico?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('L\'aragosta', 'Come valuta l\'efficienza del personale del ristorante?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('L\'aragosta', 'Come valuta la qualità del cibo in rapporto al prezzo?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('L\'aragosta', 'Le porzioni erano adeguate?');
-INSERT INTO Domanda(Sede, Testo) VALUES ('Tatooine', 'Come valuta la qualità del cibo in rapporto al prezzo?');
+INSERT INTO Domanda(Sede, Testo) VALUES
+('Pizzeria da Cecco', 'Come valuta la qualità del cibo in rapporto al prezzo?'),
+('Pizzeria da Cecco','Come valuta l\'efficienza del personale del ristorante?'),
+('L\'ostrica ubriaca', 'Consiglierebbe questo ristorante ad un amico?'),
+('L\'ostrica ubriaca', 'Le porzioni erano adeguate?'),
+('Il girasole', 'L\'ambiente del ristorante è stato di suo gradimento?'),
+('Il girasole', 'Come valuta la qualità del cibo in rapporto al prezzo?'),
+('Il girasole', 'Le porzioni erano adeguate?'),
+('Il pozzo', 'Come valuta la qualità del cibo in rapporto al prezzo?'),
+('Il pozzo', 'Come valuta l\'efficienza del personale del ristorante?'),
+('Ristorante da Giovanni',
+    'Come valuta l\'efficienza del personale del ristorante?'),
+('Ristorante da Giovanni', 'Consiglierebbe questo ristorante ad un amico?'),
+('Ristorante Venezia','Qual\'è la sua valutazione complessiva sul ristorante?'),
+('Il paiolo magico', 'Le porzioni erano adeguate?'),
+('Il paiolo magico', 'Consiglierebbe questo ristorante ad un amico?'),
+('Pizzeria da Gennaro',
+    'Come valuta la qualità del cibo in rapporto al prezzo?'),
+('Pizzeria da Gennaro', 'Consiglierebbe questo ristorante ad un amico?'),
+('L\'aragosta', 'Come valuta l\'efficienza del personale del ristorante?'),
+('L\'aragosta', 'Come valuta la qualità del cibo in rapporto al prezzo?'),
+('L\'aragosta', 'Le porzioni erano adeguate?'),
+('Tatooine', 'Come valuta la qualità del cibo in rapporto al prezzo?');
 
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (1, NULL, 'Ottima', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (1, NULL, 'Sufficiente', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (1, NULL, 'Scarsa', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (2, NULL, 'Molto efficiente', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (2, NULL, 'Normale', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (2, NULL, 'Poco efficiente', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (3, NULL, 'Assolutamente sì', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (3, NULL, 'Probabilmente sì', 4);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (3, NULL, 'Forse', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (3, NULL, 'Probabilmente no', 2);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (3, NULL, 'Assolutamente no', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (4, NULL, 'Assolutamente sì', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (4, NULL, 'Più sì che no', 4);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (4, NULL, 'Così e così', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (4, NULL, 'Più no che sì', 2);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (4, NULL, 'Assolutamente no', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (5, NULL, 'Sì', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (5, NULL, 'No', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (6, NULL, 'Ottima', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (6, NULL, 'Buona', 4);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (6, NULL, 'Sufficiente', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (6, NULL, 'Scarsa', 2);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (6, NULL, 'Pessima', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (7, NULL, 'Sì', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (7, NULL, 'Così e così', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (7, NULL, 'No', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (8, NULL, 'Ottima', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (8, NULL, 'Sufficiente', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (8, NULL, 'Scarsa', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (9, NULL, 'Ottima', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (9, NULL, 'Sufficiente', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (9, NULL, 'Scarsa', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (10, NULL, 'Molto efficiente', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (10, NULL, 'Normale', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (10, NULL, 'Poco efficiente', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (11, NULL, 'Assolutamente sì', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (11, NULL, 'Probabilmente sì', 4);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (11, NULL, 'Forse', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (11, NULL, 'Probabilmente no', 2);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (11, NULL, 'Assolutamente no', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (12, NULL, 'Eccellente!', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (12, NULL, 'Buono', 4);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (12, NULL, 'Non so', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (12, NULL, 'Cattivo', 2);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (12, NULL, 'Bleah!', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (13, NULL, 'Assolutamente sì', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (13, NULL, 'Più sì che no', 4);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (13, NULL, 'Così e così', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (13, NULL, 'Più no che sì', 2);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (13, NULL, 'Assolutamente no', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (14, NULL, 'Assolutamente sì', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (14, NULL, 'Probabilmente sì', 4);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (14, NULL, 'Forse', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (14, NULL, 'Probabilmente no', 2);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (14, NULL, 'Assolutamente no', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (15, NULL, 'Ottima', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (15, NULL, 'Sufficiente', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (15, NULL, 'Scarsa', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (16, NULL, 'Sì', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (16, NULL, 'No', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (17, NULL, 'Molto efficiente', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (17, NULL, 'Normale', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (17, NULL, 'Poco efficiente', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (18, NULL, 'Ottima', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (18, NULL, 'Sufficiente', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (18, NULL, 'Scarsa', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (19, NULL, 'Sì', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (19, NULL, 'Così e così', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (19, NULL, 'No', 1);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (20, NULL, 'Ottima', 5);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (20, NULL, 'Buona', 4);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (20, NULL, 'Sufficiente', 3);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (20, NULL, 'Scarsa', 2);
-INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES (20, NULL, 'Pessima', 1);
-
+INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES
+(1, NULL, 'Ottima', 5),                 (1, NULL, 'Sufficiente', 3),
+(1, NULL, 'Scarsa', 1),                 (2, NULL, 'Molto efficiente', 5),
+(2, NULL, 'Normale', 3),                (2, NULL, 'Poco efficiente', 1),
+(3, NULL, 'Assolutamente sì', 5),       (3, NULL, 'Probabilmente sì', 4),
+(3, NULL, 'Forse', 3),                  (3, NULL, 'Probabilmente no', 2),
+(3, NULL, 'Assolutamente no', 1),       (4, NULL, 'Assolutamente sì', 5),
+(4, NULL, 'Più sì che no', 4),          (4, NULL, 'Così e così', 3),
+(4, NULL, 'Più no che sì', 2),          (4, NULL, 'Assolutamente no', 1),
+(5, NULL, 'Sì', 5),                     (5, NULL, 'No', 1),
+(6, NULL, 'Ottima', 5),                 (6, NULL, 'Buona', 4),
+(6, NULL, 'Sufficiente', 3),            (6, NULL, 'Scarsa', 2),
+(6, NULL, 'Pessima', 1),                (7, NULL, 'Sì', 5),
+(7, NULL, 'Così e così', 3),            (7, NULL, 'No', 1),
+(8, NULL, 'Ottima', 5),                 (8, NULL, 'Sufficiente', 3),
+(8, NULL, 'Scarsa', 1),                 (9, NULL, 'Ottima', 5),
+(9, NULL, 'Sufficiente', 3),            (9, NULL, 'Scarsa', 1),
+(10, NULL, 'Molto efficiente', 5),      (10, NULL, 'Normale', 3),
+(10, NULL, 'Poco efficiente', 1),       (11, NULL, 'Assolutamente sì', 5),
+(11, NULL, 'Probabilmente sì', 4),      (11, NULL, 'Forse', 3),
+(11, NULL, 'Probabilmente no', 2),      (11, NULL, 'Assolutamente no', 1),
+(12, NULL, 'Eccellente!', 5),           (12, NULL, 'Buono', 4),
+(12, NULL, 'Non so', 3),                (12, NULL, 'Cattivo', 2),
+(12, NULL, 'Bleah!', 1),                (13, NULL, 'Assolutamente sì', 5),
+(13, NULL, 'Più sì che no', 4),         (13, NULL, 'Così e così', 3),
+(13, NULL, 'Più no che sì', 2),         (13, NULL, 'Assolutamente no', 1),
+(14, NULL, 'Assolutamente sì', 5),      (14, NULL, 'Probabilmente sì', 4),
+(14, NULL, 'Forse', 3),                 (14, NULL, 'Probabilmente no', 2),
+(14, NULL, 'Assolutamente no', 1),      (15, NULL, 'Ottima', 5),
+(15, NULL, 'Sufficiente', 3),           (15, NULL, 'Scarsa', 1),
+(16, NULL, 'Sì', 5),                    (16, NULL, 'No', 1),
+(17, NULL, 'Molto efficiente', 5),      (17, NULL, 'Normale', 3),
+(17, NULL, 'Poco efficiente', 1),       (18, NULL, 'Ottima', 5),
+(18, NULL, 'Sufficiente', 3),           (18, NULL, 'Scarsa', 1),
+(19, NULL, 'Sì', 5),                    (19, NULL, 'Così e così', 3),
+(19, NULL, 'No', 1),                    (20, NULL, 'Ottima', 5),
+(20, NULL, 'Buona', 4),                 (20, NULL, 'Sufficiente', 3),
+(20, NULL, 'Scarsa', 2),                (20, NULL, 'Pessima', 1);
