@@ -277,3 +277,71 @@ INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES
 (19, NULL, 'No', 1),                    (20, NULL, 'Ottima', 5),
 (20, NULL, 'Buona', 4),                 (20, NULL, 'Sufficiente', 3),
 (20, NULL, 'Scarsa', 2),                (20, NULL, 'Pessima', 1);
+
+INSERT INTO Ricetta(Nome, Testo) VALUES
+('Tagliere salumi e formaggi', 'Tagliare il prosciutto, la mortadella, '
+    'il salame, il lardo e il pecorino a fette. Aggiungere alcune scaglie di '
+    'parmigiano.'),
+('Crostini con salmone e philadelphia', 'Mescolare la philadelphia in una '
+    'terrina assieme all\'erba cipollina fino ad ottenere una crema morbida. '
+    'Tagliare il pane in fette. Scaldare una padella antiaderente e '
+    'abbrustolire le fette di pane su entrambi i lati fino a che non risultano '
+    'croccanti. Spalmare su ciascun crostino la crema di philadelphia e '
+    'adagiate su ciascuna di esse una fettina di salmone affumicato.'),
+('Pizza margherita', 'Oleare la teglia e stenderci sopra l\'impasto. '
+    'Aggiungere la salsa di pomodoro. Aggiungere le fette di mozzarella. '
+    'Condire con olio. Cuocere in forno.'),
+('Pizza wrustel', 'Oleare la teglia e stenderci sopra l\'impasto. Aggiungere '
+    'la salsa di pomodoro. Aggiungere le fette di mozzarella e di wrustel. '
+    'Condire con olio. Cuocere in forno.'),
+('Pizza quattro formaggi', 'Oleare la teglia e stenderci sopra l\'impasto. '
+    'Aggiungere la salsa di pomodoro. Aggiungere il provolone, il parmigiano, '
+    'la groviera e il pecorino. Condire con olio. Cuocere in forno.'),
+('Tortelli di zucca al ragù', 'Scaldare il ragù. Cuocere i tortelli in acqua '
+    'salata. Scolare i tortelli e condirli con il ragù e un filo di olio.'),
+('Ravioli burro e salvia ripieni di spinaci', 'Scaldare il burro e la salvia '
+    'in una pentola con un po\' di parmigiano. Cuocere i ravioli in acqua '
+    'salata. Scolare i ravioli e condirli con burro e salvia.'),
+('Spaghetti con aglio, olio e peperoncino', 'Tagliare l\'aglio e i peperoncini '
+    'in piccoli pezzi. Cuocere gli spaghetti in acqua salata. Scolare gli '
+    'spaghetti e condirli con aglio, olio e peperoncino.'),
+('Ravioli panna e scampi', 'Scaldare la panna. Cuocere gli scampi in una '
+    'pentola. Cuocere i ravioli in acqua salata. Scolare i ravioli e '
+    'aggiungere la panna. Aggiungere gli scampi.'),
+('Risotto carnaroli con aragosta e champagne', 'Lessare le aragoste. Scolarle '
+    'e estrarne una polpa, tagliandola in pezzi. Far restringere il brodo con '
+    'cipolla, carote, sedano, prezzemolo e le carcasse delle aragoste. '
+    'Filtrare il brodo. Far appassire gli scalogni con un po\' di burro e '
+    'olio. Aggiungerci poi il riso e bagnare con un bicchiere di champagne. '
+    'Unire poi il brodo. Continuare la cottura alternando champagne e brodo. '
+    'Infine aggiungere la polpa di aragosta e terminare la cottura.'),
+('Tagliata di manzo alla griglia', 'Cuocere la carne sulla griglia. Tagliare '
+    'la carne. Condire con sale.'),
+('Petto di pollo in salsa', 'Tagliare il pollo in fettine e impanarle. Far '
+    'sciogliere il burro in una padella. Aggiungere le fettine di pollo. Far '
+    'sciogliere altro burro in un\'altra padella con un po\' di farina. '
+    'Aggiungere del pepe nero. Preparare il brodo in acqua. Aggiungere il '
+    'brodo all\'amalgama di burro e farina. Aggiungere la salsa prodotta alle '
+    'fettine di pollo.'),
+('Fritto misto', 'Passare gamberi e totani in una ciotola contenete farina. '
+    'Friggere i gamberi e i totani. Friggere le patatine. Condire con sale.'),
+('Orata alla grilia', 'Cuocere l\'orata sulla griglia. Pulire il pesce. '
+    'Condire con olio e limone.'),
+('Branzino alla griglia', 'Cuocere il branzino sulla griglia. Pulire il pesce. '
+    'Condire con olio e limone.'),
+('Patate arrosto', 'Tagliare le patate. Cuocere in forno. Condire con olio.'),
+('Patatine fritte', 'Friggere le patatine. Condire con sale.'),
+('Insalata mista', 'Lavare l\'insalata. Condire l\'insalata con carote, mais '
+    'piselli, olio e sale.'),
+('Torta al cioccolato', 'Tagliare una fetta di torta al cioccolato. Scaldare '
+    'la torta in forno. Stendere lo zucchero a velo sopra il dolce.'),
+('Torta della nonna', 'Tagliare una fetta di torta della nonna. Scaldare '
+    'la torta in forno. Stendere lo zucchero a velo sopra il dolce.'),
+('Limoncello', 'Versare il limoncello in un bicchiere.'),
+('Vino rosso', 'Servire.'),
+('Vino bianco', 'Servire.'),
+('Birra', 'Servire.'),
+('Coca Cola', 'Servire.'),
+('Acqua naturale', 'Servire.'),
+('Acqua frizzante', 'Servire.');
+
