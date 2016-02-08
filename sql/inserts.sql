@@ -200,7 +200,7 @@ INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via,
     'Niccolò', 'Scatena', 'Pisa', 56124, 'Pungilupo', 7, 3314432120),
 ('Serendipity', 'grazia.casci@yahoo.com', 'a68c4445228eb1b1a49e3df10f2d51df',
     'Grazia', 'Casci', 'Pisa', 56124, 'Caduti El-Alamein', 12, 3347282923),
-('maffeimarraccini', 'gabri95@gmail.com', 'b7938f4f7741d580a1056771b62a62b9',
+('GMarra', 'gabri95@gmail.com', 'b7938f4f7741d580a1056771b62a62b9',
     'Gabriele', 'Marraccini', 'Roma', 00163, 'Ernesto Guevara', 8, 3348293712),
 ('lorytony', 'lorenzo.tone@hotmail.it', 'c4d2188aa605e98ab72134125afa108e',
     'Lorenzo', 'Tonelli', 'Torino', 10134, 'Corso Re Umberto', 7, 3313738263);
