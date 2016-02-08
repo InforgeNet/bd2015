@@ -2,8 +2,8 @@ DELIMITER $$
 
 /******************************************************************************
  * nuova_confezione controlla che DataCarico, se presente, non sia precedente * 
- * a DataAcquisto. Inoltre controlla che sia specificati tutti gli attributi  *
- * necessari.                                                                 * 
+ * a DataAcquisto. Inoltre controlla che siano specificati tutti gli          *
+ * attributi necessari.                                                       * 
  ******************************************************************************/ 
 CREATE TRIGGER nuova_confezione
 BEFORE INSERT
@@ -36,7 +36,7 @@ END;$$
 
 /******************************************************************************
  * aggiorna_confezione controlla che DataCarico, se presente, non sia         * 
- * precendente a DataAcquisto. Inoltre controlla che sia specificati tutti    *
+ * precendente a DataAcquisto. Inoltre controlla che siano specificati tutti  *
  * gli attributi necessari.                                                   * 
  ******************************************************************************/ 
 CREATE TRIGGER aggiorna_confezione
@@ -100,6 +100,11 @@ BEGIN
     END IF;
 END;$$
 
+/******************************************************************************
+ * nuova_fase controlla che la fase inserita sia una FaseIngrediente o una    *
+ * FaseManovra (non entrambe insieme). Controlla anche che siano specificati  *
+ * tutti gli attributi necessari.                                             *
+ ******************************************************************************/
 CREATE TRIGGER nuova_fase
 BEFORE INSERT
 ON Fase
@@ -135,6 +140,11 @@ BEGIN
     END IF;
 END;$$
 
+/******************************************************************************
+ * aggiorna_fase controlla che la fase modificata sia sempre una              *
+ * FaseIngrediente o una FaseManovra (non entrambe insieme). Controlla anche  *
+ * che siano specificati tutti gli attributi necessari.
+ ******************************************************************************/
 CREATE TRIGGER aggiorna_fase
 BEFORE UPDATE
 ON Fase
@@ -170,6 +180,10 @@ BEGIN
     END IF;
 END;$$
 
+/******************************************************************************
+ * nuova_sequenza_fasi controlla che le due fasi messe in sequenza            *
+ * appartengano alla stessa ricetta.                                          *
+ ******************************************************************************/
 CREATE TRIGGER nuova_sequenza_fasi
 BEFORE INSERT
 ON SequenzaFasi
@@ -192,6 +206,10 @@ BEGIN
     END IF;
 END;$$
 
+/******************************************************************************
+ * aggiorna_sequenza_fasi controlla che le due fasi messe in sequenza         *
+ * appartengano alla stessa ricetta.                                          *
+ ******************************************************************************/
 CREATE TRIGGER aggiorna_sequenza_fasi
 BEFORE UPDATE
 ON SequenzaFasi
@@ -214,6 +232,10 @@ BEGIN
     END IF;
 END;$$
 
+/******************************************************************************
+ * nuova_comanda controlla che la comanda inserita sia da tavolo o take-away  *
+ * e non entrambe insieme.                                                    *
+ ******************************************************************************/
 CREATE TRIGGER nuova_comanda
 BEFORE INSERT
 ON Comanda
@@ -229,6 +251,10 @@ BEGIN
     END IF;
 END;$$
 
+/******************************************************************************
+ * aggiorna_comanda controlla che la comanda modificata sia da tavolo o       *
+ * take-away e non entrambe insieme.                                          *
+ ******************************************************************************/
 CREATE TRIGGER aggiorna_comanda
 BEFORE UPDATE
 ON Comanda
@@ -245,6 +271,10 @@ BEGIN
     END IF;
 END;$$
 
+/******************************************************************************
+ * nuova_variazione controlla che la variazione inserita sia un Suggerimento  *
+ * o una VariazionePiatto (non entrambi insieme).                             *
+ ******************************************************************************/
 CREATE TRIGGER nuova_variazione
 BEFORE INSERT
 ON Variazione
@@ -259,6 +289,10 @@ BEGIN
     END IF;
 END;$$
 
+/******************************************************************************
+ * aggiorna_variazione controlla che la variazione modificata sia un          *
+ * Suggerimento o una VariazionePiatto (non entrambi insieme).                *
+ ******************************************************************************/
 CREATE TRIGGER aggiorna_variazione
 BEFORE UPDATE
 ON Variazione
@@ -273,6 +307,11 @@ BEGIN
     END IF;
 END;$$
 
+/******************************************************************************
+ * nuova_modificafase che la ModificaFase contenga almeno o una FaseVecchia o *
+ * una FaseNuova. Inoltre controlla che le fasi modificate appartengano alla  *
+ * stessa ricetta (ossia quella a cui appartiene la variazione).              *
+ ******************************************************************************/
 CREATE TRIGGER nuova_modificafase
 BEFORE INSERT
 ON ModificaFase
@@ -318,6 +357,12 @@ BEGIN
     END IF;
 END;$$
 
+/******************************************************************************
+ * aggiorna_modificafase che la ModificaFase contenga almeno o una            *
+ * FaseVecchia o una FaseNuova. Inoltre controlla che le fasi modificate      *
+ * appartengano alla stessa ricetta (ossia quella a cui appartiene la         *
+ * variazione).                                                               *
+ ******************************************************************************/
 CREATE TRIGGER aggiorna_modificafase
 BEFORE UPDATE
 ON ModificaFase
@@ -403,30 +448,6 @@ BEGIN
     END IF;
 END;$$
 
-CREATE TRIGGER aggiorna_modifica
-BEFORE UPDATE
-ON Modifica
-FOR EACH ROW
-BEGIN
-    DECLARE StessaRicetta INT;
-    
-    SET StessaRicetta = (SELECT COUNT(*)
-                            FROM (SELECT P.ID, P.Ricetta
-                                    FROM Piatto P
-                                    WHERE P.ID = NEW.Piatto) AS Pi
-                            INNER JOIN
-                                (SELECT V.ID, V.Ricetta
-                                    FROM Variazione V
-                                    WHERE V.ID = NEW.Variazione) AS Va
-                            ON Pi.Ricetta = Va.Ricetta);
-    
-    IF StessaRicetta = 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'La variazione selezionata non è applicabile al '
-                            'piatto scelto.';
-    END IF;
-END;$$
-
 /******************************************************************************
  * aggiorna_consegna si assicura che l'arrivo registrato sia sempre successivo*
  * alla partenza e che il ritorno sia sempre successivo all'arrivo.           *
@@ -454,10 +475,11 @@ BEGIN
 END;$$
 
 /******************************************************************************
- * nuova_prenotazione controlla: se l'account (in caso di prenotazione online)*
- * è abilitato a prenotare; se il tavolo da prenotare è libero; se la sala e  *
- * tutti i tavoli che contiene sono liberi per un allestimento.               *
- * Business Rule: (BR16) e (BR19)                                             *
+ * nuova_prenotazione controlla: se l'account (in caso di prenotazione        *
+ * online) è abilitato a prenotare; se il tavolo da prenotare è libero; se la *
+ * sala e tutti i tavoli che contiene sono liberi per un allestimento.        *
+ * Inoltre controlla che siano specificati tutti gli attributi necessari.     *
+ * Business Rule: (BR15), (BR16) e (BR19)                                     *
  ******************************************************************************/
 CREATE TRIGGER nuova_prenotazione
 BEFORE INSERT
@@ -574,9 +596,10 @@ END;$$
 
 /******************************************************************************
  * aggiorna_prenotazione controlla che la rettifica della prenotazione venga  *
- * fatta al max. 48 ore prima della data della prenotazione. Inoltre controlla*
- * che la nuova prenotazione sia valida.                                      *
- * Business Rule: (BR16) e (BR17)                                             *
+ * fatta al max. 48 ore prima della data della prenotazione. Inoltre          *
+ * che la nuova prenotazione specifichi tutti gli attributi necessari e       *
+ * che sia valida.                                                            *
+ * Business Rule: (BR15), (BR16) e (BR17)                                     *
  ******************************************************************************/
 CREATE TRIGGER aggiorna_prenotazione
 BEFORE UPDATE
@@ -692,6 +715,10 @@ BEGIN
     END IF;
 END;$$
 
+/******************************************************************************
+ * I seguenti trigger controllano che gli attributi che indicano un punteggio *
+ * siano compresi tra 1 e 5.                                                  *
+ ******************************************************************************/
 CREATE TRIGGER nuovo_gradimento
 BEFORE INSERT
 ON Gradimento

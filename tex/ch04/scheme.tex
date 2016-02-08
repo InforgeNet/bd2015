@@ -12,10 +12,10 @@ tra l'una e l'altra rappresentazione --- decidiamo quindi di rappresentare la fa
 
 Per tutte le {\it associazioni uno-a-molti con partecipazione opzionale}, ossia del tipo \hbox{\tt (0,1) --- (X,N)} (ad
 esempio: {\tt Utilizzo}, {\tt Aggiunta}, {\tt Riserva}, {\tt Mittente}, ecc\ldots) si è sempre
-deciso di {\bf non} creare una tabella aggiuntiva per la relazione e di inserire invece
+deciso di {\bf non} creare una tabella aggiuntiva per l'associazione e di inserire invece
 attributi opzionali. Questa scelta aumenta il numero di valori {\tt NULL} ma riduce il numero
-di relazioni, e quindi anche il numero di accessi per le operazioni che coinvolgono tali
-associazioni. Cerchiamo così di ottimizzare le prestazioni della base di dati.
+di associazioni, e quindi anche il numero di accessi per le operazioni che coinvolgono tali
+tabelle. Cerchiamo così di ottimizzare le prestazioni della base di dati.
 
 Per il resto, la traduzione dal {\it diagramma entità-relazione ristrutturato} di pagina \pageref{diagram.2}
 allo {\it schema logico} mostrato in questo paragrafo è del tutto ovvia e immediata. Non

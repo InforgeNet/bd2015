@@ -79,6 +79,22 @@ BEGIN
     END IF;
 END;$$
 
+CREATE TRIGGER elimina_lotto_confezione
+AFTER DELETE
+ON Confezione
+FOR EACH ROW
+BEGIN
+    DECLARE LottoPresente BOOL;
+    
+    SET LottoPresente = (SELECT COUNT(*)
+                        FROM Confezione C
+                        WHERE C.CodiceLotto = OLD.CodiceLotto);
+    
+    IF NOT LottoPresente THEN
+        DELETE FROM Lotto WHERE Codice = OLD.CodiceLotto;
+    END IF;
+END;$$
+
 CREATE TRIGGER nuovo_menu
 BEFORE INSERT
 ON Menu
@@ -469,30 +485,6 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Ci sono già 3 variazioni su questo piatto.';
     END IF;
-    
-    SET StessaRicetta = (SELECT COUNT(*)
-                            FROM (SELECT P.ID, P.Ricetta
-                                    FROM Piatto P
-                                    WHERE P.ID = NEW.Piatto) AS Pi
-                            INNER JOIN
-                                (SELECT V.ID, V.Ricetta
-                                    FROM Variazione V
-                                    WHERE V.ID = NEW.Variazione) AS Va
-                            ON Pi.Ricetta = Va.Ricetta);
-    
-    IF StessaRicetta = 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'La variazione selezionata non è applicabile al '
-                            'piatto scelto.';
-    END IF;
-END;$$
-
-CREATE TRIGGER aggiorna_modifica
-BEFORE UPDATE
-ON Modifica
-FOR EACH ROW
-BEGIN
-    DECLARE StessaRicetta INT;
     
     SET StessaRicetta = (SELECT COUNT(*)
                             FROM (SELECT P.ID, P.Ricetta

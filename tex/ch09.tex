@@ -24,9 +24,9 @@ $ SELECT * FROM Magazzino;
 Impostando l'{\tt AUTO\_INCREMENT} sull'attributo {\tt ID} si avrebbe invece:
 \begin{Verbatim}
 $ SELECT * FROM Magazzino;
-+-------+----+
++----+-------+
 | ID | Sede  |
-+-------+----+
++----+-------+
 |  1 | SedeA |
 |  2 | SedeA |
 |  3 | SedeA |
@@ -35,12 +35,13 @@ $ SELECT * FROM Magazzino;
 |  6 | SedeB |
 |  7 | SedeC |
 |  8 | SedeC |
-+-------+----+
++----+-------+
 \end{Verbatim}
 L'{\it engine} {\tt MyISAM} permette di impostare l'{\tt AUTO\_INCREMENT} su una colonna {\it secondaria}, ma
-non permette i {\it vincoli di integrità referenziale} che sono fondamentali in questo database. Dobbiamo
+non permette i {\it vincoli di integrità referenziale} che sono fondamentali nel database di questo progetto. Dobbiamo
 quindi utilizzare {\tt InnoDB} e {\it simulare} l'{\tt AUTO\_INCREMENT} mediante trigger.
 
+\vspace{5pt}
 Le funzionalità di {\it back-end} per l'{\it Area Analytics} sono implementate nella parte finale dello {\it script}.
 
 Per brevità, gli {\tt INSERT INTO} che popolano le tabelle non sono riportati in questo documento (avrebbero
