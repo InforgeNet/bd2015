@@ -300,14 +300,16 @@ INSERT INTO Ricetta(Nome, Testo) VALUES
 ('Tortelli di zucca al ragù', 'Scaldare il ragù. Cuocere i tortelli in acqua '
     'salata. Scolare i tortelli e condirli con il ragù e un filo di olio.'),
 ('Ravioli burro e salvia ripieni di spinaci', 'Scaldare il burro e la salvia '
-    'in una pentola con un po\' di parmigiano. Cuocere i ravioli in acqua '
-    'salata. Scolare i ravioli e condirli con burro e salvia.'),
+    'in una pentola. Cuocere i ravioli in acqua salata. Saltarli nella padella '
+    'con il burro e la salvia.'),
 ('Spaghetti con aglio, olio e peperoncino', 'Tagliare l\'aglio e i peperoncini '
-    'in piccoli pezzi. Cuocere gli spaghetti in acqua salata. Scolare gli '
-    'spaghetti e condirli con aglio, olio e peperoncino.'),
-('Ravioli panna e scampi', 'Scaldare la panna. Cuocere gli scampi in una '
-    'pentola. Cuocere i ravioli in acqua salata. Scolare i ravioli e '
-    'aggiungere la panna. Aggiungere gli scampi.'),
+    'in piccoli pezzi. Soffriggere l\'aglio e il peperoncino in olio. Cuocere '
+    'gli spaghetti in acqua salata. Saltare gli spaghetti nella pentola con '
+    'aglio, olio e peperoncino.'),
+('Ravioli panna e scampi', 'Soffriggere aglio, prezzemolo e peperoncino. '
+    'Sfumare con vino bianco. Aggiungere pomodoro a pezzi. Aggiungere gli '
+    'scampi. Cuocere i ravioli in acqua salata. Saltare i ravioli nella '
+    'padella e aggiungere la panna.'),
 ('Risotto carnaroli con aragosta e champagne', 'Lessare le aragoste. Scolarle '
     'e estrarne una polpa, tagliandola in pezzi. Far restringere il brodo con '
     'cipolla, carote, sedano, prezzemolo e le carcasse delle aragoste. '
@@ -320,16 +322,17 @@ INSERT INTO Ricetta(Nome, Testo) VALUES
 ('Petto di pollo in salsa', 'Tagliare il pollo in fettine e impanarle. Far '
     'sciogliere il burro in una padella. Aggiungere le fettine di pollo. Far '
     'sciogliere altro burro in un\'altra padella con un po\' di farina. '
-    'Aggiungere del pepe nero. Preparare il brodo in acqua. Aggiungere il '
-    'brodo all\'amalgama di burro e farina. Aggiungere la salsa prodotta alle '
-    'fettine di pollo.'),
-('Fritto misto', 'Passare gamberi e totani in una ciotola contenete farina. '
-    'Friggere i gamberi e i totani. Friggere le patatine. Condire con sale.'),
-('Orata alla grilia', 'Cuocere l\'orata sulla griglia. Pulire il pesce. '
-    'Condire con olio e limone.'),
-('Branzino alla griglia', 'Cuocere il branzino sulla griglia. Pulire il pesce. '
-    'Condire con olio e limone.'),
-('Patate arrosto', 'Tagliare le patate. Cuocere in forno. Condire con olio.'),
+    'Aggiungere del pepe nero. Preparare un brodo vegetale in acqua con '
+    'sedano, carota e cipolla. Aggiungere il brodo all\'amalgama di burro e '
+    'farina. Aggiungere la salsa prodotta alle fettine di pollo.'),
+('Fritto misto', 'Pulire gamberi e totani. Infarinarli. Friggerli. '
+    'Friggere le patatine. Condire con sale.'),
+('Orata alla grilia', 'Pulire il pesce. Cuocere l\'orata sulla griglia già '
+    'calda. Togliere pelle, pinne e lische. Condire con olio e limone.'),
+('Branzino alla griglia', 'Pulire il pesce. Cuocere il branzino sulla griglia '
+    'già calda. Togliere pelle, pinne e lische. Condire con olio e limone.'),
+('Patate arrosto', 'Sbucciare e tagliare a tocchetti le patate. Cuocere in '
+    'forno. Condire con olio.'),
 ('Patatine fritte', 'Friggere le patatine. Condire con sale.'),
 ('Insalata mista', 'Lavare l\'insalata. Condire l\'insalata con carote, mais '
     'piselli, olio e sale.'),
