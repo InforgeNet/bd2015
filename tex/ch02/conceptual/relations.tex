@@ -2,7 +2,7 @@
 Nella seguente tabella sono elencate e descritte tutte le {\it relazioni} (o {\it associazioni}), inserite
 nell'ordine in cui sono state individuate.
 {\tabulinesep=3pt
-\begin{longtabu} to \linewidth {|X[c,m]|X[c,m]|X[c,m]|>{\raggedright}X[2,m]|}
+\begin{longtabu} to \linewidth {|X[c,m]|X[1.1,c,m]|X[1.1,c,m]|>{\raggedright}X[2,m]|}
 \hline\rowfont\bfseries
 Relazione   & \specialcell{Entità A\\(Cardinalità)}
                             & \specialcell{Entità B\\(Cardinalità)}
@@ -21,16 +21,16 @@ Stoccaggio  & \specialcell{Magazzino\\(0,N)}
 InOrdine
             & \specialcell{Magazzino\\(0,N)}
                             & \specialcell{Confezione\\(0,1)}
-& Una confezione può essere in ordine o in stoccaggio ad un solo magazzino. Un magazzino può avere in ordine molte confezioni.
+& Una confezione può essere in ordine o in stoccaggio presso un magazzino. Un magazzino può avere in ordine molte confezioni.
     \\ \hline % ----------------------------------------------------------------
 Contenuto   & \specialcell{Confezione\\(1,1)}
                             & \specialcell{Ingrediente\\(0,N)}
-& Una confezione contiene un solo ingrediente. Un certo ingrediente può essere contenuto in più confezioni (zero nel caso di ingrediente esaurito).
+& Una confezione contiene un solo ingrediente. Un certo ingrediente può essere contenuto in più confezioni (nessuna nel caso di ingrediente esaurito).
     \\ \hline % ----------------------------------------------------------------
 Cucina
             & \specialcell{Sede\\(0,N)}
                             & \specialcell{Strumento\\(0,N)}
-& In una cucina della sede ci possono essere più tipologie di strumenti. Un tipo di strumento può essere utilizzato in più sedi.
+& In una sede ci possono essere più tipologie di strumenti. Un tipo di strumento può essere utilizzato in più sedi.
     \\ \hline % ----------------------------------------------------------------
 Applicazione
             & \specialcell{Sede\\(1,N)}
@@ -73,27 +73,27 @@ Modifica
 Procedura
             & \specialcell{Variazione\\(1,N)}
                             & \specialcell{ModificaFase\\(1,1)}
-& Una variazione prevede almeno la modifica di una fase. Ogni modifica di fase appartiene a una sola variazione.
+& Una variazione prevede la modifica di almeno una fase. Ogni modifica di fase appartiene a una sola variazione.
     \\ \hline % ----------------------------------------------------------------
 Nuova
             & \specialcell{AggiuntaFase\\(1,1)}
                             & \specialcell{Fase\\(0,N)}
-& Una aggiunta di fase può aggiungere una fase. Una fase può essere aggiunta da più aggiunte di fasi.
+& Un'aggiunta di fase aggiunge una fase. Una fase può essere oggetto di modifica da parte di più variazioni.
     \\ \hline % ----------------------------------------------------------------
 Vecchia
             & \specialcell{EliminazioneFase\\(1,1)}
                             & \specialcell{Fase\\(0,N)}
-& Una eliminazione di fase può rimuovere una fase. Una fase può essere rimossa da più eliminazioni di fasi.
+& Un'eliminazione di fase rimuove una fase. Una fase può essere oggetto di modifica da parte di più variazioni.
     \\ \hline % ----------------------------------------------------------------
 Nuova
             & \specialcell{SostituzioneFase\\(1,1)}
                             & \specialcell{Fase\\(0,N)}
-& Una sostituzione di fase deve aggiungere una fase. Una fase può essere aggiunta in più sostituzioni di fasi.
+& Una sostituzione di fase aggiunge una fase. Una fase può essere oggetto di modifica da parte di più variazioni.
     \\ \hline % ----------------------------------------------------------------
 Vecchia
             & \specialcell{SostituzioneFase\\(1,1)}
                             & \specialcell{Fase\\(0,N)}
-& Una sostituzione di fase può rimuovere una fase. Una fase può essere rimossa in più sostituzioni di fasi.
+& Una sostituzione di fase rimuove una fase. Una fase può essere oggetto di modifica da parte di più variazioni.
     \\ \hline % ----------------------------------------------------------------
 Ordine
             & \specialcell{Comanda\\(1,N)}
@@ -121,7 +121,7 @@ Mittente
 & Un tavolo può aver inviato zero o più comande. Una comanda è inviata da un solo tavolo.
     \\ \hline % ----------------------------------------------------------------
 Richiesta
-            & \specialcell{ComandaTakeAway\\(0,1)}
+            & \specialcell{Comanda--\\TakeAway\\(0,1)}
                             & \specialcell{Consegna\\(1,1)}
 & Ogni consegna corrisponde a una sola comanda. A una comanda viene associata una consegna solo quando è pronta.
     \\ \hline % ----------------------------------------------------------------
@@ -142,13 +142,13 @@ Riserva
     \\ \hline % ----------------------------------------------------------------
 InvioPre
             & \specialcell{Account\\(0,N)}
-                            & \specialcell{PrenotazioneOnline\\(1,1)}
+                            & \specialcell{Prenotazione--\\Online\\(1,1)}
 & Con un account è possibile effettuare prenotazioni online. Una prenotazione può essere effettuata da un solo account.
     \\ \hline % ----------------------------------------------------------------
 Ordinazione
             & \specialcell{Account\\(0,N)}
-                            & \specialcell{ComandaTakeAway\\(1,1)}
-& Da un account è possibile effettuare ordinazioni. Ogni comanda take-away è ordinata da un solo account.
+                            & \specialcell{Comanda--\\TakeAway\\(1,1)}
+& Da un account è possibile effettuare ordinazioni. Ogni comanda take-away è inviata da un solo account.
     \\ \hline % ----------------------------------------------------------------
 InvioPro
             & \specialcell{Account\\(0,N)}
@@ -171,14 +171,14 @@ InvioGra
 & Con un account è possibile inviare zero o più gradimenti. Ogni gradimento è inviato da un solo account.
     \\ \hline % ----------------------------------------------------------------
 RiferimentoP 
-            & \specialcell{GradimentoProposta\\(1,1)}
+            & \specialcell{Gradimento--\\Proposta\\(1,1)}
                             & \specialcell{Proposta\\(0,N)}
-& Una proposta può essere valutata da zero o più gradimenti. Ogni gradimento si riferisce solo a una proposta.
+& Ogni gradimento si riferisce solo a una proposta. Una proposta può essere valutata da zero o più gradimenti.
     \\ \hline % ----------------------------------------------------------------
 RiferimentoS
-            & \specialcell{GradimentoSuggerimento\\(1,1)}
+            & \specialcell{Gradimento--\\Suggerimento\\(1,1)}
                             & \specialcell{Suggerimento\\(0,N)}
-& Un gradimento valuta un solo suggerimento. Una suggerimento può essere valutato da zero o più gradimenti.
+& Un gradimento valuta un solo suggerimento. Un suggerimento può essere valutato da zero o più gradimenti.
     \\ \hline % ----------------------------------------------------------------
 Rilascio
             & \specialcell{Account\\(0,N)}
@@ -217,16 +217,16 @@ Opzione
     \\ \hline % ----------------------------------------------------------------
 IstanzaDi
             & \specialcell{Questionario\\(0,N)}
-                            & \specialcell{QuestionarioSvolto\\(1,1)}
+                            & \specialcell{Questionario--\\Svolto\\(1,1)}
 & Un questionario svolto è istanza di un solo questionario. Un questionario può essere svolto da diverse persone in diverse recensioni.
     \\ \hline % ----------------------------------------------------------------
 Compilazione
-            & \specialcell{QuestionarioSvolto\\(1,N)}
+            & \specialcell{Questionario--\\Svolto\\(1,N)}
                             & \specialcell{Risposta\\(0,1)}
 & Un questionario svolto contiene le risposte alle domande. Una risposta può essere stata data in zero o più questionari svolti.
     \\ \hline % ----------------------------------------------------------------
 Appartenenza
-            & \specialcell{QuestionarioSvolto\\(1,1)}
+            & \specialcell{Questionario--\\Svolto\\(1,1)}
                             & \specialcell{Recensione\\(1,1)}
 & Un questionario svolto appartiene a una e una sola recensione. Una recensione ha un solo questionario svolto.
     \\ \hline % ----------------------------------------------------------------
