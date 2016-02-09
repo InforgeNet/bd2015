@@ -59,7 +59,8 @@ CREATE TABLE Confezione
     Magazzino               INT UNSIGNED NOT NULL,
     Collocazione            VARCHAR(45),
     Aspetto                 BOOL COMMENT 'TRUE = ok; FALSE = danneggiata',
-    Stato                   ENUM('completa', 'parziale', 'in uso'),
+    Stato                   ENUM('completa', 'parziale', 'in uso', 'in ordine')
+                                NOT NULL DEFAULT 'in ordine',
     PRIMARY KEY (CodiceLotto, Numero),
     FOREIGN KEY (CodiceLotto)
         REFERENCES Lotto(Codice)

@@ -13,7 +13,7 @@ Per poter normalizzare tale relazione è necessario scomporla in due relazioni:
 
 \begin{Verbatim}[commandchars=+\[\]]
 CONFEZIONE(+underline[CodiceLotto], +underline[Numero], Peso, Prezzo, DataAcquisto, +textit[DataArrivo],
-    +textit[DataCarico], Sede, Magazzino, +textit[Collocazione], +textit[Aspetto], +textit[Stato])
+    +textit[DataCarico], Sede, Magazzino, +textit[Collocazione], +textit[Aspetto], Stato)
 LOTTO(+underline[Codice], Ingrediente, Scadenza)
 \end{Verbatim}
 Dobbiamo anche aggiungere il {\it vincolo di integrità referenziale} tra {\tt CodiceLotto}

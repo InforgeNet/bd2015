@@ -25,12 +25,16 @@ BEGIN
         IF NEW.Stato IS NULL THEN
             SET NEW.Stato = 'completa'; -- Default
         END IF;
-    ELSEIF (NEW.Collocazione IS NOT NULL
-            OR NEW.Aspetto IS NOT NULL
-            OR NEW.Stato IS NOT NULL) THEN
+    ELSE
+        IF (NEW.Stato <> 'in ordine') THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'L\'attributo DataCarico non può essere NULL.';
+        ELSEIF (NEW.Collocazione IS NOT NULL
+            OR NEW.Aspetto IS NOT NULL) THEN
                 SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'DataCarico, Collocazione, Aspetto e Stato '
-                                   'devono essere tutti NULL o tutti non-NULL.';
+                SET MESSAGE_TEXT = 'DataCarico, Collocazione e Aspetto devono '
+                                    'essere tutti NULL o tutti non-NULL.';
+        END IF;
     END IF;
 END;$$
 
@@ -56,16 +60,16 @@ BEGIN
         IF NEW.Aspetto IS NULL THEN
             SET NEW.Aspetto = TRUE; -- Default: nessun danno
         END IF;
-        IF NEW.Stato IS NULL THEN
+    ELSE
+        IF (NEW.Stato <> 'in ordine') THEN
             SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'L\'attributo Stato non può essere NULL.';
-        END IF;
-    ELSEIF (NEW.Collocazione IS NOT NULL
-            OR NEW.Aspetto IS NOT NULL
-            OR NEW.Stato IS NOT NULL) THEN
+            SET MESSAGE_TEXT = 'L\'attributo DataCarico non può essere NULL.';
+        ELSEIF (NEW.Collocazione IS NOT NULL
+            OR NEW.Aspetto IS NOT NULL) THEN
                 SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'DataCarico, Collocazione, Aspetto e Stato '
-                                   'devono essere tutti NULL o tutti non-NULL.';
+                SET MESSAGE_TEXT = 'DataCarico, Collocazione e Aspetto devono '
+                                    'essere tutti NULL o tutti non-NULL.';
+        END IF;
     END IF;
 END;$$
 
@@ -129,13 +133,12 @@ BEGIN
         SET NEW.Dose = NULL;
         SET NEW.Primario = NULL;
 
-        IF NEW.Durata = NULL THEN
+        IF NEW.Durata IS NULL THEN
             SET NEW.Durata = '00:00:00'; -- Default
         END IF;
-        IF NEW.Testo = NULL THEN
+        IF NEW.Testo IS NULL THEN
             SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'L\'attributo Testo deve essere '
-                                'specificato.';
+            SET MESSAGE_TEXT = 'L\'attributo Testo deve essere specificato.';
         END IF;
     END IF;
 END;$$
