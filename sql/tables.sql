@@ -361,7 +361,7 @@ CREATE TABLE Prenotazione
 (
     ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
     Sede                    VARCHAR(45) NOT NULL,
-    Data                    DATETIME NOT NULL,
+    `Data`                  DATETIME NOT NULL,
     Numero                  INT UNSIGNED NOT NULL,
     Account                 VARCHAR(45),
     Nome                    VARCHAR(45),
@@ -371,7 +371,7 @@ CREATE TABLE Prenotazione
     Descrizione             TEXT,
     Approvato               BOOL,
     PRIMARY KEY (ID),
-    UNIQUE KEY (Tavolo, Data),
+    UNIQUE KEY (Tavolo, `Data`),
     FOREIGN KEY (Sede, Sala, Tavolo)
         REFERENCES Tavolo(Sede, Sala, Numero)
         ON DELETE CASCADE
