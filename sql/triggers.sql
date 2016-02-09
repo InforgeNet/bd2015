@@ -86,7 +86,7 @@ FOR EACH ROW
 BEGIN
     DECLARE LottoPresente BOOL;
     
-    SET LottoPresente = (SELECT COUNT(*)
+    SET LottoPresente = (SELECT COUNT(*) > 0
                         FROM Confezione C
                         WHERE C.CodiceLotto = OLD.CodiceLotto);
     
@@ -100,20 +100,20 @@ BEFORE INSERT
 ON Menu
 FOR EACH ROW
 BEGIN
-    DECLARE MenuAttiviPeriodo INT;
+    DECLARE MenuAttiviPeriodo BOOL;
     
     IF NEW.DataFine <= NEW.DataInizio THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'DataFine precedente a DataInizio.';
     END IF;
 
-    SET MenuAttiviPeriodo = (SELECT COUNT(*)
+    SET MenuAttiviPeriodo = (SELECT COUNT(*) > 0
                                 FROM Menu M
                                 WHERE M.Sede = NEW.Sede
                                     AND M.DataFine >= NEW.DataInizio
                                     AND M.DataInizio <= NEW.DataFine);
             
-    IF MenuAttiviPeriodo > 0 THEN
+    IF MenuAttiviPeriodo THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Un menu è già attivo in questo periodo.';
     END IF;
@@ -194,8 +194,8 @@ BEFORE INSERT
 ON SequenzaFasi
 FOR EACH ROW
 BEGIN
-    DECLARE StessaRicetta INT;
-    SET StessaRicetta = (SELECT COUNT(*)
+    DECLARE StessaRicetta BOOL;
+    SET StessaRicetta = (SELECT COUNT(*) > 0
                             FROM (SELECT F1.ID, F1.Ricetta
                                     FROM Fase F1
                                     WHERE F1.ID = NEW.Fase) AS Fase1
@@ -205,7 +205,7 @@ BEGIN
                                     WHERE F2.ID = NEW.FasePrecedente) AS Fase2
                             ON Fase1.Ricetta = Fase2.Ricetta);
     
-    IF StessaRicetta = 0 THEN
+    IF NOT StessaRicetta THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Le due fasi non appartengono alla stessa ricetta.';
     END IF;
@@ -216,8 +216,8 @@ BEFORE UPDATE
 ON SequenzaFasi
 FOR EACH ROW
 BEGIN
-    DECLARE StessaRicetta INT;
-    SET StessaRicetta = (SELECT COUNT(*)
+    DECLARE StessaRicetta BOOL;
+    SET StessaRicetta = (SELECT COUNT(*) > 0
                             FROM (SELECT F1.ID, F1.Ricetta
                                     FROM Fase F1
                                     WHERE F1.ID = NEW.Fase) AS Fase1
@@ -227,7 +227,7 @@ BEGIN
                                     WHERE F2.ID = NEW.FasePrecedente) AS Fase2
                             ON Fase1.Ricetta = Fase2.Ricetta);
     
-    IF StessaRicetta = 0 THEN
+    IF NOT StessaRicetta THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Le due fasi non appartengono alla stessa ricetta.';
     END IF;
@@ -297,7 +297,7 @@ ON Piatto
 FOR EACH ROW
 BEGIN
     DECLARE ComandaTakeAway BOOL;
-    DECLARE PiattiNonInServizio INT;
+    DECLARE PiattiNonInServizio BOOL;
     DECLARE SedeComanda VARCHAR(45);
     DECLARE PonyScelto INT;
     
@@ -307,12 +307,12 @@ BEGIN
                                 WHERE C.ID = NEW.Comanda);
                                 
         IF ComandaTakeAway THEN
-            SET PiattiNonInServizio = (SELECT COUNT(*)
+            SET PiattiNonInServizio = (SELECT COUNT(*) > 0
                                         FROM Piatto P
                                         WHERE P.Comanda = NEW.Comanda
                                             AND P.Stato <> 'servizio');
             
-            IF PiattiNonInServizio = 0 THEN
+            IF NOT PiattiNonInServizio THEN
                 -- Scegli Pony
                 SET SedeComanda = (SELECT C.Sede
                                     FROM Comanda C
@@ -323,18 +323,18 @@ BEGIN
                                     WHERE P.Sede = SedeComanda
                                         AND P.Stato = 'libero'
                                         AND Ruote = (
-                                        (SELECT COUNT(*)
+                                        SELECT COUNT(*) > 5
                                         FROM Piatto P
-                                        WHERE P.Comanda = NEW.Comanda) > 5));
+                                        WHERE P.Comanda = NEW.Comanda));
                                         
-                IF PonyScelto = NULL THEN
+                IF PonyScelto IS NULL THEN
                     SET PonyScelto = (SELECT P.ID
                                         FROM Pony P
                                         WHERE P.Sede = SedeComanda
                                         AND P.Stato = 'libero');
                 END IF;
                 
-                IF PonyScelto = NULL THEN
+                IF PonyScelto IS NULL THEN
                     -- Nessun Pony disponibile
                     SIGNAL SQLSTATE '01000' -- Warning
                     SET MESSAGE_TEXT = 'Nessun Pony è stato assegnato in '
@@ -475,7 +475,7 @@ ON Modifica
 FOR EACH ROW
 BEGIN
     DECLARE NumVariazioni INT;
-    DECLARE StessaRicetta INT;
+    DECLARE StessaRicetta BOOL;
     
     SET NumVariazioni = (SELECT COUNT(*)
                             FROM Modifica M
@@ -486,7 +486,7 @@ BEGIN
         SET MESSAGE_TEXT = 'Ci sono già 3 variazioni su questo piatto.';
     END IF;
     
-    SET StessaRicetta = (SELECT COUNT(*)
+    SET StessaRicetta = (SELECT COUNT(*) > 0
                             FROM (SELECT P.ID, P.Ricetta
                                     FROM Piatto P
                                     WHERE P.ID = NEW.Piatto) AS Pi
@@ -496,7 +496,7 @@ BEGIN
                                     WHERE V.ID = NEW.Variazione) AS Va
                             ON Pi.Ricetta = Va.Ricetta);
     
-    IF StessaRicetta = 0 THEN
+    IF NOT StessaRicetta THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'La variazione selezionata non è applicabile al '
                             'piatto scelto.';
@@ -545,9 +545,15 @@ BEGIN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Se Ritorno viene specificato anche Arrivo deve '
                                 'essere specificato.';
-        ELSEIF NEW.Ritorno < NEW.Arrivo THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Ritorno precedente a arrivo.';
+        ELSE
+            IF OLD.Arrivo IS NOT NULL THEN
+                -- Evita ON UPDATE CURRENT_TIMESTAMP
+                SET NEW.Arrivo = OLD.Arrivo;
+            END IF;
+            IF NEW.Ritorno < NEW.Arrivo THEN
+                SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Ritorno precedente a arrivo.';
+            END IF;
         END IF;
     END IF;
 END;$$
@@ -557,7 +563,7 @@ AFTER UPDATE
 ON Consegna
 FOR EACH ROW
 BEGIN
-    IF NEW.Ritorno IS NOT NULL THEN
+    IF NEW.Ritorno IS NOT NULL AND OLD.Ritorno IS NULL THEN
         UPDATE Pony SET Stato = 'libero' WHERE Sede = NEW.Sede
                                             AND ID = NEW.Pony;
     END IF;
@@ -569,11 +575,9 @@ ON Prenotazione
 FOR EACH ROW
 BEGIN
     DECLARE PrenotazioniAbilitate BOOL;
-    DECLARE TavoloAssegnato INT;
-    DECLARE AllestimentiSala INT;
     DECLARE PostiTavolo INT;
-    DECLARE TavoloLibero INT;
-    DECLARE SalaLibera INT;
+    DECLARE TavoloLibero BOOL;
+    DECLARE SalaLibera BOOL;
     
     IF NEW.Tavolo IS NOT NULL THEN
         SET PostiTavolo = (SELECT T.Posti
@@ -588,7 +592,7 @@ BEGIN
                                         FROM Account A
                                         WHERE A.Username = NEW.Account);
                                         
-        IF PrenotazioniAbilitate = FALSE THEN
+        IF NOT PrenotazioniAbilitate THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Prenotazioni disabilitate per l\'account.';
         END IF;
@@ -654,13 +658,13 @@ BEGIN
         END IF;
     END IF;    
 
-    SET AllestimentiSala = (SELECT SUM(DATE(P.Data) = DATE(NEW.Data))
-                                FROM Prenotazione P
-                                WHERE P.Sala = NEW.Sala
-                                    AND P.Sede = NEW.Sede
-                                    AND P.Tavolo = NULL);
+    SET SalaLibera = (SELECT SUM(DATE(P.Data) = DATE(NEW.Data)) > 0
+                        FROM Prenotazione P
+                        WHERE P.Sala = NEW.Sala
+                            AND P.Sede = NEW.Sede
+                            AND P.Tavolo = NULL);
                         
-    IF AllestimentiSala > 0 THEN
+    IF SalaLibera THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'La sala scelta è già prenotata per un '
                             'allestimento.';
@@ -677,23 +681,23 @@ BEGIN
         SET TavoloLibero = (SELECT SUM(P.Data >
                                             (NEW.Data - INTERVAL 2 HOUR)
                                             AND P.Data <
-                                                (NEW.Data + INTERVAL 2 HOUR))
+                                                (NEW.Data + INTERVAL 2 HOUR))= 0
                             FROM Prenotazione P
                             WHERE P.Tavolo = NEW.Tavolo
                                 AND P.Sala = NEW.Sala
                                 AND P.Sede = NEW.Sede);
 
-        IF TavoloLibero > 0 THEN
+        IF NOT TavoloLibero THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Il tavolo scelto è già prenotato.';
         END IF;
     ELSE
-        SET SalaLibera = (SELECT SUM(DATE(P.Data) = DATE(NEW.Data))
+        SET SalaLibera = (SELECT SUM(DATE(P.Data) = DATE(NEW.Data)) = 0
                             FROM Prenotazione P
                             WHERE P.Sala = NEW.Sala
                                 AND P.Sede = NEW.Sede);
                             
-        IF SalaLibera > 0 THEN
+        IF NOT SalaLibera THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'La sala contiene tavoli già prenotati.';
         END IF;
@@ -705,11 +709,9 @@ BEFORE UPDATE
 ON Prenotazione
 FOR EACH ROW
 BEGIN
-    DECLARE TavoloAssegnato INT;
-    DECLARE AllestimentiSala INT;
     DECLARE PostiTavolo INT;
-    DECLARE TavoloLibero INT;
-    DECLARE SalaLibera INT;
+    DECLARE TavoloLibero BOOL;
+    DECLARE SalaLibera BOOL;
     
    	IF CURRENT_DATETIME < (OLD.Data - INTERVAL 2 DAY) THEN
    	    SIGNAL SQLSTATE '45000'
@@ -753,13 +755,13 @@ BEGIN
         END IF;
     END IF;    
 
-    SET AllestimentiSala = (SELECT SUM(DATE(P.Data) = DATE(NEW.Data))
-                                FROM Prenotazione P
-                                WHERE P.Sala = NEW.Sala
-                                    AND P.Sede = NEW.Sede
-                                    AND P.Tavolo = NULL);
+    SET SalaLibera = (SELECT SUM(DATE(P.Data) = DATE(NEW.Data)) > 0
+                        FROM Prenotazione P
+                        WHERE P.Sala = NEW.Sala
+                            AND P.Sede = NEW.Sede
+                            AND P.Tavolo = NULL);
                         
-    IF AllestimentiSala > 0 THEN
+    IF SalaLibera THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'La sala scelta è già prenotata per un '
                             'allestimento.';
@@ -775,23 +777,23 @@ BEGIN
         SET TavoloLibero = (SELECT SUM(P.Data >
                                             (NEW.Data - INTERVAL 2 HOUR)
                                             AND P.Data <
-                                                (NEW.Data + INTERVAL 2 HOUR))
+                                                (NEW.Data + INTERVAL 2 HOUR))= 0
                             FROM Prenotazione P
                             WHERE P.Tavolo = NEW.Tavolo
                                 AND P.Sala = NEW.Sala
                                 AND P.Sede = NEW.Sede);
 
-        IF TavoloLibero > 0 THEN
+        IF NOT TavoloLibero THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Il tavolo scelto è già prenotato.';
         END IF;
     ELSE
-        SET SalaLibera = (SELECT SUM(DATE(P.Data) = DATE(NEW.Data))
+        SET SalaLibera = (SELECT SUM(DATE(P.Data) = DATE(NEW.Data)) = 0
                             FROM Prenotazione P
                             WHERE P.Sala = NEW.Sala
                                 AND P.Sede = NEW.Sede);
                             
-        IF SalaLibera > 0 THEN
+        IF NOT SalaLibera THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'La sala contiene tavoli già prenotati.';
         END IF;

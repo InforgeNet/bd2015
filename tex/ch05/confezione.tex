@@ -3,8 +3,8 @@ La relazione {\tt Confezione} non rispetta la BCNF. Riportiamo di seguito tutte
 le dipendenze funzionali non banali della relazione in questione:
 \begin{funcdep}{Confezione}
     CodiceLotto $\to$ Ingrediente, Scadenza\\
-    CodiceLotto, Numero $\to$ Peso, Prezzo, DataAcquisto, DataCarico,\\
-        \indent\indent\indent\indent\indent DataArrivo, Sede, Magazzino, Collocazione,\\
+    CodiceLotto, Numero $\to$ Peso, Prezzo, DataAcquisto, DataArrivo,\\
+        \indent\indent\indent\indent\indent DataCarico, Sede, Magazzino, Collocazione,\\
         \indent\indent\indent\indent\indent Aspetto, Stato
 \end{funcdep}
 
@@ -12,8 +12,8 @@ le dipendenze funzionali non banali della relazione in questione:
 Per poter normalizzare tale relazione è necessario scomporla in due relazioni:
 
 \begin{Verbatim}[commandchars=+\[\]]
-CONFEZIONE(+underline[CodiceLotto], +underline[Numero], Peso, Prezzo, DataAcquisto, +textit[DataCarico],
-    +textit[DataArrivo], Sede, Magazzino, +textit[Collocazione], +textit[Aspetto], +textit[Stato])
+CONFEZIONE(+underline[CodiceLotto], +underline[Numero], Peso, Prezzo, DataAcquisto, +textit[DataArrivo],
+    +textit[DataCarico], Sede, Magazzino, +textit[Collocazione], +textit[Aspetto], +textit[Stato])
 LOTTO(+underline[Codice], Ingrediente, Scadenza)
 \end{Verbatim}
 Dobbiamo anche aggiungere il {\it vincolo di integrità referenziale} tra {\tt CodiceLotto}

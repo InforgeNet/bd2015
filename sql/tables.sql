@@ -92,7 +92,7 @@ CREATE TABLE Cucina
 (
     Sede                    VARCHAR(45) NOT NULL,
     Strumento               VARCHAR(45) NOT NULL,
-    Quantita                INT UNSIGNED NOT NULL,
+    Quantita                INT UNSIGNED NOT NULL DEFAULT 1,
     PRIMARY KEY (Sede, Strumento),
     FOREIGN KEY (Sede)
         REFERENCES Sede(Nome)

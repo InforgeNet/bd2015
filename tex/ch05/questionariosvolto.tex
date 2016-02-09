@@ -3,11 +3,10 @@ La relazione {\tt QuestionarioSvolto} non rispetta la BCNF. Riportiamo di seguit
 le dipendenze funzionali non banali della relazione in questione:
 \begin{funcdep}{QuestionarioSvolto}
     Recensione $\to$ Sede\\
-    Recensione, Domanda $\to$ Risposta
+    Recensione, Sede, Domanda $\to$ Risposta
 \end{funcdep}
-\noindent\texttt{Recensione}, da sé, non è infatti {\it superchiave} della relazione {\tt QuestionarioSvolto}. Nemmeno
-({\tt Recensione}, {\tt Domanda}) è {\it superchiave} della relazione.
-Per poter normalizzare tale relazione è necessario spostare l'attributo {\tt Sede} nella
+\noindent\texttt{Recensione}, da sé, non è infatti {\it superchiave} della relazione {\tt QuestionarioSvolto}. Per
+poter normalizzare tale relazione è necessario spostare l'attributo {\tt Sede} nella
 relazione {\tt Recensione}. Questo però ci impone anche di dover trovare un nuovo identificatore
 per le relazioni {\tt Risposta} e {\tt Domanda} --- useremo quindi un campo {\tt ID} per {\tt Domanda} e
 toglieremo {\tt Numero} (superfluo in quanto l'ordine delle domande può essere dato dalla sequenza
