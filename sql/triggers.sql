@@ -278,22 +278,6 @@ BEGIN
     END IF;
 END;$$
 
-CREATE TRIGGER aggiorna_comanda
-BEFORE UPDATE
-ON Comanda
-FOR EACH ROW
-BEGIN
-    IF (NEW.Account IS NOT NULL
-            AND (NEW.Tavolo IS NOT NULL OR NEW.Sala IS NOT NULL))
-        OR (NEW.Account IS NULL
-            AND (NEW.Account IS NULL AND NEW.Tavolo IS NULL
-                                        AND NEW.Sala IS NULL)) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Una comanda deve essere o da tavolo o take-away. '
-                            'Non entrambe.';
-    END IF;
-END;$$
-
 CREATE TRIGGER assegna_pony
 AFTER UPDATE
 ON Piatto
@@ -341,7 +325,7 @@ BEGIN
                     -- Nessun Pony disponibile
                     SIGNAL SQLSTATE '01000' -- Warning
                     SET MESSAGE_TEXT = 'Nessun Pony è stato assegnato in '
-                                        'sono tutti occupati.';
+                                        'quanto sono tutti occupati.';
                 ELSE
                     -- Assegna Pony
                     INSERT INTO Consegna(Comanda, Sede, Pony, Partenza, Arrivo,

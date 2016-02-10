@@ -255,26 +255,6 @@ BEGIN
 END;$$
 
 /******************************************************************************
- * aggiorna_comanda controlla che la comanda modificata sia da tavolo o       *
- * take-away e non entrambe insieme.                                          *
- ******************************************************************************/
-CREATE TRIGGER aggiorna_comanda
-BEFORE UPDATE
-ON Comanda
-FOR EACH ROW
-BEGIN
-    IF (NEW.Account IS NOT NULL
-            AND (NEW.Tavolo IS NOT NULL OR NEW.Sala IS NOT NULL))
-        OR (NEW.Account IS NULL
-            AND (NEW.Account IS NULL AND NEW.Tavolo IS NULL
-                                        AND NEW.Sala IS NULL)) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Una comanda deve essere o da tavolo o take-away. '
-                            'Non entrambe.';
-    END IF;
-END;$$
-
-/******************************************************************************
  * nuova_variazione controlla che la variazione inserita sia un Suggerimento  *
  * o una VariazionePiatto (non entrambi insieme).                             *
  ******************************************************************************/
