@@ -41,7 +41,7 @@ RICETTA(+underline[Nome], Testo)
 FASE(+underline[Ricetta], +underline[Numero], +textit[Ingrediente], +textit[Dose], +textit[Primario], +textit[Strumento], +textit[Testo],
     +textit[Durata])
 SEQUENZAFASI(+underline[Ricetta], +underline[Fase], +underline[FasePrecedente])
-PIATTO(+underline[ID], Comanda, Ricetta, Stato)
+PIATTO(+underline[ID], Comanda, Ricetta, +textit[InizioPreparazione], Stato)
 MODIFICA(+underline[Piatto], +underline[Variazione])
 VARIAZIONE(+underline[ID], +textit[Nome], +textit[Account])
 MODIFICAFASE(+underline[Variazione], +underline[ID], Ricetta, +textit[FaseVecchia], +textit[FaseNuova])

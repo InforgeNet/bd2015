@@ -255,6 +255,21 @@ BEGIN
 END;$$
 
 /******************************************************************************
+ * aggiorna_piatto evita che l'attributo venga aggiornato al timestamp        *
+ * attuale se il piatto non sta passando dallo stato 'attesa' a 'in           *
+ * preparazione'.                                                             *
+ ******************************************************************************/
+CREATE TRIGGER aggiorna_piatto
+BEFORE UPDATE
+ON Piatto
+FOR EACH ROW
+BEGIN
+    IF NEW.Stato != 'in preparazione' OR OLD.Stato != 'attesa' THEN
+        NEW.Stato = OLD.Stato;
+    END IF;
+END;$$
+
+/******************************************************************************
  * nuova_variazione controlla che la variazione inserita sia un Suggerimento  *
  * o una VariazionePiatto (non entrambi insieme).                             *
  ******************************************************************************/

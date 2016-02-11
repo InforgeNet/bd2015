@@ -256,6 +256,7 @@ CREATE TABLE Piatto
     ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
     Comanda                 INT UNSIGNED NOT NULL,
     Ricetta                 VARCHAR(45) NOT NULL,
+    InizioPreparazione      TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
     Stato                   ENUM('attesa', 'in preparazione', 'servizio')
                                 NOT NULL DEFAULT 'attesa',
     PRIMARY KEY (ID),
