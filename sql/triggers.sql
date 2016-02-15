@@ -1,5 +1,3 @@
-DELIMITER $$
-
 CREATE TRIGGER nuovo_magazzino
 BEFORE INSERT
 ON Magazzino
@@ -278,6 +276,21 @@ BEGIN
     END IF;
 END;$$
 
+CREATE TRIGGER aggiorna_comanda
+BEFORE UPDATE
+ON Comanda
+FOR EACH ROW
+BEGIN
+    IF (NEW.Account IS NOT NULL
+            AND (NEW.Tavolo IS NOT NULL OR NEW.Sala IS NOT NULL))
+        OR (NEW.Account IS NULL AND NEW.Tavolo IS NULL
+                                AND NEW.Sala IS NULL) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Una comanda deve essere o da tavolo o take-away. '
+                            'Non entrambe.';
+    END IF;
+END;$$
+
 CREATE TRIGGER assegna_pony
 AFTER UPDATE
 ON Piatto
@@ -374,6 +387,8 @@ BEGIN
     DECLARE RicettaFaseNuova VARCHAR(45);
     DECLARE RicettaFaseVecchia VARCHAR(45);
     DECLARE RicettaVariazione VARCHAR(45);
+    DECLARE FaseInAggiunta BOOL;
+    DECLARE FaseInEliminazione BOOL;
     
     IF NEW.FaseNuova IS NULL AND NEW.FaseVecchia IS NULL THEN
         SIGNAL SQLSTATE '45000'
@@ -392,6 +407,18 @@ BEGIN
             SET MESSAGE_TEXT = 'La ricetta di FaseNuova deve corrispondere '
                                 'alla ricetta della variazione.';
         END IF;
+        
+        SET FaseInEliminazione = (SELECT COUNT(*) > 0
+                                    FROM ModificaFase MF
+                                    WHERE MF.FaseVecchia = NEW.FaseNuova);
+        
+        IF FaseInEliminazione THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'La fase inserita come FaseNuova viene '
+                                'già eliminata da un\'altra ModificaFase. Una '
+                                'fase può essere solo aggiunta o rimossa dalle '
+                                'ModificaFase.'
+        END IF;
     END IF;
     
     IF NEW.FaseVecchia IS NOT NULL THEN
@@ -407,6 +434,18 @@ BEGIN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'La ricetta di FaseVecchia e quella di '
                                 'FaseNuova devono corrispondere.';
+        END IF;
+        
+        SET FaseInAggiunta = (SELECT COUNT(*) > 0
+                                    FROM ModificaFase MF
+                                    WHERE MF.FaseNuova = NEW.FaseVecchia);
+        
+        IF FaseInAggiunta THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'La fase inserita come FaseVecchia viene '
+                                'già aggiunta da un\'altra ModificaFase. Una '
+                                'fase può essere solo aggiunta o rimossa dalle '
+                                'ModificaFase.'
         END IF;
     END IF;
 END;$$
@@ -419,6 +458,8 @@ BEGIN
     DECLARE RicettaFaseNuova VARCHAR(45);
     DECLARE RicettaFaseVecchia VARCHAR(45);
     DECLARE RicettaVariazione VARCHAR(45);
+    DECLARE FaseInAggiunta BOOL;
+    DECLARE FaseInEliminazione BOOL;
     
     IF NEW.FaseNuova IS NULL AND NEW.FaseVecchia IS NULL THEN
         SIGNAL SQLSTATE '45000'
@@ -437,6 +478,18 @@ BEGIN
             SET MESSAGE_TEXT = 'La ricetta di FaseNuova deve corrispondere '
                                 'alla ricetta della variazione.';
         END IF;
+        
+        SET FaseInEliminazione = (SELECT COUNT(*) > 0
+                                    FROM ModificaFase MF
+                                    WHERE MF.FaseVecchia = NEW.FaseNuova);
+        
+        IF FaseInEliminazione THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'La fase inserita come FaseNuova viene '
+                                'già eliminata da un\'altra ModificaFase. Una '
+                                'fase può essere solo aggiunta o rimossa dalle '
+                                'ModificaFase.'
+        END IF;
     END IF;
     
     IF NEW.FaseVecchia IS NOT NULL THEN
@@ -452,6 +505,18 @@ BEGIN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'La ricetta di FaseVecchia e quella di '
                                 'FaseNuova devono corrispondere.';
+        END IF;
+        
+        SET FaseInAggiunta = (SELECT COUNT(*) > 0
+                                    FROM ModificaFase MF
+                                    WHERE MF.FaseNuova = NEW.FaseVecchia);
+        
+        IF FaseInAggiunta THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'La fase inserita come FaseVecchia viene '
+                                'già aggiunta da un\'altra ModificaFase. Una '
+                                'fase può essere solo aggiunta o rimossa dalle '
+                                'ModificaFase.'
         END IF;
     END IF;
 END;$$
@@ -566,6 +631,12 @@ BEGIN
     DECLARE TavoloLibero BOOL;
     DECLARE SalaLibera BOOL;
     
+    IF CURRENT_DATETIME > (NEW.`Data` - INTERVAL 1 DAY) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Una prenotazione deve essere effettuata almeno un '
+                            'giorno prima della data scelta.';
+    END IF;
+    
     IF NEW.Tavolo IS NOT NULL THEN
         SET PostiTavolo = (SELECT T.Posti
                             FROM Tavolo T
@@ -605,17 +676,17 @@ BEGIN
                                 WHERE T.Numero NOT IN (
                                     SELECT P1.Tavolo
                                     FROM Prenotazione P1
-                                    WHERE P1.Data >
-                                        (NEW.Data - INTERVAL 2 HOUR)
-                                        AND P1.Data <
-                                            (NEW.Data + INTERVAL 2 HOUR))
+                                    WHERE P1.`Data` >
+                                        (NEW.`Data` - INTERVAL 2 HOUR)
+                                        AND P1.`Data` <
+                                            (NEW.`Data` + INTERVAL 2 HOUR))
                                     AND T.Sala NOT IN (
                                         SELECT P2.Sala
                                         FROM Prenotazione P2
-                                        WHERE P2.Data <
-                                            (NEW.Data - INTERVAL 2 HOUR)
-                                            AND P2.Data >
-                                                (NEW.Data + INTERVAL 2 HOUR)
+                                        WHERE P2.`Data` <
+                                            (NEW.`Data` - INTERVAL 2 HOUR)
+                                            AND P2.`Data` >
+                                                (NEW.`Data` + INTERVAL 2 HOUR)
                                         AND P2.Tavolo = NULL)
                                     AND T.Posti BETWEEN NEW.Numero
                                                     AND (NEW.Numero + 3)
@@ -645,7 +716,7 @@ BEGIN
         END IF;
     END IF;    
 
-    SET SalaLibera = (SELECT SUM(DATE(P.Data) = DATE(NEW.Data)) > 0
+    SET SalaLibera = (SELECT SUM(DATE(P.`Data`) = DATE(NEW.`Data`)) > 0
                         FROM Prenotazione P
                         WHERE P.Sala = NEW.Sala
                             AND P.Sede = NEW.Sede
@@ -665,10 +736,10 @@ BEGIN
                             'di posti.';
         END IF;
 
-        SET TavoloLibero = (SELECT SUM(P.Data >
-                                            (NEW.Data - INTERVAL 2 HOUR)
-                                            AND P.Data <
-                                                (NEW.Data + INTERVAL 2 HOUR))= 0
+        SET TavoloLibero = (SELECT SUM(P.`Data` >
+                                            (NEW.`Data` - INTERVAL 2 HOUR)
+                                            AND P.`Data` <
+                                            (NEW.`Data` + INTERVAL 2 HOUR)) = 0
                             FROM Prenotazione P
                             WHERE P.Tavolo = NEW.Tavolo
                                 AND P.Sala = NEW.Sala
@@ -679,7 +750,7 @@ BEGIN
             SET MESSAGE_TEXT = 'Il tavolo scelto è già prenotato.';
         END IF;
     ELSE
-        SET SalaLibera = (SELECT SUM(DATE(P.Data) = DATE(NEW.Data)) = 0
+        SET SalaLibera = (SELECT SUM(DATE(P.`Data`) = DATE(NEW.`Data`)) = 0
                             FROM Prenotazione P
                             WHERE P.Sala = NEW.Sala
                                 AND P.Sede = NEW.Sede);
@@ -700,7 +771,7 @@ BEGIN
     DECLARE TavoloLibero BOOL;
     DECLARE SalaLibera BOOL;
     
-   	IF CURRENT_DATETIME < (OLD.Data - INTERVAL 2 DAY) THEN
+   	IF CURRENT_DATETIME > (OLD.`Data` - INTERVAL 2 DAY) THEN
    	    SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Non è possibile modificare la prenotazione.';
     END IF;
@@ -742,7 +813,7 @@ BEGIN
         END IF;
     END IF;    
 
-    SET SalaLibera = (SELECT SUM(DATE(P.Data) = DATE(NEW.Data)) > 0
+    SET SalaLibera = (SELECT SUM(DATE(P.`Data`) = DATE(NEW.`Data`)) > 0
                         FROM Prenotazione P
                         WHERE P.Sala = NEW.Sala
                             AND P.Sede = NEW.Sede
@@ -761,10 +832,10 @@ BEGIN
                             'di posti.';
         END IF;
 
-        SET TavoloLibero = (SELECT SUM(P.Data >
-                                            (NEW.Data - INTERVAL 2 HOUR)
-                                            AND P.Data <
-                                                (NEW.Data + INTERVAL 2 HOUR))= 0
+        SET TavoloLibero = (SELECT SUM(P.`Data` >
+                                            (NEW.`Data` - INTERVAL 2 HOUR)
+                                            AND P.`Data` <
+                                            (NEW.`Data` + INTERVAL 2 HOUR)) = 0
                             FROM Prenotazione P
                             WHERE P.Tavolo = NEW.Tavolo
                                 AND P.Sala = NEW.Sala
@@ -775,7 +846,7 @@ BEGIN
             SET MESSAGE_TEXT = 'Il tavolo scelto è già prenotato.';
         END IF;
     ELSE
-        SET SalaLibera = (SELECT SUM(DATE(P.Data) = DATE(NEW.Data)) = 0
+        SET SalaLibera = (SELECT SUM(DATE(P.`Data`) = DATE(NEW.`Data`)) = 0
                             FROM Prenotazione P
                             WHERE P.Sala = NEW.Sala
                                 AND P.Sede = NEW.Sede);
@@ -792,7 +863,7 @@ BEFORE DELETE
 ON Prenotazione
 FOR EACH ROW
 BEGIN
-   	IF CURRENT_DATETIME < (OLD.Data - INTERVAL 3 DAY) THEN
+   	IF CURRENT_DATETIME > (OLD.`Data` - INTERVAL 3 DAY) THEN
    	    SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Non è possibile annullare la prenotazione.';
     END IF;
@@ -860,4 +931,44 @@ BEGIN
     END IF;
 END;$$
 
-DELIMITER ;
+CREATE TRIGGER nuova_sede
+AFTER INSERT
+ON Sede
+FOR EACH ROW
+BEGIN
+    INSERT INTO Clienti_Log(Sede, Anno, Mese) VALUES
+        (NEW.Nome, YEAR(CURRENT_DATE), MONTH(CURRENT_DATE));
+END;$$
+
+CREATE TRIGGER nuovo_elenco
+BEFORE INSERT
+ON Elenco
+FOR EACH ROW
+BEGIN
+    SET NEW.Novita = (SELECT (COUNT(*) = 0) AS PrimaVolta
+                        FROM MV_OrdiniRicetta MVOR
+                        WHERE MVOR.Ricetta = NEW.Ricetta
+                            AND MVOR.Sede = (SELECT M.Sede
+                                                FROM Menu M
+                                                WHERE M.ID = NEW.Menu));
+END;$$
+
+CREATE TRIGGER controllo_ingredienti
+AFTER INSERT
+ON Elenco
+FOR EACH ROW
+BEGIN
+    DECLARE cSede VARCHAR(45);
+    DECLARE cData DATE;
+    
+    SELECT M.Sede, M.DataInizio INTO cSede, cData
+    FROM Menu M
+    WHERE M.ID = NEW.Menu;
+
+    IF NOT IngredientiDisponibili(cSede, NEW.Ricetta, NEW.Novita, cData) THEN
+        SIGNAL SQLSTATE '01000' -- Warning
+        SET MESSAGE_TEXT = 'La ricetta potrebbe non comparire nel menu in '
+                            'quanto potrebbe non esserci una quantità '
+                            'sufficiente di ingredienti.'
+    END IF;
+END;$$

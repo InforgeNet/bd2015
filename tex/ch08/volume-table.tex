@@ -123,6 +123,16 @@ Risposta        & \(375\)       & Ogni domanda ha in media 3 risposte possibili:
                                   recensione le varie risposte date al questionario. Ogni
                                   questionario è composto in media da 5 domande: \(Recensione \times 5 = 1\,000\).
     \\ \hline % ----------------------------------------------------------------
+\specialcell{MV\_Ordini--\\Ricetta}
+                & \(5\,000\)    & \(Sede \times Ricetta = 5\,000\).
+    \\ \hline % ----------------------------------------------------------------
+\specialcell{MV\_Menu--\\Corrente}
+                & \(500\)       & Ogni menu elenca in media 20 ricette: \(Sede \times Elenco = 500\).
+    \\ \hline % ----------------------------------------------------------------
+Clienti\_Log    & \(\approx 1\,500\)
+                                & Se la catena di ristorazione è aperta da 5
+                                  anni: \(Sede \times 5 \times 12 = 1\,500\).
+    \\ \hline % ----------------------------------------------------------------
 \end{longtabu} }
 
 \noindent{\large\bf NOTA (\(\infty\)):}
@@ -138,9 +148,9 @@ anche di {\it centinaia di migliaia di record}; dopo 5 anni il volume della tabe
 essere anche di {\it qualche milione di record}. Ovviamente non ha senso mantenere per sempre (o
 molto a lungo) le informazioni sulle comande e sui piatti ordinati e l'amministratore
 dovrebbe occuparsi di ripulire il database da informazioni non più utili\footnote{La base di %
-dati di questo progetto non contiene {\it funzionalità di back-end} per la pulizia di informazioni %
-ritenute non più importanti: l'eventuale pulizia del database, se desiderata, è lasciata %
-all'amministratore che dovrà {\it intervenire manualmente}.}. Stimiamo però comunque
+dati di questo progetto non contiene funzionalità per la pulizia di informazioni %
+ritenute superflue: l'eventuale pulizia del database, se desiderata, è lasciata %
+all'intervento manuale dell'amministratore.}. Stimiamo però comunque
 valori molto alti per il volume di queste tabelle, così da tenere in considerazione il
 caso in cui l'amministratore non provveda molto frequentemente alla pulizia del database. Il
 valore così stimato è inserito, nella tavola, tra parentesi tonde sotto il simbolo \(\infty\). Questo

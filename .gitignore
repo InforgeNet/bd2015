@@ -2,7 +2,7 @@
 project.pdf
 
 ## Ignore auto-generated script
-sql/unipi_project.sql
+sql/unipi_project*.sql
 
 ## Core latex/pdflatex auxiliary files:
 *.aux

@@ -1,7 +1,3 @@
-DROP SCHEMA IF EXISTS unipi_project;
-CREATE SCHEMA unipi_project DEFAULT CHARACTER SET utf8;
-USE unipi_project;
-
 CREATE TABLE Sede
 (
     Nome                    VARCHAR(45) NOT NULL,

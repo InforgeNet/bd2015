@@ -1,3 +1,56 @@
-\chapter{Progettazione fisica}
-\section{Introduzione di indici}
-\section{Implementazione degli indici in MySQL}
+\chapter{Implementazione MySQL}\label{ch:sqlcode}
+In questo Capitolo viene presentato lo {\it script MySQL che implementa il database}.
+
+Si noti che sono stati aggiunti alcuni {\it trigger} (rispetto a quelli presentati nel
+paragrafo~\vref{sec:triggers}) e altri sono stati modificati. Sono
+stati anche aggiunti i codici per {\it simulare} il comportamento dell'{\tt AUTO\_INCREMENT}. Infatti
+l'{\it engine} {\tt InnoDB} non permette di avere l'{\tt AUTO\_INCREMENT} sull'attributo {\tt ID} in tabelle
+come {\tt Magazzino}. Infatti in {\tt Magazzino} le tuple dovrebbero assumere la seguente forma:
+\begin{Verbatim}
+$ SELECT * FROM Magazzino;
++-------+----+
+| Sede  | ID |
++-------+----+
+| SedeA |  1 |
+| SedeA |  2 |
+| SedeA |  3 |
+| SedeB |  1 |
+| SedeB |  2 |
+| SedeB |  3 |
+| SedeC |  1 |
+| SedeC |  2 |
++-------+----+
+\end{Verbatim}
+Impostando l'{\tt AUTO\_INCREMENT} sull'attributo {\tt ID} si avrebbe invece:
+\begin{Verbatim}
+$ SELECT * FROM Magazzino;
++----+-------+
+| ID | Sede  |
++----+-------+
+|  1 | SedeA |
+|  2 | SedeA |
+|  3 | SedeA |
+|  4 | SedeB |
+|  5 | SedeB |
+|  6 | SedeB |
+|  7 | SedeC |
+|  8 | SedeC |
++----+-------+
+\end{Verbatim}
+L'{\it engine} {\tt MyISAM} permette di impostare l'{\tt AUTO\_INCREMENT} su una colonna {\it secondaria}, ma
+non permette i {\it vincoli di integrità referenziale} che sono fondamentali nel database di questo progetto. Dobbiamo
+quindi utilizzare {\tt InnoDB} e {\it simulare} l'{\tt AUTO\_INCREMENT} mediante trigger.
+
+\vspace{5pt}
+Le funzionalità di {\it back-end} per l'{\it Area Analytics} sono implementate nella parte finale dello {\it script}.
+
+Per brevità, gli {\tt INSERT INTO} che popolano le tabelle non sono riportati in questo documento (avrebbero
+occupato oltre 100 pagine da soli!), ma sono comunque disponibili nello {\it script in allegato}.
+
+\inputminted[%
+              frame=leftline,           % bordo a sinistra
+              linenos,                  % attiva numeri di linea
+              stepnumber=5,             % solo multipli di 5 come numeri di linea
+              tabsize=4,                % dimensione del tasto tab in spazi
+              fontsize=\small]%         % dimensione del font (perché stia nella pagina bisogna assicurarsi che ogni riga di codice abbia al max 80 caratteri)
+                              {mysql}{./sql/unipi_project_print.sql}
