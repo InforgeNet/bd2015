@@ -60,7 +60,7 @@ BEGIN
                     BETWEEN M.DataInizio AND M.DataFine;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET Finito = TRUE;
     
-    OPEN curMenu;
+    OPEN curPiatto;
     
     loop_lbl: LOOP
         FETCH curPiatto INTO cSede, cRicetta, cOrdini;
@@ -74,7 +74,7 @@ BEGIN
                 UPDATE Comparse = Comparse + 1, TotOrdini = TotOrdini + cOrdini;
     END LOOP loop_lbl;
     
-    CLOSE curMenu;
+    CLOSE curPiatto;
     
     
     

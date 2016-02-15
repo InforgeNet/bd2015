@@ -369,7 +369,7 @@ BEGIN
             SET MESSAGE_TEXT = 'La fase inserita come FaseNuova viene '
                                 'già eliminata da un\'altra ModificaFase. Una '
                                 'fase può essere solo aggiunta o rimossa dalle '
-                                'ModificaFase.'
+                                'ModificaFase.';
         END IF;
     END IF;
     
@@ -397,7 +397,7 @@ BEGIN
             SET MESSAGE_TEXT = 'La fase inserita come FaseVecchia viene '
                                 'già aggiunta da un\'altra ModificaFase. Una '
                                 'fase può essere solo aggiunta o rimossa dalle '
-                                'ModificaFase.'
+                                'ModificaFase.';
         END IF;
     END IF;
 END;$$
@@ -446,7 +446,7 @@ BEGIN
             SET MESSAGE_TEXT = 'La fase inserita come FaseNuova viene '
                                 'già eliminata da un\'altra ModificaFase. Una '
                                 'fase può essere solo aggiunta o rimossa dalle '
-                                'ModificaFase.'
+                                'ModificaFase.';
         END IF;
     END IF;
     
@@ -474,7 +474,7 @@ BEGIN
             SET MESSAGE_TEXT = 'La fase inserita come FaseVecchia viene '
                                 'già aggiunta da un\'altra ModificaFase. Una '
                                 'fase può essere solo aggiunta o rimossa dalle '
-                                'ModificaFase.'
+                                'ModificaFase.';
         END IF;
     END IF;
 END;$$

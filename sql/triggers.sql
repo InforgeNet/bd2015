@@ -417,7 +417,7 @@ BEGIN
             SET MESSAGE_TEXT = 'La fase inserita come FaseNuova viene '
                                 'già eliminata da un\'altra ModificaFase. Una '
                                 'fase può essere solo aggiunta o rimossa dalle '
-                                'ModificaFase.'
+                                'ModificaFase.';
         END IF;
     END IF;
     
@@ -445,7 +445,7 @@ BEGIN
             SET MESSAGE_TEXT = 'La fase inserita come FaseVecchia viene '
                                 'già aggiunta da un\'altra ModificaFase. Una '
                                 'fase può essere solo aggiunta o rimossa dalle '
-                                'ModificaFase.'
+                                'ModificaFase.';
         END IF;
     END IF;
 END;$$
@@ -488,7 +488,7 @@ BEGIN
             SET MESSAGE_TEXT = 'La fase inserita come FaseNuova viene '
                                 'già eliminata da un\'altra ModificaFase. Una '
                                 'fase può essere solo aggiunta o rimossa dalle '
-                                'ModificaFase.'
+                                'ModificaFase.';
         END IF;
     END IF;
     
@@ -516,7 +516,7 @@ BEGIN
             SET MESSAGE_TEXT = 'La fase inserita come FaseVecchia viene '
                                 'già aggiunta da un\'altra ModificaFase. Una '
                                 'fase può essere solo aggiunta o rimossa dalle '
-                                'ModificaFase.'
+                                'ModificaFase.';
         END IF;
     END IF;
 END;$$
@@ -969,6 +969,6 @@ BEGIN
         SIGNAL SQLSTATE '01000' -- Warning
         SET MESSAGE_TEXT = 'La ricetta potrebbe non comparire nel menu in '
                             'quanto potrebbe non esserci una quantità '
-                            'sufficiente di ingredienti.'
+                            'sufficiente di ingredienti.';
     END IF;
 END;$$
