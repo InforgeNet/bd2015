@@ -210,6 +210,7 @@ CREATE TABLE Account
     `Password`              CHAR(32) NOT NULL,
     Nome                    VARCHAR(45) NOT NULL,
     Cognome                 VARCHAR(45) NOT NULL,
+    Sesso                   CHAR(1) NOT NULL,
     Citta                   VARCHAR(45) NOT NULL,
     CAP                     INT(5) UNSIGNED ZEROFILL NOT NULL,
     Via                     VARCHAR(45) NOT NULL,
