@@ -30,3 +30,15 @@ CREATE TABLE MV_MenuCorrente
         ON DELETE CASCADE
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;
+
+CREATE TABLE MV_ClientiPrenotazione
+(
+    Sede                    VARCHAR(45) NOT NULL,
+    `Data`                  DATE NOT NULL,
+    Numero                  INT UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (Sede, `Data`),
+    FOREIGN KEY (Sede)
+        REFERENCES Sede(Nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;

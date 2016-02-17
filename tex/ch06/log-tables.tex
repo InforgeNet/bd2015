@@ -1,6 +1,7 @@
 \section{Tabelle di Log}\label{sec:logtables}
-Il seguente listato contiene il {\it codice MySQL} che implementa una tabella di log: {\tt Clienti\_Log}. Tale
-tabella mantiene, per ogni sede e per ogni mese, il numero di clienti che si sono presentati
+Il seguente listato contiene il {\it codice MySQL} che implementa due tabella di log: {\tt Clienti\_Log} e {\tt Scarichi\_Log}.
+
+La prima tabella mantiene, per ogni sede e per ogni mese, il numero di clienti che si sono presentati
 {\it senza prenotazione}. Tale informazione sarà poi utilizzata per stimare il numero di
 clienti presenti in sala in un dato giorno al fine di calcolare la quantità di ingredienti
 necessari per produrre le ricette del menu.
@@ -12,6 +13,10 @@ dalla tabella {\tt Prenotazione}.
 L'attributo contatore {\tt SenzaPrenotazione} deve essere incrementato manualmente
 dallo Staff del ristorante ogni qual volta che si presenta un cliente senza prenotazione. Per
 farlo, è sufficiente chiamare la {\it stored procedure} {\tt RegistraClienti(VARCHAR(45), INT)}.
+
+La seconda tabella mantiene invece le informazioni su tutti gli scarichi effettuati dai magazzini
+per ogni ingrediente. Tale informazione sarà poi utilizzata per effettuare l'analisi dei
+consumi e degli sprechi.
 
 \inputminted[%
               frame=leftline,           % bordo a sinistra

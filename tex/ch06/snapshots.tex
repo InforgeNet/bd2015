@@ -1,0 +1,12 @@
+\section{Snapshot}\label{sec:snapshots}
+Il seguente listato contiene il {\it codice MySQL} che implementa una {\it tabella snapshot}: {\tt Confezione\_Snapshot}. Tale 
+tabella registra la quantità di materiale in un certo momento di ogni confezione. Tale
+informazione sarà poi utilizzata per calcolare la quantità di materia prima che viene sprecata.
+
+\inputminted[%
+              frame=leftline,           % bordo a sinistra
+              linenos,                  % attiva numeri di linea
+              stepnumber=5,             % solo multipli di 5 come numeri di linea
+              tabsize=4,                % dimensione del tasto tab in spazi
+              fontsize=\small]%         % dimensione del font (perché stia nella pagina bisogna assicurarsi che ogni riga di codice abbia al max 80 caratteri)
+                              {mysql}{./sql/ss.sql}

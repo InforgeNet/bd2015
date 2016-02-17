@@ -1,0 +1,14 @@
+\section{MV\_ClientiPrenotazione}
+La prima ridondanza che introduciamo viene implementata come una nuova tabella. Più precisamente,
+implementiamo una nuova {\it materialized view}. Dopotutto una materialized view può essere anche vista
+come una forma di ridondanza.
+
+Questa nuova tabella conterrà, per ogni sede e per ogni giorno, il numero di clienti
+che si presentano con prenotazione. Viene mantenuta aggiornata da alcuni trigger su {\tt Prenotazione}:
+\inputminted[%
+              frame=leftline,           % bordo a sinistra
+              linenos,                  % attiva numeri di linea
+              stepnumber=5,             % solo multipli di 5 come numeri di linea
+              tabsize=4,                % dimensione del tasto tab in spazi
+              fontsize=\small]%         % dimensione del font (perché stia nella pagina bisogna assicurarsi che ogni riga di codice abbia al max 80 caratteri)
+                              {mysql}{./sql/mv-clientiprenotazione.sql}

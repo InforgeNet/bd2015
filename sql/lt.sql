@@ -11,6 +11,23 @@ CREATE TABLE Clienti_Log
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
+CREATE TABLE Scarichi_Log
+(
+    Sede                    VARCHAR(45) NOT NULL,
+    Magazzino               INT UNSIGNED NOT NULL,
+    Ingrediente             VARCHAR(45) NOT NULL,
+    Quantita                INT UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (Sede, Magazzino, Ingrediente),
+    FOREIGN KEY (Sede, Magazzino)
+        REFERENCES Magazzino(Sede, ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Ingrediente)
+        REFERENCES Ingrediente(Nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
 DELIMITER $$
 
 CREATE TRIGGER nuova_sede
@@ -29,6 +46,45 @@ BEGIN
         (inSede, YEAR(CURRENT_DATE), MONTH(CURRENT_DATE), numero)
         ON DUPLICATE KEY
             UPDATE SenzaPrenotazione = SenzaPrenotazione + numero;
+END;$$
+
+CREATE TRIGGER aggiorna_Scarichi_Log_update
+AFTER UPDATE
+ON Confezione
+FOR EACH ROW
+BEGIN
+    DECLARE IngScaricato VARCHAR(45);
+    
+    IF OLD.Stato = 'in uso' AND NEW.Stato = 'parziale'
+        AND OLD.Peso > NEW.Peso THEN
+        SET IngScaricato = (SELECT L.Ingrediente
+                            FROM Lotto L
+                            WHERE L.Codice = NEW.CodiceLotto);
+                            
+        INSERT INTO Scarichi_Log(Sede, Magazzino, Ingrediente, Quantita)
+        VALUES (NEW.Sede, NEW.Magazzino, IngScaricato, OLD.Peso - NEW.Peso)
+        ON DUPLICATE KEY
+            UPDATE Quantita = Quantita + (OLD.Peso - NEW.Peso);
+    END IF;
+END;$$
+
+CREATE TRIGGER aggiorna_Scarichi_Log_delete
+AFTER DELETE
+ON Confezione
+FOR EACH ROW
+BEGIN
+    DECLARE IngScaricato VARCHAR(45);
+    
+    IF OLD.Stato = 'in uso' THEN
+        SET IngScaricato = (SELECT L.Ingrediente
+                            FROM Lotto L
+                            WHERE L.Codice = OLD.CodiceLotto);
+                            
+        INSERT INTO Scarichi_Log(Sede, Magazzino, Ingrediente, Quantita)
+        VALUES (OLD.Sede, OLD.Magazzino, IngScaricato, OLD.Peso)
+        ON DUPLICATE KEY
+            UPDATE Quantita = Quantita + OLD.Peso;
+    END IF;
 END;$$
 
 DELIMITER ;

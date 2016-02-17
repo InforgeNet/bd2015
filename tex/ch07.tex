@@ -1,4 +1,34 @@
 \chapter{Operazioni}\label{ch:operations}
 In questo Capitolo sono presentate alcune {\it operazioni interessanti}. Successivamente, nel
 paragrafo~\vref{sec:operationscode}, saranno presentate le {\it implementazioni MySQL} di tali operazioni.
-\section{Implementazione delle operazioni}\label{sec:operationscode}
+
+Le operazioni che andremo ad analizzare sono le seguenti (le stime sul numero di esecuzioni
+al giorno sono basate anche su alcune delle considerazioni riportate nella {\it tavola dei volumi} del
+paragrafo~\vref{sec:volumetable}):
+{\tabulinesep=3pt
+\begin{longtabu} to \linewidth {|>{\raggedright}X[2,m]|X[c,m]|}
+\hline\rowfont\bfseries
+\centering Operazione                                   & Frequenza
+\\ \hline \hline \hline \hline \hline % ----------------------------------------
+\endhead
+1. Ottenere lo stato di una comanda.                    & \(1\,500/giorno\)
+    \\ \hline % ----------------------------------------------------------------
+2. Assegnamento automatico di un pony a una comanda
+take-away mediante trigger.                             & \(125/giorno\)
+    \\ \hline % ----------------------------------------------------------------
+3. Aggiunta di una nuova comanda.                       & \(675/giorno\)
+    \\ \hline % ----------------------------------------------------------------
+4. Aggiunta di un nuovo piatto.                         & \(3\,375/giorno\)
+    \\ \hline % ----------------------------------------------------------------
+5. Controllo della disponibilità degli ingredienti in
+magazzino per la produzione di una ricetta in un certo
+giorno.                                                 & \(500/giorno\)
+    \\ \hline % ----------------------------------------------------------------
+6. Aggiunta di una prenotazione.                        & \(375/giorno\)
+    \\ \hline % ----------------------------------------------------------------
+7. Classifica delle recensioni.                         & \(100/giorno\)
+    \\ \hline % ----------------------------------------------------------------
+8. Aggiunta di una valutazione.                         & \(3/giorno\)
+    \\ \hline % ----------------------------------------------------------------
+\end{longtabu}}
+\input{./tex/ch07/operations-code}

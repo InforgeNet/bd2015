@@ -1,0 +1,88 @@
+\section{Nuove tavole degli accessi}\label{sec:newaccesstables}
+Vediamo come cambiano le tavole degli accessi per alcune operazioni in seguito all'introduzione
+delle ridondanze individuate in questo Capitolo.
+\vspace{10pt}
+
+La prima ridondanza impatta sulle operazioni 5 e 6 (la seconda esegue il trigger che aggiorna la ridondanza):
+{\tabulinesep=3pt
+\begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
+\hline\rowfont\bfseries
+\multicolumn{3}{|c|}{\large Operazione 5}
+\\\hline\hline\hline\hline
+\textbf{Tabella}                        & \textbf{Accessi}      & \textbf{Tipo}
+\\ \hline \hline \hline % ------------------------------------------------------
+\endhead
+MV\_ClientiPrenotazione                 & \(1\)                 & L
+    \\ \hline % ----------------------------------------------------------------
+Clienti\_Log                            & \(5\)                 & L
+    \\ \hline % ----------------------------------------------------------------
+MV\_OrdiniRicetta                       & \(1\)                 & L
+    \\ \hline % ----------------------------------------------------------------
+Fase                                    & \(7\)                 & L
+    \\ \hline % ----------------------------------------------------------------
+Confezione                              & \(2\)                 & L
+    \\ \hline\hline\hline % ----------------------------------------------------
+\multicolumn{3}{|l|}{\textbf{Costo totale:} \(1 + 5 + 1 + 7 + 2 = 16 \times 500 = \textbf{8\,000}/giorno\)}
+    \\ \hline % ----------------------------------------------------------------
+\end{longtabu}}
+
+{\tabulinesep=3pt
+\begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
+\hline\rowfont\bfseries
+\multicolumn{3}{|c|}{\large Operazione 6}
+\\\hline\hline\hline\hline
+\textbf{Tabella}                        & \textbf{Accessi}      & \textbf{Tipo}
+\\ \hline \hline \hline % ------------------------------------------------------
+\endhead
+Prenotazione                            & \(1\)                 & S
+    \\ \hline % ----------------------------------------------------------------
+MV\_ClientiPrenotazione                 & \(1\)                 & S
+    \\ \hline\hline\hline % ----------------------------------------------------
+\multicolumn{3}{|l|}{\textbf{Costo totale:} \(1 \times 2 + 1 \times 2 = 4 \times 375 = \textbf{1\,500}/giorno\)}
+    \\ \hline % ----------------------------------------------------------------
+\end{longtabu}}
+
+\noindent In definitiva:\\
+\textit{Costo senza ridondanza:} \(15\,000 + 750 = \textbf{15\,750}/giorno\)\\
+\textit{Costo con ridondanza:} \(8\,000 + 1\,500 = \textbf{9\,500}/giorno\)
+
+Gli altri due trigger usati per tenere la ridondanza aggiornata possono essere trascurati
+in quanto vengono eseguiti molto raramente. La ridondanza risulta conveniente: decidiamo quindi di mantenerla.
+\vspace{10pt}
+
+La seconda ridondanza impatta sulle operazioni 7 e 8 (di nuovo, la seconda esegue il trigger che aggiorna la ridondanza):
+{\tabulinesep=3pt
+\begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
+\hline\rowfont\bfseries
+\multicolumn{3}{|c|}{\large Operazione 7}
+\\\hline\hline\hline\hline
+\textbf{Tabella}                        & \textbf{Accessi}      & \textbf{Tipo}
+\\ \hline \hline \hline % ------------------------------------------------------
+\endhead
+Recensione                              & \(2\,000\)            & L
+    \\ \hline\hline\hline % ----------------------------------------------------
+\multicolumn{3}{|l|}{\textbf{Costo totale:} \(2\,000 \times 100 = \textbf{20\,000}/giorno\)}
+    \\ \hline % ----------------------------------------------------------------
+\end{longtabu}}
+
+{\tabulinesep=3pt
+\begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
+\hline\rowfont\bfseries
+\multicolumn{3}{|c|}{\large Operazione 8}
+\\\hline\hline\hline\hline
+\textbf{Tabella}                        & \textbf{Accessi}      & \textbf{Tipo}
+\\ \hline \hline \hline % ------------------------------------------------------
+\endhead
+Valutazione                             & \(1\)                 & S
+    \\ \hline % ----------------------------------------------------------------
+Recensione                              & \(1\)                 & S
+    \\ \hline\hline\hline % ----------------------------------------------------
+\multicolumn{3}{|l|}{\textbf{Costo totale:} \(1 \times 2 + 1 \times 2 = 4 \times 3 = \textbf{12}/giorno\)}
+    \\ \hline % ----------------------------------------------------------------
+\end{longtabu}}
+
+\noindent In definitiva:\\
+\textit{Costo senza ridondanza:} \(60\,000 + 6 = \textbf{60\,006}/giorno\)\\
+\textit{Costo con ridondanza:} \(20\,000 + 12 = \textbf{20\,012}/giorno\)
+
+La ridondanza risulta conveniente: decidiamo quindi di mantenerla.

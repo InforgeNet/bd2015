@@ -1,46 +1,6 @@
-CREATE PROCEDURE RegistraClienti(IN inSede VARCHAR(45), IN numero INT)
-NOT DETERMINISTIC MODIFIES SQL DATA
-BEGIN
-    INSERT INTO Clienti_Log(Sede, Anno, Mese, SenzaPrenotazione) VALUES
-        (inSede, YEAR(CURRENT_DATE), MONTH(CURRENT_DATE), numero)
-        ON DUPLICATE KEY
-            UPDATE SenzaPrenotazione = SenzaPrenotazione + numero;
-END;$$
+DELIMITER $$
 
-CREATE FUNCTION StatoComanda(idComanda INT)
-RETURNS ENUM('nuova', 'in preparazione', 'parziale', 'evasa', 'consegna')
-NOT DETERMINISTIC READS SQL DATA
-BEGIN
-    -- bit 1 set: contiene piatti in attesa
-    -- bit 2 set: contiene piatti in preparazione
-    -- bit 3 set: contiene piatti in servizio
-    DECLARE Flags INT;
-    
-    SET Flags = (SELECT IF(SUM(P.Stato = 'attesa') > 0, 1, 0)
-                        + IF(SUM(P.Stato = 'in preparazione') > 0, 2, 0)
-                        + IF(SUM(P.Stato = 'servizio') > 0, 4, 0)
-                    FROM Piatto P
-                    WHERE P.Comanda = idComanda);
-                    
-    CASE
-        WHEN Flags = 4 THEN -- tutti i piatti in servizio
-        BEGIN
-            DECLARE TakeAway BOOL DEFAULT FALSE;
-            SET TakeAway = (SELECT C.Account IS NOT NULL
-                            FROM Comanda C
-                            WHERE C.ID = idComanda);
-            IF TakeAway THEN
-                RETURN 'consegna';
-            ELSE
-                RETURN 'evasa';
-            END IF;
-        END;
-        WHEN Flags > 4 THEN RETURN 'parziale'; -- alcuni piatti in servizio
-        WHEN Flags > 1 THEN RETURN 'in preparazione'; -- alcuni piatti in prep.
-        ELSE RETURN 'nuova'; -- tutti i piatti in attesa (Flags = 1)
-    END CASE;    
-END;$$
-
+-- OPERAZIONE 5
 CREATE FUNCTION IngredientiDisponibili(cSede VARCHAR(45), cRicetta VARCHAR(45),
                                                     cNovita BOOL, cData DATE)
 RETURNS BOOL
@@ -66,6 +26,7 @@ BEGIN
         SET cData = CURRENT_DATE;
     END IF;
       
+    -- il conteggio del numero dei clienti è ora immediato
     SET ClientiPrenotazioni = (SELECT COALESCE(CP.Numero, 0)
                                 FROM MV_ClientiPrenotazione CP
                                 WHERE CP.Sede = cSede
@@ -125,3 +86,13 @@ BEGIN
     
     RETURN TRUE;
 END;$$
+
+DELIMITER ;
+
+-- OPERAZIONE 7
+CREATE OR REPLACE VIEW RankRecensioni AS
+SELECT R.ID AS Recensione,
+        R.VeridicitaTotale, R.AccuratezzaTotale, R.NumeroValutazioni
+FROM Recensione R
+GROUP BY R.ID
+ORDER BY (R.VeridicitaTotale + R.AccuratezzaTotale)/R.NumeroValutazioni DESC;

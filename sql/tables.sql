@@ -444,6 +444,9 @@ CREATE TABLE Recensione
     Ricetta                 VARCHAR(45) NOT NULL,
     Testo                   TEXT NOT NULL,
     Giudizio                TINYINT(1) UNSIGNED NOT NULL,
+    VeridicitaTotale        INT UNSIGNED NOT NULL DEFAULT 0,
+    AccuratezzaTotale       INT UNSIGNED NOT NULL DEFAULT 0,
+    NumeroValutazioni       INT UNSIGNED NOT NULL DEFAULT 0,
     PRIMARY KEY (ID),
     UNIQUE KEY (Account, Sede, Ricetta),
     FOREIGN KEY (Account)

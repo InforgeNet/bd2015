@@ -1,1 +1,155 @@
 \section{Tavole degli accessi}\label{sec:accesstables}
+Vediamo le {\it tavole degli accessi} delle operazioni individuate nel Capitolo~\vref{ch:operations}.
+\vspace{10pt}
+
+Per la prima operazione si nota facilmente che sono necessarie cinque letture su {\tt Piatto}, in
+quanto ogni comanda ha in media 5 piatti, e una su {\tt Comanda}:
+{\tabulinesep=3pt
+\begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
+\hline\rowfont\bfseries
+\multicolumn{3}{|c|}{\large Operazione 1}
+\\\hline\hline\hline\hline
+\textbf{Tabella}                        & \textbf{Accessi}      & \textbf{Tipo}
+\\ \hline \hline \hline % ------------------------------------------------------
+\endhead
+Piatto                                  & \(5\)                 & L
+    \\ \hline % ----------------------------------------------------------------
+Comanda                                 & \(1\)                 & L
+    \\ \hline\hline\hline % ----------------------------------------------------
+\multicolumn{3}{|l|}{\textbf{Costo totale:} \(5 + 1 = 6 \times 1\,500 = \textbf{9\,000}/giorno\)}
+    \\ \hline % ----------------------------------------------------------------
+\end{longtabu}}
+
+Per la seconda operazione il {\it trigger} {\tt assegna\_pony} effettua una chiamata a {\tt StatoComanda} la
+quale effettua cinque letture su {\tt Piatto} e una lettura su {\tt Comanda}, poi altre cinque letture su {\tt Piatto} (per
+contare il numero di piatti), quattro letture su {\tt Pony}, in quanto ogni sede ha in media 4 pony, e una scrittura
+su {\tt Consegna} per piazzare la nuova consegna. Quest'ultima scrittura causerà a sua volta l'esecuzione di un trigger
+che provedderà ad aggiornare lo stato del pony su {\tt 'occupato'} --- quindi effettua una scrittura anche su {\tt Pony}:
+{\tabulinesep=3pt
+\begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
+\hline\rowfont\bfseries
+\multicolumn{3}{|c|}{\large Operazione 2}
+\\\hline\hline\hline\hline
+\textbf{Tabella}                        & \textbf{Accessi}      & \textbf{Tipo}
+\\ \hline \hline \hline % ------------------------------------------------------
+\endhead
+Comanda                                 & \(1\)                 & L
+    \\ \hline % ----------------------------------------------------------------
+Piatto                                  & \(10\)                & L
+    \\ \hline % ----------------------------------------------------------------
+Pony                                    & \(4\)                 & L
+    \\ \hline % ----------------------------------------------------------------
+Consegna                                & \(1\)                 & S
+    \\ \hline % ----------------------------------------------------------------
+Pony                                    & \(1\)                 & S
+    \\ \hline\hline\hline % ----------------------------------------------------
+\multicolumn{3}{|l|}{\textbf{Costo totale:} \(1 + 10 + 4 + 1 \times 2 + 1 \times 2 = 19 \times 125 = \textbf{2\,375}/giorno\)}
+    \\ \hline % ----------------------------------------------------------------
+\end{longtabu}}
+
+\clearpage
+La terza operazione è una scrittura su {\tt Comanda}:
+{\tabulinesep=3pt
+\begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
+\hline\rowfont\bfseries
+\multicolumn{3}{|c|}{\large Operazione 3}
+\\\hline\hline\hline\hline
+\textbf{Tabella}                        & \textbf{Accessi}      & \textbf{Tipo}
+\\ \hline \hline \hline % ------------------------------------------------------
+\endhead
+Comanda                                 & \(1\)                 & S
+    \\ \hline\hline\hline % ----------------------------------------------------
+\multicolumn{3}{|l|}{\textbf{Costo totale:} \(1 \times 2 = 2 \times 675 = \textbf{1\,350}/giorno\)}
+    \\ \hline % ----------------------------------------------------------------
+\end{longtabu}}
+
+La quarta operazione è una scrittura su {\tt Piatto}:
+{\tabulinesep=3pt
+\begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
+\hline\rowfont\bfseries
+\multicolumn{3}{|c|}{\large Operazione 4}
+\\\hline\hline\hline\hline
+\textbf{Tabella}                        & \textbf{Accessi}      & \textbf{Tipo}
+\\ \hline \hline \hline % ------------------------------------------------------
+\endhead
+Piatto                                  & \(1\)                 & S
+    \\ \hline\hline\hline % ----------------------------------------------------
+\multicolumn{3}{|l|}{\textbf{Costo totale:} \(1 \times 2 = 2 \times 3\,375 = \textbf{6\,750}/giorno\)}
+    \\ \hline % ----------------------------------------------------------------
+\end{longtabu}}
+
+Per la quinta operazione la funzione {\tt IngredientiDisponibili} effettua 15 letture
+su {\tt Prenotazione}, in quanto una sede riceve in media 15 prenotazioni al giorno, cinque letture
+su {\tt Clienti\_Log}, ipotizzando che la catena di ristorazione sia aperta da 5 anni, una
+lettura su {\tt MV\_OrdiniRicetta}, sette letture su {\tt Fase}, ipotizzando che una ricetta
+sia composta in media da 7 fasi che aggiungono ingredienti, due letture su {\tt Confezione}, ipotizzando
+che in media un magazzino contiene una sola confezione di ogni ingrediente e una sede possiede due magazzini.
+{\tabulinesep=3pt
+\begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
+\hline\rowfont\bfseries
+\multicolumn{3}{|c|}{\large Operazione 5}
+\\\hline\hline\hline\hline
+\textbf{Tabella}                        & \textbf{Accessi}      & \textbf{Tipo}
+\\ \hline \hline \hline % ------------------------------------------------------
+\endhead
+Prenotazione                            & \(15\)                & L
+    \\ \hline % ----------------------------------------------------------------
+Clienti\_Log                            & \(5\)                 & L
+    \\ \hline % ----------------------------------------------------------------
+MV\_OrdiniRicetta                       & \(1\)                 & L
+    \\ \hline % ----------------------------------------------------------------
+Fase                                    & \(7\)                 & L
+    \\ \hline % ----------------------------------------------------------------
+Confezione                              & \(2\)                 & L
+    \\ \hline\hline\hline % ----------------------------------------------------
+\multicolumn{3}{|l|}{\textbf{Costo totale:} \(15 + 5 + 1 + 7 + 2 = 30 \times 500 = \textbf{15\,000}/giorno\)}
+    \\ \hline % ----------------------------------------------------------------
+\end{longtabu}}
+
+La sesta operazione è una scrittura su {\tt Prenotazione}:
+{\tabulinesep=3pt
+\begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
+\hline\rowfont\bfseries
+\multicolumn{3}{|c|}{\large Operazione 6}
+\\\hline\hline\hline\hline
+\textbf{Tabella}                        & \textbf{Accessi}      & \textbf{Tipo}
+\\ \hline \hline \hline % ------------------------------------------------------
+\endhead
+Prenotazione                            & \(1\)                 & S
+    \\ \hline\hline\hline % ----------------------------------------------------
+\multicolumn{3}{|l|}{\textbf{Costo totale:} \(1 \times 2 = 2 \times 375 = \textbf{750}/giorno\)}
+    \\ \hline % ----------------------------------------------------------------
+\end{longtabu}}
+
+Per la settima operazione è necessario, per poter stilare la classifica, leggere
+tutte le istanze di {\tt Recensione} e tutte quelle di {\tt Valutazione}:
+{\tabulinesep=3pt
+\begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
+\hline\rowfont\bfseries
+\multicolumn{3}{|c|}{\large Operazione 7}
+\\\hline\hline\hline\hline
+\textbf{Tabella}                        & \textbf{Accessi}      & \textbf{Tipo}
+\\ \hline \hline \hline % ------------------------------------------------------
+\endhead
+Recensione                              & \(2\,000\)            & L
+    \\ \hline % ----------------------------------------------------------------
+Valutazione                             & \(4\,000\)            & L
+    \\ \hline\hline\hline % ----------------------------------------------------
+\multicolumn{3}{|l|}{\textbf{Costo totale:} \(2\,000 + 4\,000 = 6\,000 \times 100 = \textbf{60\,000}/giorno\)}
+    \\ \hline % ----------------------------------------------------------------
+\end{longtabu}}
+
+L'ottava operazione è una scrittura su {\tt Valutazione}:
+{\tabulinesep=3pt
+\begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
+\hline\rowfont\bfseries
+\multicolumn{3}{|c|}{\large Operazione 8}
+\\\hline\hline\hline\hline
+\textbf{Tabella}                        & \textbf{Accessi}      & \textbf{Tipo}
+\\ \hline \hline \hline % ------------------------------------------------------
+\endhead
+Valutazione                             & \(1\)                 & S
+    \\ \hline\hline\hline % ----------------------------------------------------
+\multicolumn{3}{|l|}{\textbf{Costo totale:} \(1 \times 2 = 2 \times 3 = \textbf{6}/giorno\)}
+    \\ \hline % ----------------------------------------------------------------
+\end{longtabu}}

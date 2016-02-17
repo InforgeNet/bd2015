@@ -1,3 +1,12 @@
+CREATE TRIGGER nuova_sede
+AFTER INSERT
+ON Sede
+FOR EACH ROW
+BEGIN
+    INSERT INTO Clienti_Log(Sede, Anno, Mese) VALUES
+        (NEW.Nome, YEAR(CURRENT_DATE), MONTH(CURRENT_DATE));
+END;$$
+
 CREATE TRIGGER nuovo_magazzino
 BEFORE INSERT
 ON Magazzino
@@ -87,6 +96,7 @@ ON Confezione
 FOR EACH ROW
 BEGIN
     DECLARE LottoPresente BOOL;
+    DECLARE IngScaricato VARCHAR(45);
     
     SET LottoPresente = (SELECT COUNT(*) > 0
                         FROM Confezione C
@@ -94,6 +104,37 @@ BEGIN
     
     IF NOT LottoPresente THEN
         DELETE FROM Lotto WHERE Codice = OLD.CodiceLotto;
+    END IF;
+    
+    IF OLD.Stato = 'in uso' THEN
+        SET IngScaricato = (SELECT L.Ingrediente
+                            FROM Lotto L
+                            WHERE L.Codice = OLD.CodiceLotto);
+                            
+        INSERT INTO Scarichi_Log(Sede, Magazzino, Ingrediente, Quantita)
+        VALUES (OLD.Sede, OLD.Magazzino, IngScaricato, OLD.Peso)
+        ON DUPLICATE KEY
+            UPDATE Quantita = Quantita + OLD.Peso;
+    END IF;
+END;$$
+
+CREATE TRIGGER aggiorna_Scarichi_Log_update
+AFTER UPDATE
+ON Confezione
+FOR EACH ROW
+BEGIN
+    DECLARE IngScaricato VARCHAR(45);
+    
+    IF OLD.Stato = 'in uso' AND NEW.Stato = 'parziale'
+        AND OLD.Peso > NEW.Peso THEN
+        SET IngScaricato = (SELECT L.Ingrediente
+                            FROM Lotto L
+                            WHERE L.Codice = NEW.CodiceLotto);
+                            
+        INSERT INTO Scarichi_Log(Sede, Magazzino, Ingrediente, Quantita)
+        VALUES (NEW.Sede, NEW.Magazzino, IngScaricato, OLD.Peso - NEW.Peso)
+        ON DUPLICATE KEY
+            UPDATE Quantita = Quantita + (OLD.Peso - NEW.Peso);
     END IF;
 END;$$
 
@@ -118,6 +159,39 @@ BEGIN
     IF MenuAttiviPeriodo THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Un menu è già attivo in questo periodo.';
+    END IF;
+END;$$
+
+CREATE TRIGGER nuovo_elenco
+BEFORE INSERT
+ON Elenco
+FOR EACH ROW
+BEGIN
+    SET NEW.Novita = (SELECT (COUNT(*) = 0) AS PrimaVolta
+                        FROM MV_OrdiniRicetta MVOR
+                        WHERE MVOR.Ricetta = NEW.Ricetta
+                            AND MVOR.Sede = (SELECT M.Sede
+                                                FROM Menu M
+                                                WHERE M.ID = NEW.Menu));
+END;$$
+
+CREATE TRIGGER controllo_ingredienti
+AFTER INSERT
+ON Elenco
+FOR EACH ROW
+BEGIN
+    DECLARE cSede VARCHAR(45);
+    DECLARE cData DATE;
+    
+    SELECT M.Sede, M.DataInizio INTO cSede, cData
+    FROM Menu M
+    WHERE M.ID = NEW.Menu;
+
+    IF NOT IngredientiDisponibili(cSede, NEW.Ricetta, NEW.Novita, cData) THEN
+        SIGNAL SQLSTATE '01000' -- Warning
+        SET MESSAGE_TEXT = 'La ricetta potrebbe non comparire nel menu in '
+                            'quanto potrebbe non esserci una quantità '
+                            'sufficiente di ingredienti.';
     END IF;
 END;$$
 
@@ -296,57 +370,41 @@ AFTER UPDATE
 ON Piatto
 FOR EACH ROW
 BEGIN
-    DECLARE ComandaTakeAway BOOL;
-    DECLARE PiattiNonInServizio BOOL;
+    DECLARE NumeroPiatti INT;
     DECLARE SedeComanda VARCHAR(45);
     DECLARE PonyScelto INT;
     
-    IF NEW.Stato = 'servizio' THEN
-        SET ComandaTakeAway = (SELECT C.Account <> NULL
-                                FROM Comanda C
-                                WHERE C.ID = NEW.Comanda);
+    IF StatoComanda(NEW.Comanda) = 'consegna' THEN
+        SET SedeComanda = (SELECT C.Account <> NULL, C.Sede
+                            FROM Comanda C
+                            WHERE C.ID = NEW.Comanda);
                                 
-        IF ComandaTakeAway THEN
-            SET PiattiNonInServizio = (SELECT COUNT(*) > 0
-                                        FROM Piatto P
-                                        WHERE P.Comanda = NEW.Comanda
-                                            AND P.Stato <> 'servizio');
-            
-            IF NOT PiattiNonInServizio THEN
-                -- Scegli Pony
-                SET SedeComanda = (SELECT C.Sede
-                                    FROM Comanda C
-                                    WHERE C.ID = NEW.Comanda);
-                
-                SET PonyScelto = (SELECT P.ID
-                                    FROM Pony P
-                                    WHERE P.Sede = SedeComanda
-                                        AND P.Stato = 'libero'
-                                        AND Ruote = (
-                                        SELECT COUNT(*) > 5
-                                        FROM Piatto P
-                                        WHERE P.Comanda = NEW.Comanda));
-                                        
-                IF PonyScelto IS NULL THEN
-                    SET PonyScelto = (SELECT P.ID
-                                        FROM Pony P
-                                        WHERE P.Sede = SedeComanda
-                                        AND P.Stato = 'libero');
-                END IF;
-                
-                IF PonyScelto IS NULL THEN
-                    -- Nessun Pony disponibile
-                    SIGNAL SQLSTATE '01000' -- Warning
-                    SET MESSAGE_TEXT = 'Nessun Pony è stato assegnato in '
-                                        'quanto sono tutti occupati.';
-                ELSE
-                    -- Assegna Pony
-                    INSERT INTO Consegna(Comanda, Sede, Pony, Partenza, Arrivo,
-                                            Ritorno)
-                    VALUES (NEW.Comanda, SedeComanda, PonyScelto, NULL, NULL,
-                                NULL);
-                END IF;
-            END IF;
+        SET NumeroPiatti = (SELECT COUNT(*)
+                            FROM Piatto P
+                            WHERE P.Comanda = NEW.Comanda);
+                            
+        SET PonyScelto = (SELECT P.ID
+                            FROM Pony P
+                            WHERE P.Sede = SedeComanda
+                                AND P.Stato = 'libero'
+                                AND Ruote = (NumeroPiatti > 5)
+                            LIMIT 1);
+                         
+        IF PonyScelto IS NULL THEN
+            SET PonyScelto = (SELECT P.ID
+                                FROM Pony P
+                                WHERE P.Sede = SedeComanda
+                                    AND P.Stato = 'libero'
+                                LIMIT 1);
+        END IF;
+        
+        IF PonyScelto IS NULL THEN
+            SIGNAL SQLSTATE '01000' -- Warning
+            SET MESSAGE_TEXT = 'Nessun Pony è stato assegnato in '
+                                'quanto sono tutti occupati.';
+        ELSE
+            INSERT INTO Consegna(Comanda, Sede, Pony, Arrivo, Ritorno)
+            VALUES (NEW.Comanda, SedeComanda, PonyScelto, NULL, NULL);
         END IF;
     END IF;
 END;$$
@@ -869,6 +927,41 @@ BEGIN
     END IF;
 END;$$
 
+CREATE TRIGGER aggiorna_MV_ClientiPrenotazione_insert
+AFTER INSERT
+ON Prenotazione
+FOR EACH ROW
+BEGIN
+    INSERT INTO MV_ClientiPrenotazione(Sede, `Data`, Numero)
+    VALUES (NEW.Sede, DATE(NEW.`Data`), NEW.Numero)
+    ON DUPLICATE KEY
+        UPDATE Numero = Numero + NEW.Numero;
+END;$$
+
+CREATE TRIGGER aggiorna_MV_ClientiPrenotazione_update
+AFTER UPDATE
+ON Prenotazione
+FOR EACH ROW
+BEGIN
+    IF NEW.Numero <> OLD.Numero THEN
+        INSERT INTO MV_ClientiPrenotazione(Sede, `Data`, Numero)
+        VALUES (NEW.Sede, DATE(NEW.`Data`), NEW.Numero)
+        ON DUPLICATE KEY
+            UPDATE Numero = Numero - OLD.Numero + NEW.Numero;
+    END IF;
+END;$$
+
+CREATE TRIGGER aggiorna_MV_ClientiPrenotazione_delete
+AFTER DELETE
+ON Prenotazione
+FOR EACH ROW
+BEGIN
+    UPDATE MV_ClientiPrenotazione
+    SET Numero = Numero - OLD.Numero
+    WHERE Sede = OLD.Sede
+        AND `Data` = DATE(OLD.`Data`);
+END;$$
+
 CREATE TRIGGER nuovo_gradimento
 BEFORE INSERT
 ON Gradimento
@@ -913,6 +1006,18 @@ BEGIN
     END IF;
 END;$$
 
+CREATE TRIGGER aggiorna_ridondanza_Recensione
+AFTER INSERT
+ON Valutazione
+FOR EACH ROW
+BEGIN
+    UPDATE Recensione R
+    SET R.VeridicitaTotale = R.VeridicitaTotale + NEW.Veridicita,
+        R.AccuratezzaTotale = R.AccuratezzaTotale + NEW.Accuratezza,
+        NumeroValutazioni = NumeroValutazioni + 1
+    WHERE R.ID = NEW.Recensione;
+END;$$
+
 CREATE TRIGGER nuova_risposta
 BEFORE INSERT
 ON Risposta
@@ -928,47 +1033,5 @@ BEGIN
         SET NEW.Numero = (SELECT IFNULL(MAX(Numero), 0) + 1
                             FROM Risposta
                             WHERE Domanda = NEW.Domanda);
-    END IF;
-END;$$
-
-CREATE TRIGGER nuova_sede
-AFTER INSERT
-ON Sede
-FOR EACH ROW
-BEGIN
-    INSERT INTO Clienti_Log(Sede, Anno, Mese) VALUES
-        (NEW.Nome, YEAR(CURRENT_DATE), MONTH(CURRENT_DATE));
-END;$$
-
-CREATE TRIGGER nuovo_elenco
-BEFORE INSERT
-ON Elenco
-FOR EACH ROW
-BEGIN
-    SET NEW.Novita = (SELECT (COUNT(*) = 0) AS PrimaVolta
-                        FROM MV_OrdiniRicetta MVOR
-                        WHERE MVOR.Ricetta = NEW.Ricetta
-                            AND MVOR.Sede = (SELECT M.Sede
-                                                FROM Menu M
-                                                WHERE M.ID = NEW.Menu));
-END;$$
-
-CREATE TRIGGER controllo_ingredienti
-AFTER INSERT
-ON Elenco
-FOR EACH ROW
-BEGIN
-    DECLARE cSede VARCHAR(45);
-    DECLARE cData DATE;
-    
-    SELECT M.Sede, M.DataInizio INTO cSede, cData
-    FROM Menu M
-    WHERE M.ID = NEW.Menu;
-
-    IF NOT IngredientiDisponibili(cSede, NEW.Ricetta, NEW.Novita, cData) THEN
-        SIGNAL SQLSTATE '01000' -- Warning
-        SET MESSAGE_TEXT = 'La ricetta potrebbe non comparire nel menu in '
-                            'quanto potrebbe non esserci una quantità '
-                            'sufficiente di ingredienti.';
     END IF;
 END;$$

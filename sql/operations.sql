@@ -1,12 +1,6 @@
-CREATE PROCEDURE RegistraClienti(IN inSede VARCHAR(45), IN numero INT)
-NOT DETERMINISTIC MODIFIES SQL DATA
-BEGIN
-    INSERT INTO Clienti_Log(Sede, Anno, Mese, SenzaPrenotazione) VALUES
-        (inSede, YEAR(CURRENT_DATE), MONTH(CURRENT_DATE), numero)
-        ON DUPLICATE KEY
-            UPDATE SenzaPrenotazione = SenzaPrenotazione + numero;
-END;$$
+DELIMITER $$
 
+-- OPERAZIONE 1
 CREATE FUNCTION StatoComanda(idComanda INT)
 RETURNS ENUM('nuova', 'in preparazione', 'parziale', 'evasa', 'consegna')
 NOT DETERMINISTIC READS SQL DATA
@@ -41,6 +35,69 @@ BEGIN
     END CASE;    
 END;$$
 
+
+-- OPERAZIONE 2
+CREATE TRIGGER assegna_pony
+AFTER UPDATE
+ON Piatto
+FOR EACH ROW
+BEGIN
+    DECLARE NumeroPiatti INT;
+    DECLARE SedeComanda VARCHAR(45);
+    DECLARE PonyScelto INT;
+    
+    IF StatoComanda(NEW.Comanda) = 'consegna' THEN
+        SET SedeComanda = (SELECT C.Account <> NULL, C.Sede
+                            FROM Comanda C
+                            WHERE C.ID = NEW.Comanda);
+                                
+        SET NumeroPiatti = (SELECT COUNT(*)
+                            FROM Piatto P
+                            WHERE P.Comanda = NEW.Comanda);
+                            
+        -- Se i piatti sono 5 o meno scelgo un pony su 2 ruote,
+        -- altrimenti su 4 ruote
+        SET PonyScelto = (SELECT P.ID
+                            FROM Pony P
+                            WHERE P.Sede = SedeComanda
+                                AND P.Stato = 'libero'
+                                AND Ruote = (NumeroPiatti > 5)
+                            LIMIT 1);
+                         
+        -- Se non disponibile scelgo un pony qualsiasi
+        IF PonyScelto IS NULL THEN
+            SET PonyScelto = (SELECT P.ID
+                                FROM Pony P
+                                WHERE P.Sede = SedeComanda
+                                    AND P.Stato = 'libero'
+                                LIMIT 1);
+        END IF;
+        
+        IF PonyScelto IS NULL THEN
+            -- Nessun Pony disponibile
+            SIGNAL SQLSTATE '01000' -- Warning
+            SET MESSAGE_TEXT = 'Nessun Pony è stato assegnato in '
+                                'quanto sono tutti occupati.';
+        ELSE
+            -- Assegna Pony
+            INSERT INTO Consegna(Comanda, Sede, Pony, Arrivo, Ritorno)
+            VALUES (NEW.Comanda, SedeComanda, PonyScelto, NULL, NULL);
+        END IF;
+    END IF;
+END;$$
+
+DELIMITER ;
+
+-- OPERAZIONE 3
+INSERT INTO Comanda(Sede, Sala, Tavolo) VALUES ('nome sede', 2, 10);
+
+
+-- OPERAZIONE 4
+INSERT INTO Piatto(Comanda, Ricetta) VALUES (1, 'nome ricetta');
+
+DELIMITER $$
+
+-- OPERAZIONE 5
 CREATE FUNCTION IngredientiDisponibili(cSede VARCHAR(45), cRicetta VARCHAR(45),
                                                     cNovita BOOL, cData DATE)
 RETURNS BOOL
@@ -63,14 +120,20 @@ BEGIN
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET Finito = TRUE;
     
     IF cData IS NULL THEN
-        SET cData = CURRENT_DATE;
+        SET cData = CURRENT_DATE; -- Default
     END IF;
       
-    SET ClientiPrenotazioni = (SELECT COALESCE(CP.Numero, 0)
-                                FROM MV_ClientiPrenotazione CP
-                                WHERE CP.Sede = cSede
-                                    AND CP.`Data` = cData);
+    SET ClientiPrenotazioni = (SELECT COALESCE(SUM(P.Numero), 0)
+                                FROM Prenotazione P
+                                WHERE P.Sede = cSede
+                                    AND DATE(P.`Data`) = cData);
     
+    -- Somma dei SenzaPrenotazione nello stesso mese negli anni passati
+    -- diviso il numero di anni (così da ottenere la media di clienti fuori
+    -- prenotazione per tale mese) diviso il numero di giorni che il mese
+    -- contiene (= media dei clienti fuori prenotazione in un giorno del mese).
+    -- [La stima non è precisissima nel caso del mese di febbraio per via degli
+    -- anni bisestili, ma non è importante: in fondo è pur sempre una stima]
     SET MediaSenzaPrenotazione = (SELECT
                                 CEIL((COALESCE(SUM(CL.SenzaPrenotazione), 0)/
                                         GREATEST(COUNT(DISTINCT CL.Anno), 1))/
@@ -85,8 +148,12 @@ BEGIN
     SET StimaClienti = ClientiPrenotazioni + MediaSenzaPrenotazione;
     
     IF cNovita THEN
+        -- 1/3 dei clienti ordina la ricetta
         SET StimaOrdini = (SELECT CEIL(StimaClienti * 0.33));
     ELSE
+        -- Stima ordini viene calcolata come la media degli ordini della ricetta
+        -- incrementata del 10% dei clienti stimati. L'incremento del 10% sul
+        -- numero di clienti stimati serve come margine di sicurezza.
         SET StimaOrdini = (SELECT (COALESCE(CEIL(MV.TotOrdini / MV.Comparse), 0)
                                         + StimaClienti * 0.1) AS StimaOrdini
                             FROM MV_OrdiniRicetta MV
@@ -105,6 +172,10 @@ BEGIN
             LEAVE loop_lbl;
         END IF;
         
+        -- somma il peso delle confezioni di quell'ingrediente che non sono in
+        -- ordine o che arrivano con almeno tre giorni di anticipo rispetto a
+        -- cData e che non sono danneggiate (se l'ingrediente è primario in
+        -- questa ricetta).
         SET qtaDisponibile = (SELECT SUM(C.Peso)
                                 FROM Confezione C INNER JOIN Lotto L
                                             ON C.CodiceLotto = L.Codice
@@ -125,3 +196,25 @@ BEGIN
     
     RETURN TRUE;
 END;$$
+
+DELIMITER ;
+
+-- OPERAZIONE 6
+INSERT INTO Prenotazione(Sede, `Data`, Numero, Account, Sala, Tavolo)
+VALUES ('nome sede', 'yyyy-mm-dd hh:mm:ss', 5, 'username', 2, 7);
+
+
+-- OPERAZIONE 7
+CREATE OR REPLACE VIEW RankRecensioni AS
+SELECT R.ID AS Recensione,
+        SUM(COALESCE(V.Veridicita, 0)) AS VeridicitaTotale,
+        SUM(COALESCE(V.Veridicita, 0)) AS AccuratezzaTotale,
+        IF(V.Recensione IS NULL, 0, COUNT(*)) AS NumeroValutazioni
+FROM Recensione R LEFT OUTER JOIN Valutazione V ON R.ID = V.Recensione
+GROUP BY R.ID
+ORDER BY (VeridicitaTotale + AccuratezzaTotale)/NumeroValutazioni DESC;
+
+
+-- OPERAZIONE 8
+INSERT INTO Valutazione(Account, Recensione, Veridicita, Accuratezza, Testo)
+VALUES ('username', 10, 4, 3, 'testo testo testo');
