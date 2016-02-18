@@ -90,9 +90,12 @@ END;$$
 DELIMITER ;
 
 -- OPERAZIONE 7
-CREATE OR REPLACE VIEW RankRecensioni AS
-SELECT R.ID AS Recensione,
-        R.VeridicitaTotale, R.AccuratezzaTotale, R.NumeroValutazioni
-FROM Recensione R
-GROUP BY R.ID
-ORDER BY (R.VeridicitaTotale + R.AccuratezzaTotale)/R.NumeroValutazioni DESC;
+SELECT @row_number := @row_number + 1 AS Posizione, D.*
+FROM (SELECT @row_number := 0) AS N,
+    (
+        SELECT R.ID AS Recensione,
+                R.VeridicitaTotale, R.AccuratezzaTotale, R.NumeroValutazioni
+        FROM Recensione R
+        GROUP BY R.ID
+    ) AS D
+ORDER BY (D.VeridicitaTotale + D.AccuratezzaTotale)/D.NumeroValutazioni DESC;

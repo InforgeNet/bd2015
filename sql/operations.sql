@@ -215,7 +215,7 @@ FROM (SELECT @row_number := 0) AS N,
         FROM Recensione R LEFT OUTER JOIN Valutazione V ON R.ID = V.Recensione
         GROUP BY R.ID
     ) AS D
-ORDER BY (VeridicitaTotale + AccuratezzaTotale)/NumeroValutazioni DESC;
+ORDER BY (D.VeridicitaTotale + D.AccuratezzaTotale)/D.NumeroValutazioni DESC;
 
 
 -- OPERAZIONE 8
