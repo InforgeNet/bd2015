@@ -205,13 +205,16 @@ VALUES ('nome sede', 'yyyy-mm-dd hh:mm:ss', 5, 'username', 2, 7);
 
 
 -- OPERAZIONE 7
-CREATE OR REPLACE VIEW RankRecensioni AS
-SELECT R.ID AS Recensione,
-        SUM(COALESCE(V.Veridicita, 0)) AS VeridicitaTotale,
-        SUM(COALESCE(V.Veridicita, 0)) AS AccuratezzaTotale,
-        IF(V.Recensione IS NULL, 0, COUNT(*)) AS NumeroValutazioni
-FROM Recensione R LEFT OUTER JOIN Valutazione V ON R.ID = V.Recensione
-GROUP BY R.ID
+SELECT @row_number := @row_number + 1 AS Posizione, D.*
+FROM (SELECT @row_number := 0) AS N,
+    (
+        SELECT R.ID AS Recensione,
+                SUM(COALESCE(V.Veridicita, 0)) AS VeridicitaTotale,
+                SUM(COALESCE(V.Veridicita, 0)) AS AccuratezzaTotale,
+                IF(V.Recensione IS NULL, 0, COUNT(*)) AS NumeroValutazioni
+        FROM Recensione R LEFT OUTER JOIN Valutazione V ON R.ID = V.Recensione
+        GROUP BY R.ID
+    ) AS D
 ORDER BY (VeridicitaTotale + AccuratezzaTotale)/NumeroValutazioni DESC;
 
 

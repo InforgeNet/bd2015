@@ -648,22 +648,21 @@ BEGIN
     IF NEW.Arrivo IS NOT NULL AND NEW.Arrivo < NEW.Partenza THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Arrivo precedente a partenza.';
-    END IF;
-    
-    IF NEW.Ritorno IS NOT NULL AND NEW.Ritorno < NEW.Arrivo THEN
-        IF NEW.Arrivo IS NULL THEN
+    ELSEIF NEW.Arrivo IS NULL AND NEW.Ritorno IS NOT NULL THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Se Ritorno viene specificato anche Arrivo deve '
                                 'essere specificato.';
-        ELSE
-            IF OLD.Arrivo IS NOT NULL THEN
-                -- Evita ON UPDATE CURRENT_TIMESTAMP
-                SET NEW.Arrivo = OLD.Arrivo;
-            END IF;
-            IF NEW.Ritorno < NEW.Arrivo THEN
-                SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'Ritorno precedente a arrivo.';
-            END IF;
+    END IF;
+            
+    
+    IF NEW.Ritorno IS NOT NULL THEN
+        IF OLD.Arrivo IS NOT NULL AND OLD.Arrivo = NEW.Arrivo THEN
+            -- Evita ON UPDATE CURRENT_TIMESTAMP
+            SET NEW.Arrivo = OLD.Arrivo;
+        END IF;
+        IF NEW.Ritorno < NEW.Arrivo THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Ritorno precedente a arrivo.';
         END IF;
     END IF;
 END;$$
