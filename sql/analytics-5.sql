@@ -50,9 +50,8 @@ BEGIN
                         TempoMedioRitorno
                         ) AS DeltaTempoRitorno
             FROM Pony P INNER JOIN Consegna C
+            WHERE C.Ritorno IS NOT NULL
             GROUP BY P.Sede, P.ID
-            HAVING DeltaTempoAndata IS NOT NULL
-                AND DeltaTempoRitorno IS NOT NULL
         ) AS D
     INTO Report_TakeAway
     ORDER BY (D.DeltaTempoAndata + D.DeltaTempoRitorno) ASC;
