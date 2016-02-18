@@ -13,11 +13,13 @@ CREATE TABLE Clienti_Log
 
 CREATE TABLE Scarichi_Log
 (
+    ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
     Sede                    VARCHAR(45) NOT NULL,
     Magazzino               INT UNSIGNED NOT NULL,
     Ingrediente             VARCHAR(45) NOT NULL,
+    `Timestamp`             TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Quantita                INT UNSIGNED NOT NULL DEFAULT 0,
-    PRIMARY KEY (Sede, Magazzino, Ingrediente),
+    PRIMARY KEY (ID),
     FOREIGN KEY (Sede, Magazzino)
         REFERENCES Magazzino(Sede, ID)
         ON DELETE CASCADE
@@ -62,9 +64,7 @@ BEGIN
                             WHERE L.Codice = NEW.CodiceLotto);
                             
         INSERT INTO Scarichi_Log(Sede, Magazzino, Ingrediente, Quantita)
-        VALUES (NEW.Sede, NEW.Magazzino, IngScaricato, OLD.Peso - NEW.Peso)
-        ON DUPLICATE KEY
-            UPDATE Quantita = Quantita + (OLD.Peso - NEW.Peso);
+        VALUES (NEW.Sede, NEW.Magazzino, IngScaricato, OLD.Peso - NEW.Peso);
     END IF;
 END;$$
 
@@ -81,9 +81,7 @@ BEGIN
                             WHERE L.Codice = OLD.CodiceLotto);
                             
         INSERT INTO Scarichi_Log(Sede, Magazzino, Ingrediente, Quantita)
-        VALUES (OLD.Sede, OLD.Magazzino, IngScaricato, OLD.Peso)
-        ON DUPLICATE KEY
-            UPDATE Quantita = Quantita + OLD.Peso;
+        VALUES (OLD.Sede, OLD.Magazzino, IngScaricato, OLD.Peso);
     END IF;
 END;$$
 

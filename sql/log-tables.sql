@@ -13,11 +13,13 @@ CREATE TABLE Clienti_Log
 
 CREATE TABLE Scarichi_Log
 (
+    ID                      INT UNSIGNED NOT NULL AUTO_INCREMENT,
     Sede                    VARCHAR(45) NOT NULL,
     Magazzino               INT UNSIGNED NOT NULL,
     Ingrediente             VARCHAR(45) NOT NULL,
+    `Timestamp`             TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Quantita                INT UNSIGNED NOT NULL DEFAULT 0,
-    PRIMARY KEY (Sede, Magazzino, Ingrediente),
+    PRIMARY KEY (ID),
     FOREIGN KEY (Sede, Magazzino)
         REFERENCES Magazzino(Sede, ID)
         ON DELETE CASCADE
