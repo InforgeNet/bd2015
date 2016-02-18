@@ -13,6 +13,8 @@ CREATE TABLE Report_TakeAway
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
+DELIMITER $$
+
 CREATE EVENT aggiorna_Report_TakeAway
 ON SCHEDULE
 EVERY 1 WEEK
@@ -56,3 +58,5 @@ BEGIN
     INTO Report_TakeAway
     ORDER BY (D.DeltaTempoAndata + D.DeltaTempoRitorno) ASC;
 END;$$
+
+DELIMITER ;
