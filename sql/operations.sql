@@ -128,15 +128,13 @@ BEGIN
                                 WHERE P.Sede = cSede
                                     AND DATE(P.`Data`) = cData);
     
-    -- Somma dei SenzaPrenotazione nello stesso mese negli anni passati
-    -- diviso il numero di anni (così da ottenere la media di clienti fuori
-    -- prenotazione per tale mese) diviso il numero di giorni che il mese
+    -- AVG(SenzaPrenotazione) = media di clienti fuori prenotazione per tale
+    -- mese. Questo viene diviso per il numero di giorni che il mese
     -- contiene (= media dei clienti fuori prenotazione in un giorno del mese).
     -- [La stima non è precisissima nel caso del mese di febbraio per via degli
     -- anni bisestili, ma non è importante: in fondo è pur sempre una stima]
     SET MediaSenzaPrenotazione = (SELECT
-                                CEIL((COALESCE(SUM(CL.SenzaPrenotazione), 0)/
-                                        GREATEST(COUNT(DISTINCT CL.Anno), 1))/
+                                CEIL(COALESCE(AVG(CL.SenzaPrenotazione), 0)/
                                         DAY(LAST_DAY(cData)))
                                         AS Media
                                     FROM Clienti_Log CL

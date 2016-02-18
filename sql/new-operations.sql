@@ -33,8 +33,7 @@ BEGIN
                                     AND CP.`Data` = cData);
     
     SET MediaSenzaPrenotazione = (SELECT
-                                CEIL((COALESCE(SUM(CL.SenzaPrenotazione), 0)/
-                                        GREATEST(COUNT(DISTINCT CL.Anno), 1))/
+                                CEIL(COALESCE(AVG(CL.SenzaPrenotazione), 0)/
                                         DAY(LAST_DAY(cData)))
                                         AS Media
                                     FROM Clienti_Log CL

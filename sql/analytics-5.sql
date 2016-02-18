@@ -31,6 +31,12 @@ BEGIN
     FROM Consegna C
     WHERE C.Ritorno IS NOT NULL;
     
+    IF TempoMedioAndata IS NULL OR TempoMedioRitorno IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Dati insufficienti per la generazione di '
+                            'Report_TakeAway.';
+    END IF;
+    
     SELECT @row_number := @row_number + 1 AS Posizione, D.*
     FROM (SELECT @row_number := 0) AS N,
         (
@@ -45,6 +51,8 @@ BEGIN
                         ) AS DeltaTempoRitorno
             FROM Pony P INNER JOIN Consegna C
             GROUP BY P.Sede, P.ID
+            HAVING DeltaTempoAndata IS NOT NULL
+                AND DeltaTempoRitorno IS NOT NULL
         ) AS D
     INTO Report_TakeAway
     ORDER BY (D.DeltaTempoAndata + D.DeltaTempoRitorno) ASC;
