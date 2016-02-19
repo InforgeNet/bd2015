@@ -584,8 +584,19 @@ BEFORE INSERT
 ON Modifica
 FOR EACH ROW
 BEGIN
+    DECLARE Suggerimento BOOL;
     DECLARE NumVariazioni INT;
     DECLARE StessaRicetta BOOL;
+    
+    SET Suggerimento = (SELECT V.Account IS NOT NULL
+                        FROM Variazione V
+                        WHERE V.ID = NEW.Variazione);
+    
+    IF Suggerimento THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Solo le variazioni selezionate dagli chef possono '
+                            'essere selezionate, non i suggerimenti.';
+    END IF;
     
     SET NumVariazioni = (SELECT COUNT(*)
                             FROM Modifica M
