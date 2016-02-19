@@ -37,7 +37,8 @@ BEGIN
         DECLARE curScarichi CURSOR FOR
             SELECT SL.Sede, SL.Ingrediente, COALESCE(SUM(SL.Quantita), 0) AS Qta
             FROM Scarichi_Log SL
-            WHERE SL.`Timestamp` BETWEEN inizio AND fine;
+            WHERE SL.`Timestamp` BETWEEN inizio AND fine
+            GROUP BY SL.Sede, SL.Ingrediente;
         DECLARE CONTINUE HANDLER FOR NOT FOUND SET Finito = TRUE;
         
         OPEN curScarichi;
@@ -49,7 +50,7 @@ BEGIN
             END IF;
             
             SET Quantita = (
-            SELECT SUM(F.Dose) AS Quantita
+            SELECT COALESCE(SUM(F.Dose), 0) AS Quantita
             FROM Fase F
                 INNER JOIN Ricetta R ON F.Ricetta = R.Nome
                 INNER JOIN Piatto P ON R.Nome = P.Ricetta
