@@ -1,0 +1,15 @@
+\section{Qualità del take-away}
+Il seguente evento calcola, per ogni pony (e quindi anche per ogni sede), la differenza
+tra i tempi medi di andata e ritorno delle consegne effettuate dal pony e i tempi medi di
+tutte le consegne effettuate.
+
+La tabela {\tt Report\_TakeAway} registra queste informazioni e mantiene anche una {\it classifica} dei
+pony più veloci. I pony nelle ultime posizioni sono i più lenti.
+
+\inputminted[%
+              frame=leftline,           % bordo a sinistra
+              linenos,                  % attiva numeri di linea
+              stepnumber=5,             % solo multipli di 5 come numeri di linea
+              tabsize=4,                % dimensione del tasto tab in spazi
+              fontsize=\small]%         % dimensione del font (perché stia nella pagina bisogna assicurarsi che ogni riga di codice abbia al max 80 caratteri)
+                              {mysql}{./sql/analytics-5.sql}

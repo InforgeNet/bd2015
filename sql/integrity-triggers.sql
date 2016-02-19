@@ -606,7 +606,7 @@ BEGIN
             SET NEW.Descrizione = NULL;
             SET NEW.Approvato = NULL;
             
-            -- Assegna Tavolo (riportato solo nello script finale nel Cap. 10)
+            -- Assegna Tavolo (riportato solo nello script finale nel Cap. 11)
             
         ELSEIF NEW.Descrizione IS NULL THEN
             SIGNAL SQLSTATE '45000'

@@ -1,0 +1,34 @@
+\section{Analisi dei consumi e degli sprechi}
+La seguente procedura calcola, per ogni sede e per ogni ingrediente, la differenza
+tra la materia prima scaricata dai magazzini della sede e quella effettivamente impiegata
+nella produzione dei piatti ordinati dai clienti, in un certo periodo di tempo.
+
+Per far ciò la procedura itera per tutte le sedi e per tutti gli ingredienti e prende
+dalla tabella {\tt Scarichi\_Log} la quantità totale di ingrediente scaricata dai magazzini
+della sede. Poi fa uso di una query molto complessa per calcolare la quantità di ingrediente
+usata nella produzione di tutti i piatti ordinati che richiedono tale ingrediente.
+
+La query prende tutti i piatti prodotti dalla sede nel periodo di interesse specificato. Per ogni
+piatto prende tutte le fasi di preparazione che prevendono l'aggiunta dell'ingrediente preso in
+analisi. Per ottenere le fasi di preparazione effettivamente impiegate nella produzione del piatto, la
+query deve anche considerare le variazioni: la prima delle due condizioni nel {\tt WHERE} che
+coinvolge {\tt F.ID} controlla che la fase non sia presente come {\tt FaseVecchia} all'interno di
+una qualche {\tt ModificaFase} di una qualche {\tt Variazione} scelta dal cliente per quel
+piatto; la seconda controlla che la fase non sia presente come {\tt FaseNuova} all'interno di
+una qualche {\tt ModificaFase} di una qualche {\tt Variazione} {\bf non} scelta dal cliente
+per quel piatto. Il {\it result-set} risultate contiene tutte le fasi di aggiunta dell'ingrediente
+preso in analisi con tutte le informazioni sul piatto, la comanda e la ricetta alla quale si
+riferiscono. Quindi le stesse fasi che aggiungono tale ingrediente sono ripetute per il numero
+di piatti prodotti per ogni ricetta. Sommando tutte le dosi si ottiene la quantità totale di
+ingrediente impiegato nella produzione dei piatti.
+
+La tabela {\tt Report\_TakeAway} riporta, per ogni sede e per ogni ingrediente, la quantità
+di materia prima sprecata.
+
+\inputminted[%
+              frame=leftline,           % bordo a sinistra
+              linenos,                  % attiva numeri di linea
+              stepnumber=5,             % solo multipli di 5 come numeri di linea
+              tabsize=4,                % dimensione del tasto tab in spazi
+              fontsize=\small]%         % dimensione del font (perché stia nella pagina bisogna assicurarsi che ogni riga di codice abbia al max 80 caratteri)
+                              {mysql}{./sql/analytics-4.sql}
