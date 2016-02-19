@@ -1,1 +1,24 @@
 \section{Analisi multidimensionale del business}
+Nel seguente listato sono definite le seguenti procedure:
+\begin{itemize}
+\item {\tt AnalizzaRecensioni()} --- Produce, per ogni sede, la classifica delle ricette
+    meglio recensite, ponderando il giudizio in base alle valutazioni date alle recensioni. Inserisce
+    il risultato in {\tt Report\_PiattiPreferiti}.
+\item {\tt AnalizzaVendite(TIMESTAMP, TIMESTAMP)} --- Produce, per ogni sede, la classifica
+    delle ricette più vendute in un certo periodo di tempo. Inserisce il risultato in {\tt Report\_VenditePiatti}.
+\item {\tt AnalizzaSuggerimenti()} --- Produce la classifica dei suggerimenti più apprezzati. Inserisce
+    il risultato in {\tt Report\_SuggerimentiMigliori}.
+\item {\tt AnalizzaProposte()} --- Produce la classifica delle proposte più apprezzate. Inserisce
+    il risultato in {\tt Report\_ProposteMigliori}.
+\end{itemize}
+
+Infine, l'evento {\tt Analytics\_Scheduler} si occupa di eseguire automaticamente e
+periodicamente tutte queste procedure.
+
+\inputminted[%
+              frame=leftline,           % bordo a sinistra
+              linenos,                  % attiva numeri di linea
+              stepnumber=5,             % solo multipli di 5 come numeri di linea
+              tabsize=4,                % dimensione del tasto tab in spazi
+              fontsize=\small]%         % dimensione del font (perché stia nella pagina bisogna assicurarsi che ogni riga di codice abbia al max 80 caratteri)
+                              {mysql}{./sql/analytics-2.sql}

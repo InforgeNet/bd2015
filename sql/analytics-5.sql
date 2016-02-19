@@ -40,6 +40,7 @@ BEGIN
     END IF;
     
     SELECT @row_number := @row_number + 1 AS Posizione, D.*
+    INTO Report_TakeAway
     FROM (SELECT @row_number := 0) AS N,
         (
             SELECT P.Sede, P.ID AS Pony,
@@ -55,7 +56,6 @@ BEGIN
             WHERE C.Ritorno IS NOT NULL
             GROUP BY P.Sede, P.ID
         ) AS D
-    INTO Report_TakeAway
     ORDER BY (D.DeltaTempoAndata + D.DeltaTempoRitorno) ASC;
 END;$$
 
