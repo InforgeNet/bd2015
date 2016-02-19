@@ -85,6 +85,7 @@ clean:
 	rm *.toc
 	rm tex/*.aux
 	rm sql/unipi_project_print.sql
+	rm sql/unipi_project.sql
 	rm -r _minted-project
 
 mintedclean:
