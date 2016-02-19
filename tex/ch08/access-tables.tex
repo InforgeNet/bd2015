@@ -24,7 +24,7 @@ Per la seconda operazione il {\it trigger} {\tt assegna\_pony} effettua una chia
 quale effettua cinque letture su {\tt Piatto} e una lettura su {\tt Comanda}, poi altre cinque letture su {\tt Piatto} (per
 contare il numero di piatti), quattro letture su {\tt Pony}, in quanto ogni sede ha in media 4 pony, e una scrittura
 su {\tt Consegna} per piazzare la nuova consegna. Quest'ultima scrittura causerà a sua volta l'esecuzione di un trigger
-che provedderà ad aggiornare lo stato del pony su {\tt 'occupato'} --- quindi effettua una scrittura anche su {\tt Pony}:
+che provvederà ad aggiornare lo stato del pony su {\tt 'occupato'} --- quindi effettua una scrittura anche su {\tt Pony}:
 {\tabulinesep=3pt
 \begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
 \hline\rowfont\bfseries

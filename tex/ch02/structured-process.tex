@@ -1,6 +1,6 @@
 \section{Procedimento Strutturato}\label{sec:structuredprocess}
 Prima di poter procedere è necessario decidere come realizzare il {\bf procedimento strutturato}.
-Esso dovrà anche integrasi al sistema delle {\it variazioni} e dei {\it suggerimenti} dei clienti.
+Esso dovrà anche integrarsi al sistema delle {\it variazioni} e dei {\it suggerimenti} dei clienti.
 
 Il modo più {\it flessibile} di rappresentare un procedimento di preparazione di un piatto
 in fasi è quello di una struttura a {\it branches} --- ossia rappresentare il procedimento
@@ -13,7 +13,7 @@ di preparazione di una ricetta tramite una struttura come la seguente:
 Dove ogni {\it nodo numerato} rappresenta una {\it fase}. Ogni fase (nodo) ha zero o più fasi
 che la {\it precedono} e zero o più fasi che la {\it seguono}. Le uniche regole da imporre
 sono: deve esserci {\it una ed una sola} fase ($F_{9}$) che non ha alcuna fase successiva (un
-solo {\it exit-node}), altrimenti si verebbe a produrre più di un piatto (che è assurdo); non
+solo {\it exit-node}), altrimenti si verrebbe a produrre più di un piatto (che è assurdo); non
 devono esserci {\it cicli}, altrimenti la produzione del piatto non terminerebbe mai (altrettanto assurdo).
 
 Con una struttura del genere è possibile ad esempio imporre che per iniziare una fase,
