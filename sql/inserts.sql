@@ -348,3 +348,91 @@ INSERT INTO Ricetta(Nome, Testo) VALUES
 ('Acqua naturale', 'Servire.'),
 ('Acqua frizzante', 'Servire.');
 
+INSERT INTO Ingrediente(Nome, Provenienza, TipoProduzione, Genere, Allergene)
+('Pasta lievitata', 'Piemonte', 'Intensiva', 'Impasto', TRUE),
+('Sugo di pomodoro', 'Toscana', 'Biologica', 'Sugo', TRUE),
+('Mozzarella', 'Marche', 'Intensiva', 'Latticino', TRUE),
+('Olio extravergine di oliva', 'Calabria', 'Biologica', 'Condimento', FALSE),
+('Torta al cioccolato', 'Piemonte', 'Artigianale', 'Dessert', FALSE),
+('Zucchero a velo', 'Sicilia', 'Industriale', 'Condimento', FALSE),
+('Sale', 'Sardegna', 'Intensiva', 'Condimento', FALSE),
+('Limoncello', 'Sardegna', 'Industriale', 'Bevanda', FALSE),
+('Vino bianco', 'Toscana', 'Biologica', 'Bevanda', FALSE),
+('Birra', 'Germania', 'Industriale', 'Bevanda', FALSE),
+('Acqua naturale', 'Marche', 'Industriale', 'Bevanda', FALSE);
+
+INSERT INTO Lotto(Codice, Ingrediente, Scadenza) VALUES
+('L3938M29A', 'Sugo di pomodoro', '2016-03-02'),
+('L9357VA929C', 'Olio extravergine di oliva', '2016-04-07'),
+('L3948VVYH3', 'Zucchero a velo', '2017-05-15'),
+('LE0U8UIV5Y48', 'Sugo di pomodoro', '2016-03-07'),
+('LM934YN4E', 'Mozzarella', '2016-02-28'),
+('L00AA18H2', 'Torta al cioccolato', '2016-04-20'),
+('LHUE666AA', 'Sale', '2018-11-01'),
+('L8H7776A', 'Acqua naturale', '2020-09-10'),
+('L1212DD8RH3QQ', 'Birra', '2017-08-14'),
+('LIM12999AER6', 'Limoncello', '2019-01-01'),
+('LM99AV118W', 'Mozzarella', '2016-03-07'),
+('LZZ99AA00', 'Zucchero a velo', '2018-07-22'),
+('LP4830HA22', 'Pasta lievitata', '2016-03-01'),
+('LP4830HA23', 'Pasta lievitata', '2016-03-03');
+
+
+INSERT INTO Strumento(Nome) VALUES
+('Mattarello'), ('Coltello'), ('Cucchiaio'), ('Forchetta'), ('Bicchiere'),
+('Forno'), ('Forno a microonde'), ('Fornello'), ('Tagliere'), ('Scolapasta'),
+('Teglia'), ('Ciotola');
+
+INSERT INTO Funzione(Strumento, Nome) VALUES
+('Mattarello', 'Stendere'), ('Coltello', 'Tagliare'), ('Coltello', 'Affettare'),
+('Cucchiaio', 'Prendere'), ('Forchetta', 'Inforchettare'),
+('Bicchiere', 'Contenere'), ('Forno', 'Cuocere'), ('Forno', 'Scaldare'),
+('Forno', 'Scongelare'), ('Forno a microonde', 'Scaldare'),
+('Forno a microonde', 'Scongelare'), ('Forno a microonde', 'Riscaldare'),
+('Fornello', 'Cuocere'), ('Fornello', 'Scaldare'), ('Tagliere', 'Appoggiare'),
+('Scolapasta', 'Scolare'), ('Teglia', 'Contenere'), ('Ciotola', 'Contenere');
+
+INSERT INTO Cucina(Sede, Strumento, Quantita) VALUES
+('Pizzeria da Cecco', 'Mattarello', 6), ('Pizzeria da Cecco', 'Coltello', 10),
+('Pizzeria da Cecco', 'Forno', 2), ('Pizzeria da Cecco', 'Cucchiaio', 8),
+('Pizzeria da Cecco', 'Ciotola', 2), ('L\'ostrica ubriaca', 'Forchetta', 9),
+('L\'ostrica ubriaca', 'Forno a microonde', 1),
+('L\'ostrica ubriaca', 'Fornello', 6), ('L\'ostrica ubriaca', 'Bicchiere', 8),
+('Ristorante Venezia', 'Coltello', 4), ('Ristorante Venezia', 'Teglia', 3),
+('Il paiolo magico', 'Forchetta', 12), ('Il paiolo magico', 'Bicchiere', 5),
+('L\'aragosta', 'Scolapasta', 2);
+
+INSERT INTO Fase(ID, Ricetta, Ingrediente, Dose, Primario, Strumento, Testo,
+    Durata) VALUES
+(1, 'Pizza margherita', 'Pasta lievitata', 200, TRUE, NULL, NULL, NULL),
+(2, 'Pizza margherita', NULL, NULL, NULL, 'Mattarello',
+    'Stendere la pasta con il mattarello.', '00:03:00'),
+(3, 'Pizza margherita', 'Sugo di pomodoro', 400, FALSE, NULL, NULL, NULL),
+(4, 'Pizza margherita', NULL, NULL, NULL, 'Cucchiaio',
+    'Distribuire il sugo di pomodoro sulla pasta.', '00:00:30'),
+(5, 'Pizza margherita', 'Mozzarella', 350, TRUE, NULL, NULL, NULL),
+(6, 'Pizza margherita', NULL, NULL, NULL, 'Coltello',
+    'Tagliare la mozzarella a cubetti.', '00:02:00'),
+(7, 'Pizza margherita', NULL, NULL, NULL, NULL,
+    'Distribuire i cubetti di mozzarella sulla pasta.', '00:00:30'),
+(8, 'Pizza margherita', 'Olio extravergine di oliva', 10, FALSE, NULL, NULL,
+    NULL),
+(9, 'Pizza margherita', NULL, NULL, NULL, 'Forno', 'Cuocere in forno.',
+    '00:10:00'),
+(10, 'Torta al cioccolato', 'Torta al cioccolato', 100, TRUE, NULL, NULL NULL),
+(11, 'Torta al cioccolato', NULL, NULL, NULL, 'Coltello',
+    'Tagliare una fetta di torta al cioccolato.', NULL),
+(12, 'Torta al cioccolato', NULL, NULL, NULL, 'Forno a microonde',
+    'Scaldare la fetta di torta nel forno a microonde.', '00:01:30'),
+(13, 'Torta al cioccolato', 'Zucchero a velo', 5, FALSE, NULL, NULL, NULL),
+(14, 'Limoncello', 'Limoncello', 20, TRUE, NULL, NULL, NULL),
+(15, 'Limoncello', NULL, NULL, NULL, 'Bicchiere', 'Versare in un bicchiere.',
+    NULL),
+(16, 'Vino bianco', 'Vino bianco', 1000, TRUE, NULL, NULL, NULL),
+(17, 'Birra', 'Birra', 1000, TRUE, NULL, NULL, NULL),
+(18, 'Acqua naturale', 1000, TRUE, NULL, NULL, NULL);
+
+INSERT INTO SequenzaFasi(Fase, FasePrecedente) VALUES
+(2, 1), (4, 2), (4, 3), (6, 5), (7, 4), (7, 6), (8, 7), (9, 8),
+(11, 10), (12, 11), (13, 12),
+(15, 14);
