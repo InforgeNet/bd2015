@@ -75,7 +75,7 @@ BEGIN
     FROM (SELECT @row_number := 0) AS N,
         (
             SELECT R.Sede, R.Ricetta,
-                SUM(R.Giudizio)*IF(SUM(R.NumeroValutazioni) = 0, 5, ROUND(
+                SUM(R.Giudizio)*IF(SUM(R.NumeroValutazioni) = 0, 6, ROUND(
             AVG((R.VeridicitaTotale + R.AccuratezzaTotale)/R.NumeroValutazioni))
                 ) AS GiudizioTotale, COUNT(*) AS NumeroRecensioni
             FROM Recensione R
