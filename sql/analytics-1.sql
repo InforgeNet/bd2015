@@ -15,28 +15,37 @@ CREATE TABLE Report_PiattiDaAggiungere
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
+CREATE OR REPLACE VIEW IngredientiInScadenza AS
+SELECT C.Sede, L.Ingrediente
+FROM Lotto L INNER JOIN Confezione C ON L.Codice = C.CodiceLotto
+WHERE (C.Stato = 'completa' AND L.Scadenza < CURRENT_DATE + INTERVAL 5 DAY)
+    OR (C.Stato = 'parziale' AND FROM_DAYS(TO_DAYS(L.Scadenza) -
+        ROUND(TIMESTAMPDIFF(DAY, C.DataAcquisto, L.Scadenza)*0.2)) <
+                                                CURRENT_DATE + INTERVAL 5 DAY)
+GROUP BY C.Sede, L.Ingrediente;
+
 DELIMITER $$
 
 CREATE PROCEDURE ConsigliaPiatti(IN nomeSede VARCHAR(45))
 NOT DETERMINISTIC MODIFIES SQL DATA
 BEGIN
-    DECLARE NomeRicetta VARCHAR(45);
-    DECLARE Finito1 BOOL DEFAULT FALSE;
-    DECLARE curRicetta CURSOR FOR
-        SELECT R.Nome
-        FROM Ricetta R
-        WHERE R.Nome NOT IN (SELECT E.Ricetta
-                            FROM Elenco E INNER JOIN Menu M ON E.Menu = M.ID
-                            WHERE CURRENT_DATE BETWEEN
-                                                M.DataInizio AND M.DataFine);
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET Finito1 = TRUE;
-    
-    loop1_lbl: LOOP
-        FETCH curRicetta INTO NomeRicetta;
-        IF Finito1 THEN
-            LEAVE loop1_lbl;
-        END IF;
-    END LOOP loop1_lbl;
+    SELECT @row_number := @row_number + 1 AS Posizione, nomeSede, D.Ricetta
+    INTO Report_PiattiDaAggiungere
+    FROM (SELECT @row_number := 0) AS N,
+        (SELECT R.Nome AS Ricetta, COUNT(*) AS InScadenza,
+            (SELECT IF(RPP.NumeroRecensioni = 0, 0,
+                                   (RPP.GiudizioTotale/RPP.NumeroRecensioni)/10)
+            FROM Report_PiattiPreferiti RPP
+            WHERE RPP.Sede = nomeSede
+                AND RPP.Ricetta = R.Nome) AS Punteggio
+        FROM Fase F INNER JOIN Ricetta R ON F.Ricetta = R.Nome
+        WHERE F.Ingrediente IS NOT NULL
+            AND F.Ingrediente IN (SELECT IIS.Ingrediente
+                                    FROM IngredientiInScadenza IIS
+                                    WHERE IIS.Sede = nomeSede)
+        GROUP BY R.Nome) AS D
+    ORDER BY (D.InScadenza + D.Punteggio) DESC
+    LIMIT 5;
 END;$$
 
 DELIMITER ;
