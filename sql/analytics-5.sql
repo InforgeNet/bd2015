@@ -39,6 +39,8 @@ BEGIN
                             'Report_TakeAway.';
     END IF;
     
+    INSERT INTO Report_TakeAway(Posizione, Sede, Pony, DeltaTempoAndata,
+                                                           DeltaTempoRitorno)
     SELECT @row_number := @row_number + 1 AS Posizione, D.*
     INTO Report_TakeAway
     FROM (SELECT @row_number := 0) AS N,

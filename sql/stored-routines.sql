@@ -124,3 +124,178 @@ BEGIN
     
     RETURN TRUE;
 END;$$
+
+CREATE PROCEDURE ConsigliaPiatti(IN nomeSede VARCHAR(45))
+NOT DETERMINISTIC MODIFIES SQL DATA
+BEGIN
+    DELETE FROM Report_PiattiDaAggiungere WHERE Sede = nomeSede;    
+    
+    INSERT INTO Report_PiattiDaAggiungere(Posizione, Sede, Ricetta)
+    SELECT @row_number := @row_number + 1 AS Posizione, nomeSede, D.Ricetta
+    FROM (SELECT @row_number := 0) AS N,
+        (SELECT R.Nome AS Ricetta, COUNT(*) AS InScadenza,
+            (SELECT IF(RPP.NumeroRecensioni = 0, 0,
+                                   (RPP.GiudizioTotale/RPP.NumeroRecensioni)/10)
+            FROM Report_PiattiPreferiti RPP
+            WHERE RPP.Sede = nomeSede
+                AND RPP.Ricetta = R.Nome) AS Punteggio
+        FROM Fase F INNER JOIN Ricetta R ON F.Ricetta = R.Nome
+        WHERE F.Ingrediente IS NOT NULL
+            AND F.Ingrediente IN (SELECT IIS.Ingrediente
+                                    FROM IngredientiInScadenza IIS
+                                    WHERE IIS.Sede = nomeSede)
+        GROUP BY R.Nome) AS D
+    ORDER BY (D.InScadenza + D.Punteggio) DESC
+    LIMIT 5;
+END;$$
+
+CREATE PROCEDURE AnalizzaRecensioni()
+NOT DETERMINISTIC MODIFIES SQL DATA
+BEGIN
+    TRUNCATE TABLE Report_PiattiPreferiti;
+    
+    INSERT INTO Report_PiattiPreferiti(Posizione, Sede, Ricetta, GiudizioTotale,
+                                                            NumeroRecensioni)
+    SELECT @row_number := @row_number + 1 AS Posizione, D.*
+    FROM (SELECT @row_number := 0) AS N,
+        (
+            SELECT R.Sede, R.Ricetta,
+                SUM(R.Giudizio)*IF(SUM(R.NumeroValutazioni) = 0, 6, ROUND(
+            AVG((R.VeridicitaTotale + R.AccuratezzaTotale)/R.NumeroValutazioni))
+                ) AS GiudizioTotale, COUNT(*) AS NumeroRecensioni
+            FROM Recensione R
+            GROUP BY R.Sede, R.Ricetta
+        ) AS D
+    ORDER BY D.GiudizioTotale/D.NumeroRecensioni DESC;
+END;$$
+
+CREATE PROCEDURE AnalizzaVendite(IN inizio TIMESTAMP, IN fine TIMESTAMP)
+NOT DETERMINISTIC MODIFIES SQL DATA
+BEGIN
+    IF inizio IS NULL THEN
+        SET inizio = '1970-01-01 00:00:01';
+    END IF;
+    IF fine IS NULL THEN
+        SET fine = CURRENT_TIMESTAMP;
+    END IF;
+    
+    TRUNCATE TABLE Report_VenditePiatti;
+    
+    INSERT INTO Report_VenditePiatti(Posizione, Sede, Ricetta, Vendite)
+    SELECT @row_number := @row_number + 1 AS Posizione, D.*
+    FROM (SELECT @row_number := 0) AS N,
+        (
+            SELECT C.Sede, P.Ricetta, COUNT(*) AS Vendite
+            FROM Piatto P INNER JOIN Comanda C ON P.Comanda = C.ID
+            WHERE C.`Timestamp` BETWEEN inizio AND fine
+            GROUP BY C.Sede, P.Ricetta
+        ) AS D
+    ORDER BY D.Vendite DESC;
+END;$$
+
+CREATE PROCEDURE AnalizzaSuggerimenti()
+NOT DETERMINISTIC MODIFIES SQL DATA
+BEGIN
+    TRUNCATE TABLE Report_SuggerimentiMigliori;
+    
+    INSERT INTO Report_SuggerimentiMigliori(Posizione, Suggerimento,
+                                            GradimentoTotale, NumeroGradimenti)
+    SELECT @row_number := @row_number + 1 AS Posizione, D.*
+    FROM (SELECT @row_number := 0) AS N,
+        (
+            SELECT G.Suggerimento, SUM(G.Punteggio) AS GradimentoTotale,
+                                                    COUNT(*) AS NumeroGradimenti
+            FROM Gradimento G
+            WHERE G.Suggerimento IS NOT NULL
+            GROUP BY G.Suggerimento
+        ) AS D
+    ORDER BY D.GradimentoTotale/D.NumeroGradimenti DESC;
+END;$$
+
+CREATE PROCEDURE AnalizzaProposte()
+NOT DETERMINISTIC MODIFIES SQL DATA
+BEGIN
+    TRUNCATE TABLE Report_ProposteMigliori;
+    
+    INSERT INTO Report_ProposteMigliori(Posizione, Proposta, GradimentoTotale,
+                                                               NumeroGradimenti)
+    SELECT @row_number := @row_number + 1 AS Posizione, D.*
+    FROM (SELECT @row_number := 0) AS N,
+        (
+            SELECT G.Proposta, SUM(G.Punteggio) AS GradimentoTotale,
+                                                    COUNT(*) AS NumeroGradimenti
+            FROM Gradimento G
+            WHERE G.Proposta IS NOT NULL
+            GROUP BY G.Proposta
+        ) AS D
+    ORDER BY D.GradimentoTotale/D.NumeroGradimenti DESC;
+END;$$
+
+CREATE PROCEDURE AnalizzaSprechi(IN inizio TIMESTAMP, IN fine TIMESTAMP)
+NOT DETERMINISTIC MODIFIES SQL DATA
+BEGIN
+    IF inizio IS NULL THEN
+        SET inizio = '1970-01-01 00:00:01';
+    END IF;
+    IF fine IS NULL THEN
+        SET fine = CURRENT_TIMESTAMP;
+    END IF;
+    
+    TRUNCATE TABLE Report_Sprechi;
+    
+    BEGIN
+        DECLARE NomeSede VARCHAR(45);
+        DECLARE NomeIngrediente VARCHAR(45);
+        DECLARE Scaricata INT;
+        DECLARE Quantita INT;
+        DECLARE Finito BOOL DEFAULT FALSE;
+        DECLARE curScarichi CURSOR FOR
+            SELECT SL.Sede, SL.Ingrediente, COALESCE(SUM(SL.Quantita), 0) AS Qta
+            FROM Scarichi_Log SL
+            WHERE SL.`Timestamp` BETWEEN inizio AND fine
+            GROUP BY SL.Sede, SL.Ingrediente;
+        DECLARE CONTINUE HANDLER FOR NOT FOUND SET Finito = TRUE;
+        
+        OPEN curScarichi;
+        
+        loop_lbl: LOOP
+            FETCH curScarichi INTO NomeSede, NomeIngrediente, Scaricata;
+            IF Finito THEN
+                LEAVE loop_lbl;
+            END IF;
+            
+            SET Quantita = (
+            SELECT COALESCE(SUM(F.Dose), 0) AS Quantita
+            FROM Fase F
+                INNER JOIN Ricetta R ON F.Ricetta = R.Nome
+                INNER JOIN Piatto P ON R.Nome = P.Ricetta
+                INNER JOIN Comanda C ON P.Comanda = C.ID
+            WHERE C.Sede = NomeSede
+                AND F.Ingrediente = NomeIngrediente
+                AND C.`Timestamp` BETWEEN inizio AND fine
+                AND F.ID NOT IN (SELECT MF.FaseVecchia
+                                FROM ModificaFase MF
+                                    INNER JOIN Variazione V
+                                        ON MF.Variazione = V.ID
+                                    INNER JOIN
+                                    (SELECT M.Variazione
+                                    FROM Modifica M
+                                    WHERE M.Piatto = P.ID) AS D
+                                        ON V.ID = D.Variazione)
+                AND F.ID NOT IN (SELECT MFN.FaseNuova
+                                FROM ModificaFase MFN
+                                    INNER JOIN Variazione VA
+                                        ON MFN.Variazione = VA.ID
+                                WHERE VA.ID NOT IN (SELECT MO.Variazione
+                                                    FROM Modifica MO
+                                                    WHERE MO.Piatto = P.ID))                                        
+            );
+            
+            INSERT INTO Report_Sprechi(Sede, Ingrediente, Spreco)
+            VALUES (NomeSede, NomeIngrediente, Scaricata - Quantita);
+            
+        END LOOP loop_lbl;
+        
+        CLOSE curScarichi;
+    END;
+END;$$  

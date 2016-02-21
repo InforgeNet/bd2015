@@ -70,8 +70,9 @@ NOT DETERMINISTIC MODIFIES SQL DATA
 BEGIN
     TRUNCATE TABLE Report_PiattiPreferiti;
     
+    INSERT INTO Report_PiattiPreferiti(Posizione, Sede, Ricetta, GiudizioTotale,
+                                                            NumeroRecensioni)
     SELECT @row_number := @row_number + 1 AS Posizione, D.*
-    INTO Report_PiattiPreferiti
     FROM (SELECT @row_number := 0) AS N,
         (
             SELECT R.Sede, R.Ricetta,
@@ -96,8 +97,8 @@ BEGIN
     
     TRUNCATE TABLE Report_VenditePiatti;
     
+    INSERT INTO Report_VenditePiatti(Posizione, Sede, Ricetta, Vendite)
     SELECT @row_number := @row_number + 1 AS Posizione, D.*
-    INTO Report_VenditePiatti
     FROM (SELECT @row_number := 0) AS N,
         (
             SELECT C.Sede, P.Ricetta, COUNT(*) AS Vendite
@@ -113,8 +114,9 @@ NOT DETERMINISTIC MODIFIES SQL DATA
 BEGIN
     TRUNCATE TABLE Report_SuggerimentiMigliori;
     
+    INSERT INTO Report_SuggerimentiMigliori(Posizione, Suggerimento,
+                                            GradimentoTotale, NumeroGradimenti)
     SELECT @row_number := @row_number + 1 AS Posizione, D.*
-    INTO Report_SuggerimentiMigliori
     FROM (SELECT @row_number := 0) AS N,
         (
             SELECT G.Suggerimento, SUM(G.Punteggio) AS GradimentoTotale,
@@ -131,8 +133,9 @@ NOT DETERMINISTIC MODIFIES SQL DATA
 BEGIN
     TRUNCATE TABLE Report_ProposteMigliori;
     
+    INSERT INTO Report_ProposteMigliori(Posizione, Proposta, GradimentoTotale,
+                                                               NumeroGradimenti)
     SELECT @row_number := @row_number + 1 AS Posizione, D.*
-    INTO Report_ProposteMigliori
     FROM (SELECT @row_number := 0) AS N,
         (
             SELECT G.Proposta, SUM(G.Punteggio) AS GradimentoTotale,

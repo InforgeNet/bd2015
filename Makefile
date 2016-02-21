@@ -25,14 +25,20 @@ script:
 	cat sql/log-tables.sql >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
+	echo "-- REPORT TABLES" >> sql/unipi_project_print.sql
+	echo 'SELECT "Creazione tabelle di report." AS "********** FASE 4 **********";' >> sql/unipi_project_print.sql
+	echo "" >> sql/unipi_project_print.sql
+	cat sql/report-tables.sql >> sql/unipi_project_print.sql
+	echo "" >> sql/unipi_project_print.sql
+	echo "" >> sql/unipi_project_print.sql
 	echo "-- MATERIALIZED VIEWS" >> sql/unipi_project_print.sql
-	echo 'SELECT "Creazione materialized views." AS "********** FASE 4 ***********";' >> sql/unipi_project_print.sql
+	echo 'SELECT "Creazione materialized views." AS "********** FASE 5 ***********";' >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
 	cat sql/materialized-views.sql >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
 	echo "-- VIEWS" >> sql/unipi_project_print.sql
-	echo 'SELECT "Creazione views." AS "**** FASE 5 ****";' >> sql/unipi_project_print.sql
+	echo 'SELECT "Creazione views." AS "**** FASE 6 ****";' >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
 	cat sql/views.sql >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
@@ -41,19 +47,19 @@ script:
 	echo "" >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
 	echo "-- STORED ROUTINES" >> sql/unipi_project_print.sql
-	echo 'SELECT "Creazione stored routines." AS "********* FASE 6 *********";' >> sql/unipi_project_print.sql
+	echo 'SELECT "Creazione stored routines." AS "********* FASE 7 *********";' >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
 	cat sql/stored-routines.sql >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
 	echo "-- TRIGGERS" >> sql/unipi_project_print.sql
-	echo 'SELECT "Creazione triggers." AS "***** FASE 7 ******";' >> sql/unipi_project_print.sql
+	echo 'SELECT "Creazione triggers." AS "***** FASE 8 ******";' >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
 	cat sql/triggers.sql >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
 	echo "-- EVENTS" >> sql/unipi_project_print.sql
-	echo 'SELECT "Creazione events." AS "**** FASE 8 *****";' >> sql/unipi_project_print.sql
+	echo 'SELECT "Creazione events." AS "**** FASE 9 *****";' >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
 	cat sql/events.sql >> sql/unipi_project_print.sql
 	echo "" >> sql/unipi_project_print.sql
@@ -64,7 +70,7 @@ script:
 	echo "" >> sql/unipi_project.sql
 	echo "" >> sql/unipi_project.sql
 	echo "-- INSERTS" >> sql/unipi_project.sql
-	echo 'SELECT "Riempimento tabelle." AS "****** FASE 9 ******";' >> sql/unipi_project.sql
+	echo 'SELECT "Riempimento tabelle." AS "***** FASE 10 ******";' >> sql/unipi_project.sql
 	echo "" >> sql/unipi_project.sql
 	cat sql/inserts.sql >> sql/unipi_project.sql
 # end of script:

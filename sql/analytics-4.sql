@@ -83,7 +83,6 @@ BEGIN
         
         CLOSE curScarichi;
     END;
-    
 END;$$  
 
 DELIMITER ;

@@ -97,3 +97,61 @@ BEGIN
     
     CLOSE curMenu;
 END;$$
+
+CREATE EVENT Analytics_Scheduler
+ON SCHEDULE
+EVERY 1 MONTH
+STARTS TIMESTAMP(CURRENT_DATE) + INTERVAL 1 DAY + INTERVAL 4 HOUR
+ON COMPLETION PRESERVE
+DO
+BEGIN
+    CALL AnalizzaRecensioni();
+    CALL AnalizzaVendite(CURRENT_TIMESTAMP - INTERVAL 1 MONTH, NULL);
+    CALL AnalizzaSuggerimenti();
+    CALL AnalizzaProposte();
+END;$$
+
+CREATE EVENT aggiorna_Report_TakeAway
+ON SCHEDULE
+EVERY 1 WEEK
+STARTS TIMESTAMP(CURRENT_DATE) + INTERVAL 1 DAY + INTERVAL 3 HOUR
+ON COMPLETION PRESERVE
+DO
+BEGIN
+    DECLARE TempoMedioAndata INT;
+    DECLARE TempoMedioRitorno INT;
+    
+    TRUNCATE TABLE Report_TakeAway;
+    
+    SELECT CEIL(AVG(TIMESTAMPDIFF(SECOND, C.Partenza, C.Arrivo))) AS TMAndata,
+            CEIL(AVG(TIMESTAMPDIFF(SECOND, C.Arrivo, C.Ritorno))) AS TMRitorno
+        INTO TempoMedioAndata, TempoMedioRitorno
+    FROM Consegna C
+    WHERE C.Ritorno IS NOT NULL;
+    
+    IF TempoMedioAndata IS NULL OR TempoMedioRitorno IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Dati insufficienti per la generazione di '
+                            'Report_TakeAway.';
+    END IF;
+    
+    INSERT INTO Report_TakeAway(Posizione, Sede, Pony, DeltaTempoAndata,
+                                                           DeltaTempoRitorno)
+    SELECT @row_number := @row_number + 1 AS Posizione, D.*
+    FROM (SELECT @row_number := 0) AS N,
+        (
+            SELECT P.Sede, P.ID AS Pony,
+                    SEC_TO_TIME(
+                        CEIL(AVG(TIMESTAMPDIFF(SECOND, C.Partenza, C.Arrivo))) -
+                        TempoMedioAndata
+                        ) AS DeltaTempoAndata,
+                    SEC_TO_TIME(
+                        CEIL(AVG(TIMESTAMPDIFF(SECOND, C.Arrivo, C.Ritorno))) -
+                        TempoMedioRitorno
+                        ) AS DeltaTempoRitorno
+            FROM Pony P INNER JOIN Consegna C
+            WHERE C.Ritorno IS NOT NULL
+            GROUP BY P.Sede, P.ID
+        ) AS D
+    ORDER BY (D.DeltaTempoAndata + D.DeltaTempoRitorno) ASC;
+END;$$

@@ -173,37 +173,37 @@ INSERT INTO Tavolo(Sede, Sala, Numero, Posti) VALUES
 ('Tatooine', 1, NULL, 10),              ('Tatooine', 1, NULL, 10),
 ('Tatooine', 1, NULL, 10),              ('Tatooine', 1, NULL, 12);
 
-INSERT INTO Account(Username, Email, Password, Nome, Cognome, Citta, CAP, Via,
-    NumeroCivico, Telefono) VALUES
+INSERT INTO Account(Username, Email, Password, Nome, Cognome, Sesso, Citta, CAP,
+    Via, NumeroCivico, Telefono) VALUES
 ('Expinguith59', 'ritabeneventi@gmail.com', '0d13d544b4e1b8edc45f9afa166768d1',
-    'Rita', 'Beneventi', 'Messina', 98125, 'San Domenico Soriano', 42,
+    'Rita', 'Beneventi', 'F', 'Messina', 98125, 'San Domenico Soriano', 42,
     03356005799),
 ('Lopurter', 'giulianagallo@hotmail.it', '1a075e925efc9f88680a078384bd8220',
-    'Giuliana', 'Gallo', 'Renate', 20055, 'San Cosmo', 142, 3342718302),
+    'Giuliana', 'Gallo', 'F', 'Renate', 20055, 'San Cosmo', 142, 3342718302),
 ('DCattaneo', 'dcattaneo@gmail.com', '219348e0258035828fa08ea5eb624aac',
-    'Delinda', 'Cattaneo', 'Milano', 20121, 'Hoepli', 6, 3318428014),
+    'Delinda', 'Cattaneo', 'F', 'Milano', 20121, 'Hoepli', 6, 3318428014),
 ('Monan1980', 'p.costa@live.it', '31bed8ee8ee314d3cd701986d4dd9d68',
-    'Pantaleone', 'Costa', 'Mezzana Bigli', 27030, 'Alessandro Manzoni', 33,
+    'Pantaleone', 'Costa', 'M', 'Mezzana Bigli', 27030, 'Alessandro Manzoni', 33,
     03647734886),
 ('Nhoya', 'nhoyaif@insicuri.net', '4616ea18bd0dc06b412ed37d6a4f1ab8',
-    'Francesco', 'Giordano', 'Cagliari', 09127, 'Ottone Bacaredda', 97,
+    'Francesco', 'Giordano', 'M', 'Cagliari', 09127, 'Ottone Bacaredda', 97,
     3313342124),
 ('domenicoboni', 'domenicoboni@gmail.com', '5b7039dce362525ab13e4ec48adc5f04',
-    'Domenico', 'Boni', 'Livorno', 57128, 'dell\'Ardenza', 80, 0586282497),
+    'Domenico', 'Boni', 'M', 'Livorno', 57128, 'dell\'Ardenza', 80, 0586282497),
 ('lorythebest', 'lorythebest@outlook.com', '650393f04f7d81491f2c8e393bc2ff6e',
-    'Ilda', 'Lori', 'Viareggio', 57121, 'Piero Gobetti', 11, 3348468115),
+    'Ilda', 'Lori', 'F', 'Viareggio', 57121, 'Piero Gobetti', 11, 3348468115),
 ('murdercode', 'murder.code@inforge.net', '7bfd12dabc628020c97d396e039a731f',
-    'Stefano', 'Novelli', 'Golfo Aranci', 07020, 'Libertà', 179, 3339282019),
+    'Stefano', 'Novelli', 'M', 'Golfo Aranci', 07020, 'Libertà', 179, 3339282019),
 ('lolasd', 'dfijdefierku@guerrillamail.com', '840d7a569d5a84e404ccc6c2b44a4165',
-    'Matteo', 'De Luca', 'Milano', 44444, 'Giuseppe Garibaldi', 15, 3333333333),
+    'Matteo', 'De Luca', 'M', 'Milano', 44444, 'Giuseppe Garibaldi', 15, 3333333333),
 ('SpeedJack', 'speedjack@inforge.net', '9173039d5e505f44dfa151663ce5ee52',
-    'Niccolò', 'Scatena', 'Pisa', 56124, 'Pungilupo', 7, 3314432120),
+    'Niccolò', 'Scatena', 'M', 'Pisa', 56124, 'Pungilupo', 7, 3314432120),
 ('Serendipity', 'grazia.casci@yahoo.com', 'a68c4445228eb1b1a49e3df10f2d51df',
-    'Grazia', 'Casci', 'Pisa', 56124, 'Caduti El-Alamein', 12, 3347282923),
+    'Grazia', 'Casci', 'F', 'Pisa', 56124, 'Caduti El-Alamein', 12, 3347282923),
 ('GMarra', 'gabri95@gmail.com', 'b7938f4f7741d580a1056771b62a62b9',
-    'Gabriele', 'Marraccini', 'Roma', 00163, 'Ernesto Guevara', 8, 3348293712),
+    'Gabriele', 'Marraccini', 'M', 'Roma', 00163, 'Ernesto Guevara', 8, 3348293712),
 ('lorytony', 'lorenzo.tone@hotmail.it', 'c4d2188aa605e98ab72134125afa108e',
-    'Lorenzo', 'Tonelli', 'Torino', 10134, 'Corso Re Umberto', 7, 3313738263);
+    'Lorenzo', 'Tonelli', 'M', 'Torino', 10134, 'Corso Re Umberto', 7, 3313738263);
 
 INSERT INTO Pony(Sede, ID) VALUES       ('Pizzeria da Cecco', NULL),
 ('L\'ostrica ubriaca', NULL),           ('L\'ostrica ubriaca', NULL),
@@ -349,6 +349,7 @@ INSERT INTO Ricetta(Nome, Testo) VALUES
 ('Acqua frizzante', 'Servire.');
 
 INSERT INTO Ingrediente(Nome, Provenienza, TipoProduzione, Genere, Allergene)
+VALUES
 ('Pasta lievitata', 'Piemonte', 'Intensiva', 'Impasto', TRUE),
 ('Sugo di pomodoro', 'Toscana', 'Biologica', 'Sugo', TRUE),
 ('Mozzarella', 'Marche', 'Intensiva', 'Latticino', TRUE),
@@ -419,7 +420,7 @@ INSERT INTO Fase(ID, Ricetta, Ingrediente, Dose, Primario, Strumento, Testo,
     NULL),
 (9, 'Pizza margherita', NULL, NULL, NULL, 'Forno', 'Cuocere in forno.',
     '00:10:00'),
-(10, 'Torta al cioccolato', 'Torta al cioccolato', 100, TRUE, NULL, NULL NULL),
+(10, 'Torta al cioccolato', 'Torta al cioccolato', 100, TRUE, NULL, NULL, NULL),
 (11, 'Torta al cioccolato', NULL, NULL, NULL, 'Coltello',
     'Tagliare una fetta di torta al cioccolato.', NULL),
 (12, 'Torta al cioccolato', NULL, NULL, NULL, 'Forno a microonde',
@@ -430,7 +431,7 @@ INSERT INTO Fase(ID, Ricetta, Ingrediente, Dose, Primario, Strumento, Testo,
     NULL),
 (16, 'Vino bianco', 'Vino bianco', 1000, TRUE, NULL, NULL, NULL),
 (17, 'Birra', 'Birra', 1000, TRUE, NULL, NULL, NULL),
-(18, 'Acqua naturale', 1000, TRUE, NULL, NULL, NULL);
+(18, 'Acqua naturale', 'Acqua naturale', 1000, TRUE, NULL, NULL, NULL);
 
 INSERT INTO SequenzaFasi(Fase, FasePrecedente) VALUES
 (2, 1), (4, 2), (4, 3), (6, 5), (7, 4), (7, 6), (8, 7), (9, 8),

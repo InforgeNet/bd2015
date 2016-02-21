@@ -29,8 +29,10 @@ DELIMITER $$
 CREATE PROCEDURE ConsigliaPiatti(IN nomeSede VARCHAR(45))
 NOT DETERMINISTIC MODIFIES SQL DATA
 BEGIN
+    DELETE FROM Report_PiattiDaAggiungere WHERE Sede = nomeSede;    
+    
+    INSERT INTO Report_PiattiDaAggiungere(Posizione, Sede, Ricetta)
     SELECT @row_number := @row_number + 1 AS Posizione, nomeSede, D.Ricetta
-    INTO Report_PiattiDaAggiungere
     FROM (SELECT @row_number := 0) AS N,
         (SELECT R.Nome AS Ricetta, COUNT(*) AS InScadenza,
             (SELECT IF(RPP.NumeroRecensioni = 0, 0,
