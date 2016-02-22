@@ -80,6 +80,22 @@ CREATE TABLE Report_ProposteMigliori
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
+CREATE TABLE Report_Ordinativi
+(
+    Sede            VARCHAR(45) NOT NULL,
+    Ingrediente     VARCHAR(45) NOT NULL,
+    Quantita        INT UNSIGNED NOT NULL,
+    PRIMARY KEY (Sede, Ingrediente),
+    FOREIGN KEY (Sede)
+        REFERENCES Sede(Nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Ingrediente)
+        REFERENCES Ingrediente(Nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
 CREATE TABLE Report_Sprechi
 (
     Sede                    VARCHAR(45) NOT NULL,

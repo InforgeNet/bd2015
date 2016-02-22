@@ -6,3 +6,9 @@ WHERE (C.Stato = 'completa' AND L.Scadenza < CURRENT_DATE + INTERVAL 5 DAY)
         ROUND(TIMESTAMPDIFF(DAY, C.DataAcquisto, L.Scadenza)*0.2)) <
                                                 CURRENT_DATE + INTERVAL 5 DAY)
 GROUP BY C.Sede, L.Ingrediente;
+
+CREATE OR REPLACE VIEW ConsumiUltimaSettimana AS
+SELECT SL.Sede, SL.Ingrediente, COALESCE(SUM(SL.Quantita), 0) as Quantita
+FROM Scharichi_Log SL
+WHERE SL.`Timestamp` BETWEEN CURRENT_DATE - INTERVAL 1 WEEK AND CURRENT_DATE
+GROUP BY SL.Sede, SL.Ingrediente;

@@ -1,1 +1,17 @@
 \section{Fornitura automatizzata del magazzino}
+Il seguente evento produce una lista di ordinativi da trasmettere ai fornitori. L'evento
+calcola, per ogni ricetta e per ogni sede, una stima del numero di ordini di tale ricetta
+nella settimana che viene. Prende poi, per ogni ingrediente che compone la ricetta in esame,
+la quantità di ingrediente necessario a produrre il numero di piatti stimato. La stima sul
+numero di ordini della ricetta si basa sulle prenotazioni in essere per la settimana e sulla
+media degli ordini di tale ricetta in passato nello stesso periodo.
+
+La tabella {\tt Report\_Ordinativi} contiene gli ordinativi da trasmettere ai fornitori.
+
+\inputminted[%
+              frame=leftline,           % bordo a sinistra
+              linenos,                  % attiva numeri di linea
+              stepnumber=5,             % solo multipli di 5 come numeri di linea
+              tabsize=4,                % dimensione del tasto tab in spazi
+              fontsize=\small]%         % dimensione del font (perché stia nella pagina bisogna assicurarsi che ogni riga di codice abbia al max 80 caratteri)
+                              {mysql}{./sql/analytics-3.sql}
