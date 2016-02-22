@@ -82,8 +82,8 @@ Per la quinta operazione la funzione {\tt IngredientiDisponibili} effettua 15 le
 su {\tt Prenotazione}, in quanto una sede riceve in media 15 prenotazioni al giorno, cinque letture
 su {\tt Clienti\_Log}, ipotizzando che la catena di ristorazione sia aperta da 5 anni, una
 lettura su {\tt MV\_OrdiniRicetta}, sette letture su {\tt Fase}, ipotizzando che una ricetta
-sia composta in media da 7 fasi che aggiungono ingredienti, due letture su {\tt Confezione}, ipotizzando
-che in media un magazzino contiene una sola confezione di ogni ingrediente e una sede possiede due magazzini:
+sia composta in media da 7 fasi che aggiungono ingredienti, 42 letture su {\tt Confezione}, ipotizzando
+che in media un magazzino contiene tre confezioni di ogni ingrediente e una sede possiede due magazzini:
 \clearpage
 {\tabulinesep=3pt
 \begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
@@ -101,9 +101,9 @@ MV\_OrdiniRicetta                       & \(1\)                 & L
     \\ \hline % ----------------------------------------------------------------
 Fase                                    & \(7\)                 & L
     \\ \hline % ----------------------------------------------------------------
-Confezione                              & \(2\)                 & L
+Confezione                              & \(42\)                & L
     \\ \hline\hline\hline % ----------------------------------------------------
-\multicolumn{3}{|l|}{\textbf{Costo totale:} \(15 + 5 + 1 + 7 + 2 = 30 \times 500 = \textbf{15\,000}/giorno\)}
+\multicolumn{3}{|l|}{\textbf{Costo totale:} \(15 + 5 + 1 + 7 + 42 = 70 \times 500 = \textbf{35\,000}/giorno\)}
     \\ \hline % ----------------------------------------------------------------
 \end{longtabu}}
 
