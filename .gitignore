@@ -1,5 +1,5 @@
 ## Ignore output
-project.pdf
+project*.pdf
 
 ## Ignore auto-generated script
 sql/unipi_project*.sql
