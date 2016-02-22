@@ -25,6 +25,7 @@ quale effettua cinque letture su {\tt Piatto} e una lettura su {\tt Comanda}, po
 contare il numero di piatti), quattro letture su {\tt Pony}, in quanto ogni sede ha in media 4 pony, e una scrittura
 su {\tt Consegna} per piazzare la nuova consegna. Quest'ultima scrittura causerà a sua volta l'esecuzione di un trigger
 che provvederà ad aggiornare lo stato del pony su {\tt 'occupato'} --- quindi effettua una scrittura anche su {\tt Pony}:
+\clearpage
 {\tabulinesep=3pt
 \begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
 \hline\rowfont\bfseries
@@ -47,7 +48,6 @@ Pony                                    & \(1\)                 & S
     \\ \hline % ----------------------------------------------------------------
 \end{longtabu}}
 
-\clearpage
 La terza operazione è una scrittura su {\tt Comanda}:
 {\tabulinesep=3pt
 \begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
@@ -83,7 +83,8 @@ su {\tt Prenotazione}, in quanto una sede riceve in media 15 prenotazioni al gio
 su {\tt Clienti\_Log}, ipotizzando che la catena di ristorazione sia aperta da 5 anni, una
 lettura su {\tt MV\_OrdiniRicetta}, sette letture su {\tt Fase}, ipotizzando che una ricetta
 sia composta in media da 7 fasi che aggiungono ingredienti, due letture su {\tt Confezione}, ipotizzando
-che in media un magazzino contiene una sola confezione di ogni ingrediente e una sede possiede due magazzini.
+che in media un magazzino contiene una sola confezione di ogni ingrediente e una sede possiede due magazzini:
+\clearpage
 {\tabulinesep=3pt
 \begin{longtabu} to \linewidth {|X[2,c,m]|X[c,m]|X[c,m]|}
 \hline\rowfont\bfseries
