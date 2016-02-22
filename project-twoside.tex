@@ -1,11 +1,11 @@
-\documentclass[11pt]{report}  % dimensione di default del font; quando l'opzione "draft" (brutta copia) è attiva: vengono mostrati
+\documentclass[11pt,twoside,openright]{report}  % dimensione di default del font; quando l'opzione "draft" (brutta copia) è attiva: vengono mostrati
                               % dei quadratini neri vicino agli overfull; non vengono messe le immagini; i codici non hanno i colori; ecc.
 \usepackage[italian]{babel} % lingua
 \usepackage[utf8]{inputenc} % encoding
 \usepackage[T1]{fontenc}    % per rappresentare i caratteri speciali inseriti nel documento LaTeX anche nel PDF
 \usepackage{lmodern}        % font
 \usepackage{microtype}      % riduce le possibilità di underfull/overfull hbox quando si troglie 'draft'
-\usepackage{geometry}       % dimensione e margini delle pagine
+\usepackage[hcentering,bindingoffset=8mm]{geometry}       % dimensione e margini delle pagine
 \usepackage{emptypage}      % evita header e footer in pagine vuote
 %\usepackage{pdflscape}     % landscape e portrait in pagine diverse
 \usepackage{pdfpages}       % inclusione di pagine pdf

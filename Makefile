@@ -5,6 +5,12 @@ full:
 	pdflatex --shell-escape project.tex
 	pdflatex --shell-escape project.tex
 	pdflatex --shell-escape project.tex
+	pdflatex --shell-escape project-twoside.tex
+	pdflatex --shell-escape project-twoside.tex
+	pdflatex --shell-escape project-twoside.tex
+
+twoside:
+	pdflatex --shell-escape project-twoside.tex
 
 script:
 	echo 'SELECT "Creazione database e impostazione variabili."' > sql/unipi_project_print.sql
