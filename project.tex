@@ -1,44 +1,44 @@
-\documentclass[11pt]{report}  % dimensione di default del font; quando l'opzione "draft" (brutta copia) è attiva: vengono mostrati
-                              % dei quadratini neri vicino agli overfull; non vengono messe le immagini; i codici non hanno i colori; ecc.
-\usepackage[italian]{babel} % lingua
-\usepackage[utf8]{inputenc} % encoding
-\usepackage[T1]{fontenc}    % per rappresentare i caratteri speciali inseriti nel documento LaTeX anche nel PDF
-\usepackage{lmodern}        % font
-\usepackage{microtype}      % riduce le possibilità di underfull/overfull hbox quando si troglie 'draft'
-\usepackage{geometry}       % dimensione e margini delle pagine
-\usepackage{emptypage}      % evita header e footer in pagine vuote
-%\usepackage{pdflscape}     % landscape e portrait in pagine diverse
-\usepackage{pdfpages}       % inclusione di pagine pdf
-\usepackage[italian]{varioref} % riferimenti variabili
-\usepackage[fleqn]{amsmath} % matematica
-\usepackage{array}          % arrays
-%\usepackage{mathtools}     % matematica avanzata
-\usepackage{xfrac}          % frazioni
-\usepackage{graphicx}       % immagini
-%\usepackage{epstopdf}      % conversione da EPS a PDF (decommentare se la propria implementazione di pdflatex lo richiede)
-\usepackage[firstpage=true]{background} % watermark in prima pagina
-\usepackage{fancyhdr}       % header e footer fighi
-\usepackage{fancyvrb}       % serve a minted
-\usepackage{xparse}         % parsing dei comandi user-defined
-\usepackage{tasks}          % liste task
-\usepackage{paralist}       % liste inline dentro i paragrafi
-\usepackage{enumitem}       % liste estese
-\usepackage{longtable}      % tabelle su più pagine
-\usepackage{tabu}           % tabelle
-%\usepackage{listings}      % alternativa a minted
-%\usepackage{color}         % con minted non serve
-\usepackage{minted}         % codice e syntax highlight
-%\usepackage{multicol}      % testo su più colonne
-%\usepackage[normalem]{ulem}% testo rigato
-\usepackage{comment}        % blocchi di commenti con \begin{comment}
+\documentclass[11pt]{report}
 
-\pdfoptionpdfminorversion = 7   % imposta la versione PDF da usare a 1.7 (default: 1.5)
+\usepackage[italian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{geometry}
+\usepackage{emptypage}
+%\usepackage{pdflscape}
+\usepackage{pdfpages}
+\usepackage[italian]{varioref}
+\usepackage[fleqn]{amsmath}
+\usepackage{array}
+%\usepackage{mathtools}
+\usepackage{xfrac}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage[firstpage=true]{background}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage{xparse}
+\usepackage{tasks}
+\usepackage{paralist}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{tabu}
+%\usepackage{listings}
+%\usepackage{color}
+\usepackage{minted}
+%\usepackage{multicol}
+%\usepackage[normalem]{ulem}
+\usepackage{comment}
 
-\includeonly{./tex/title,   % include solo i capitoli fatti per ora (quando un nuovo capitolo viene steso, va aggiunto (solo) qui)
-                ./tex/ch01, % per via di includeonly è normale che LaTeX alla compilazione avvisi che ci sono "undefined reference"
-                ./tex/ch02, % e che nel documento compaiano cose come "capitolo ??". Questi problemi spariranno quando si saranno
-                ./tex/ch03, % fatti tutti i capitoli. Il vantaggio di includeonly è che accelera la compilazione (non includendo
-                ./tex/ch04, % i capitoli non fatti)
+\pdfoptionpdfminorversion = 7
+
+\includeonly{./tex/title,
+                ./tex/ch01,
+                ./tex/ch02,
+                ./tex/ch03,
+                ./tex/ch04,
                 ./tex/ch05,
                 ./tex/ch06,
                 ./tex/ch07,
@@ -48,21 +48,21 @@
                 ./tex/ch11}
                 %./tex/ch12}
                 
-\graphicspath{ {./images/} }                    % percorso dove vengono prese le immagini
-\DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg} % estensioni dei file di immagine (in ordine di preferenza)
+\graphicspath{ {./images/} }
+\DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg}
 
 \input{./tex/style}         % stile del documento
-%\input{./tex/lang-style}   % per l'uso con listings - ma noi usiamo minted
+%\input{./tex/lang-style}   % per l'uso con listings - non serve con minted
 \input{./tex/def}           % comandi user-defined
-\input{./tex/hyphen}        % sistemazione manuale di underfull/overfull hbox
+\input{./tex/hyphen}        % hyphenation
 
 \newcounter{includepdfpage} % counter per le pagine pdf incluse
 
-\begin{document}            % INIZIO CONTENUTO DEL DOCUMENTO
+\begin{document}            % --------------------------------------------------
 
-\include{./tex/title}       % serve una pagina titolo più figah
+\include{./tex/title}       % front-page
 
-\tableofcontents            % genera l'indice
+\tableofcontents            % indice
 \thispagestyle{plain}       % rimuove footer e header dall'indice
 
 \include{./tex/ch01}        % Analisi delle specifiche
@@ -78,4 +78,4 @@
 \include{./tex/ch11}        % Implementazione MySQL
 \include{./tex/ch12}        % Progettazione fisica
 
-\end{document}              % FINE DOCUMENTO
+\end{document}              % --------------------------------------------------
