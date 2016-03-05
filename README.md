@@ -21,6 +21,7 @@ Nella *root* del progetto c'è:
 * Alcune parti del codice MySQL del progetto **non** sono testate - potrebbero non funzionare correttamente.  
 * Sono presenti nel codice alcuni comandi obsoleti (ad es. `\it`, `\bf`, `$ ... $`, ecc.).  
 * I codici MySQL usano 4 spazi per la tabulazione.  
+* Nel [tex/ch08/access-tables.tex](Capitolo 8.2 - "Tavole degli accessi") sono presenti alcuni errori di valutazione degli accessi effettuati dalle operazioni.  
 
 ## Licenza
 **Creative Commons - Attribution, ShareAlike 4.0** *(CC BY-SA 4.0)*  
