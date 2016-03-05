@@ -215,29 +215,32 @@ INSERT INTO Pony(Sede, ID, Ruote) VALUES
 ('Ristorante da Giovanni', NULL, TRUE), ('Ristorante da Giovanni', NULL, TRUE),
 ('Il paiolo magico', NULL, TRUE),       ('Tatooine', NULL, TRUE);
 
-INSERT INTO Domanda(Sede, Testo) VALUES
-('Pizzeria da Cecco', 'Come valuta la qualità del cibo in rapporto al prezzo?'),
-('Pizzeria da Cecco','Come valuta l\'efficienza del personale del ristorante?'),
-('L\'ostrica ubriaca', 'Consiglierebbe questo ristorante ad un amico?'),
-('L\'ostrica ubriaca', 'Le porzioni erano adeguate?'),
-('Il girasole', 'L\'ambiente del ristorante è stato di suo gradimento?'),
-('Il girasole', 'Come valuta la qualità del cibo in rapporto al prezzo?'),
-('Il girasole', 'Le porzioni erano adeguate?'),
-('Il pozzo', 'Come valuta la qualità del cibo in rapporto al prezzo?'),
-('Il pozzo', 'Come valuta l\'efficienza del personale del ristorante?'),
-('Ristorante da Giovanni',
+INSERT INTO Domanda(ID, Sede, Testo) VALUES
+(1, 'Pizzeria da Cecco', 'Come valuta la qualità del cibo in rapporto al '
+    'prezzo?'),
+(2, 'Pizzeria da Cecco','Come valuta l\'efficienza del personale del '
+    'ristorante?'),
+(3, 'L\'ostrica ubriaca', 'Consiglierebbe questo ristorante ad un amico?'),
+(4, 'L\'ostrica ubriaca', 'Le porzioni erano adeguate?'),
+(5, 'Il girasole', 'L\'ambiente del ristorante è stato di suo gradimento?'),
+(6, 'Il girasole', 'Come valuta la qualità del cibo in rapporto al prezzo?'),
+(7, 'Il girasole', 'Le porzioni erano adeguate?'),
+(8, 'Il pozzo', 'Come valuta la qualità del cibo in rapporto al prezzo?'),
+(9, 'Il pozzo', 'Come valuta l\'efficienza del personale del ristorante?'),
+(10, 'Ristorante da Giovanni',
     'Come valuta l\'efficienza del personale del ristorante?'),
-('Ristorante da Giovanni', 'Consiglierebbe questo ristorante ad un amico?'),
-('Ristorante Venezia','Qual\'è la sua valutazione complessiva sul ristorante?'),
-('Il paiolo magico', 'Le porzioni erano adeguate?'),
-('Il paiolo magico', 'Consiglierebbe questo ristorante ad un amico?'),
-('Pizzeria da Gennaro',
+(11, 'Ristorante da Giovanni', 'Consiglierebbe questo ristorante ad un amico?'),
+(12, 'Ristorante Venezia','Qual\'è la sua valutazione complessiva sul '
+    'ristorante?'),
+(13, 'Il paiolo magico', 'Le porzioni erano adeguate?'),
+(14, 'Il paiolo magico', 'Consiglierebbe questo ristorante ad un amico?'),
+(15, 'Pizzeria da Gennaro',
     'Come valuta la qualità del cibo in rapporto al prezzo?'),
-('Pizzeria da Gennaro', 'Consiglierebbe questo ristorante ad un amico?'),
-('L\'aragosta', 'Come valuta l\'efficienza del personale del ristorante?'),
-('L\'aragosta', 'Come valuta la qualità del cibo in rapporto al prezzo?'),
-('L\'aragosta', 'Le porzioni erano adeguate?'),
-('Tatooine', 'Come valuta la qualità del cibo in rapporto al prezzo?');
+(16, 'Pizzeria da Gennaro', 'Consiglierebbe questo ristorante ad un amico?'),
+(17, 'L\'aragosta', 'Come valuta l\'efficienza del personale del ristorante?'),
+(18, 'L\'aragosta', 'Come valuta la qualità del cibo in rapporto al prezzo?'),
+(19, 'L\'aragosta', 'Le porzioni erano adeguate?'),
+(20, 'Tatooine', 'Come valuta la qualità del cibo in rapporto al prezzo?');
 
 INSERT INTO Risposta(Domanda, Numero, Testo, Efficienza) VALUES
 (1, NULL, 'Ottima', 5),                 (1, NULL, 'Sufficiente', 3),
@@ -327,7 +330,7 @@ INSERT INTO Ricetta(Nome, Testo) VALUES
     'farina. Aggiungere la salsa prodotta alle fettine di pollo.'),
 ('Fritto misto', 'Pulire gamberi e totani. Infarinarli. Friggerli. '
     'Friggere le patatine. Condire con sale.'),
-('Orata alla grilia', 'Pulire il pesce. Cuocere l\'orata sulla griglia già '
+('Orata alla griglia', 'Pulire il pesce. Cuocere l\'orata sulla griglia già '
     'calda. Togliere pelle, pinne e lische. Condire con olio e limone.'),
 ('Branzino alla griglia', 'Pulire il pesce. Cuocere il branzino sulla griglia '
     'già calda. Togliere pelle, pinne e lische. Condire con olio e limone.'),
@@ -360,7 +363,25 @@ VALUES
 ('Limoncello', 'Sardegna', 'Industriale', 'Bevanda', FALSE),
 ('Vino bianco', 'Toscana', 'Biologica', 'Bevanda', FALSE),
 ('Birra', 'Germania', 'Industriale', 'Bevanda', FALSE),
-('Acqua naturale', 'Marche', 'Industriale', 'Bevanda', FALSE);
+('Acqua naturale', 'Marche', 'Industriale', 'Bevanda', FALSE),
+('Ali di pollo', 'Lombardia', 'Intensiva', 'Carne', TRUE),
+('Farina', 'Lombardia', 'Biologica', 'Cereale', FALSE),
+('Uova', 'Sicilia', 'Biologica', 'Derivato animale', FALSE),
+('Anatra', 'Sardegna', 'Intensiva', 'Carne', TRUE),
+('Arancia', 'Toscana', 'Biologica', 'Frutta', TRUE),
+('Burro', 'Toscana', 'Industriale', 'Latticino', TRUE),
+('Pasta', 'Sardegna', 'Intensiva', 'Cereale', TRUE),
+('Grand Marnier', 'Molise', 'Industriale', 'Liquore', FALSE),
+('Sfoglie per lasagne', 'Toscana', 'Intensiva', 'Cereale', TRUE),
+('Ricotta', 'Campania', 'Artigianale', 'Latticino', TRUE),
+('Besciamella', 'Campania', 'Artigianale', 'Latticino', TRUE),
+('Salmone', 'Liguria', 'Intensiva', 'Pesce', TRUE),
+('Ceci', 'Puglia', 'Biologica', 'Legume', TRUE),
+('Philadelphia', 'Piemonte', 'Industriale', 'Latticino', TRUE),
+('Tonno', 'Sardegna', 'Intensiva', 'Pesce', TRUE),
+('Pane', 'Toscana', 'Artigianale', 'Cereale', FALSE),
+('Prosciutto crudo', 'Toscana', 'Biologica', 'Salume', TRUE),
+('Patatine', 'Piemonte', 'Industriale', 'Prodotto lavorato', FALSE);
 
 INSERT INTO Lotto(Codice, Ingrediente, Scadenza) VALUES
 ('L3938M29A', 'Sugo di pomodoro', '2016-03-02'),
@@ -377,7 +398,6 @@ INSERT INTO Lotto(Codice, Ingrediente, Scadenza) VALUES
 ('LZZ99AA00', 'Zucchero a velo', '2018-07-22'),
 ('LP4830HA22', 'Pasta lievitata', '2016-03-01'),
 ('LP4830HA23', 'Pasta lievitata', '2016-03-03');
-
 
 INSERT INTO Strumento(Nome) VALUES
 ('Mattarello'), ('Coltello'), ('Cucchiaio'), ('Forchetta'), ('Bicchiere'),
@@ -431,9 +451,342 @@ INSERT INTO Fase(ID, Ricetta, Ingrediente, Dose, Primario, Strumento, Testo,
     NULL),
 (16, 'Vino bianco', 'Vino bianco', 1000, TRUE, NULL, NULL, NULL),
 (17, 'Birra', 'Birra', 1000, TRUE, NULL, NULL, NULL),
-(18, 'Acqua naturale', 'Acqua naturale', 1000, TRUE, NULL, NULL, NULL);
+(18, 'Acqua naturale', 'Acqua naturale', 1000, TRUE, NULL, NULL, NULL),
+(19, 'Pizza margherita', 'Olio extravergine di oliva', 5, FALSE, NULL, NULL,
+    NULL),
+(20, 'Pizza margherita', 'Prosciutto crudo', 80, FALSE, NULL, NULL, NULL),
+(21, 'Pizza margherita', NULL, NULL, NULL, 'Coltello', 'Tagliare il prosciutto '
+    'a fette.', '00:01:30'),
+(22, 'Pizza margherita', NULL, NULL, NULL, NULL, 'Distribuire il prosciutto '
+    'sulla pizza.', '00:00:15'),
+(23, 'Pizza margherita', 'Patatine', 80, FALSE, NULL, NULL, NULL),
+(24, 'Pizza margherita', NULL, NULL, NULL, 'Fornello', 'Friggere le patatine.',
+    '00:10:00'),
+(25, 'Pizza margherita', NULL, NULL, NULL, NULL, 'Distribuire le patatine '
+    'sulla pizza.', '00:00:15'),
+(26, 'Acqua naturale', 'Acqua naturale', 500, TRUE, NULL, NULL, NULL),
+(27, 'Pizza margherita', 'Salmone', 100, FALSE, NULL, NULL, NULL),
+(28, 'Pizza margherita', NULL, NULL, NULL, 'Coltello', 'Tagliare il salmone a '
+    'fette.', '00:01:30'),
+(29, 'Pizza margherita', NULL, NULL, NULL, NULL, 'Distribuire il salmone sulla '
+    'pizza.', '00:00:15'),
+(30, 'Birra', 'Birra', 500, TRUE, NULL, NULL, NULL),
+(31, 'Limoncello', 'Limoncello', 10, TRUE, NULL, NULL, NULL),
+(32, 'Vino bianco', 'Vino bianco', 500, TRUE, NULL, NULL, NULL);
 
 INSERT INTO SequenzaFasi(Fase, FasePrecedente) VALUES
-(2, 1), (4, 2), (4, 3), (6, 5), (7, 4), (7, 6), (8, 7), (9, 8),
-(11, 10), (12, 11), (13, 12),
-(15, 14);
+(2, 1), (4, 2), (4, 3), (7, 4), (6, 5), (7, 6), (22, 7), (21, 20), (22, 21),
+(28, 27), (29, 22), (29, 28), (25, 29), (24, 23), (25, 24), (8, 25), (19, 25),
+(9, 8), (9, 19), (11, 10), (12, 11), (13, 12), (15, 14), (15, 31);
+
+INSERT INTO Variazione(ID, Ricetta, Nome) VALUES
+(1, 'Pizza margherita', 'Meno olio'), (2, 'Pizza margherita', 'Pizza bianca'),
+(3, 'Pizza margherita', 'Con prosciutto crudo'),
+(4, 'Pizza margherita', 'Con patatine'), (5, 'Acqua naturale', 'Mezzo litro'),
+(6, 'Torta al cioccolato', 'Senza zucchero');
+INSERT INTO Variazione(ID, Ricetta, Account) VALUES
+(7, 'Pizza margherita', 'Serendipity'), (8, 'Birra', 'Nhoya'),
+(9, 'Limoncello', 'Serendipity'), (10, 'Vino bianco', 'murdercode');
+
+INSERT INTO ModificaFase(Variazione, ID, FaseVecchia, FaseNuova) VALUES
+(1, 1, 8, 19), (2, 1, 3, NULL), (2, 2, 4, NULL), (3, 1, NULL, 20),
+(3, 2, NULL, 21), (3, 3, NULL, 22), (4, 1, NULL, 23),
+(4, 2, NULL, 24), (4, 3, NULL, 25), (5, 1, 18, 26),
+(6, 1, 13, NULL), (7, 1, NULL, 27), (7, 2, NULL, 28),
+(7, 3, NULL, 29), (8, 1, 17, 30), (9, 1, 14, 31), (10, 1, 16, 32);
+
+INSERT INTO Proposta(ID, Account, Nome, Procedimento) VALUES
+(1, 'Monan1980', 'Alette di pollo fritte', NULL),
+(2, 'Nhoya', 'Anatra all\'arancia', NULL),
+(3, 'Serendipity', 'Lasagne al salmone', 'Mettete un filo d’olio in una padella'
+    ' e fate cuocere appena il salmone affumicato tagliato a pezzetti, Portate '
+    'bollore dell’acqua calda salata in una pentola larga, fate sbollentare '
+    'per meno di un minuto 2-3 sfoglie di lasagna alla volta, mettete in un '
+    'colapasta con un filo d’olio tra i vari strati per non far attaccare la '
+    'pasta. Lasciate la pentola sul fuoco, quando vi serviranno le altre '
+    'sfoglie di pasta le cuocerete in contemporanea alla preparazione delle '
+    'lasagne, togliete dal fuoco e tenete da parte, in una ciotola mettete la '
+    'ricotta e stemperate con 4-5 cucchiai di latte tiepido, create il primo '
+    'strato di lasagne mettendo sul fondo qualche cucchiaio di besciamella, '
+    'poi la pasta, in seguito aggiungete la ricotta, la spalmate livellandola. '
+    'Aggiungete i pezzetti di salmone affumicato precedentemente cotto in '
+    'padella, aggiungete un po’ di besciamella poi altra pasta e ripete '
+    'l’operazione fino ad esaurimento degli ingredienti. l’ultimo strato sarà '
+    'composto da pasta e besciamella; infornate a 200° per 10 minuti.'),
+(4, 'Expinguith59', 'Salmone al sale', NULL),
+(5, 'Nhoya', 'Torta al cioccolato', 'Tagliare una fetta di torta al '
+    'cioccolato. Scaldare la torta in forno. Stendere lo zucchero a velo sopra '
+    'il dolce.'),
+(6, 'Monan1980', 'Pizza margherita', NULL),
+(7, 'lorytony', 'Pasta e ceci', 'In una pentola mettete 3 cucchiai di olio, lo '
+    'spicchio d’aglio e far soffriggere per un minuto, quando l’aglio sarà '
+    'dorato versare i ceci precedentemente sciacquati e sgocciolati aggiungere '
+    'anche i rametti di rosmarino e far insaporire a fuoco medio per un paio '
+    'di minuti. Aggiungere 3 bicchieri d’acqua, salare e far cuocere per una '
+    'mezz’ora a fuoco basso mettendo il coperchio e senza girare. Aggiungere '
+    'altra acqua se necessaio. A questo punto se si vuole creare una crema '
+    'schiacciare con lo schiacciapatate 2-3 cucchiai dei ceci in cottura, in '
+    'questo modo si accelera la cottura e la pasta avrà un sapore più intenso. '
+    'Versare la pasta nella pentola ed aggiungere acqua fino a calda coprire '
+    'la pasta, mettere il coperchio e lasciare cuocere secondo i tempi di '
+    'cottura della pasta.'),
+(8, 'murdercode', 'Crostini con salmone e philadelphia', NULL),
+(9, 'murdercode', 'Salmone alla griglia', NULL),
+(10, 'Expinguith59', 'Pasta col tonno', NULL);
+
+INSERT INTO Composizione(Proposta, Ingrediente) VALUES
+(1, 'Ali di pollo'), (1, 'Farina'), (1, 'Sale'), (1, 'Uova'),
+(2, 'Anatra'), (2, 'Arancia'), (2, 'Sale'), (2, 'Burro'), (2, 'Grand Marnier'),
+(3, 'Sfoglie per lasagne'), (3, 'Ricotta'), (3, 'Besciamella'), (3, 'Salmone'),
+(3, 'Olio extravergine di oliva'),
+(4, 'Salmone'), (4, 'Sale'),
+(5, 'Torta al cioccolato'), (5, 'Zucchero a velo'),
+(6, 'Pasta lievitata'), (6, 'Sugo di pomodoro'), (6, 'Mozzarella'),
+(6, 'Olio extravergine di oliva'),
+(7, 'Pasta'), (7, 'Ceci'), (7, 'Olio extravergine di oliva'),
+(8, 'Pane'), (8, 'Salmone'), (8, 'Philadelphia'),
+(9, 'Salmone'), (9, 'Sale'),
+(10, 'Pasta'), (10, 'Tonno'), (10, 'Olio extravergine di oliva');
+
+INSERT INTO Gradimento(Account, Proposta, Punteggio) VALUES
+('Nhoya', 3, 4), ('murdercode', 7, 3), ('Monan1980', 5, 5),
+('Monan1980', 2, 5), ('Serendipity', 7, 5), ('lorytony', 4, 1);
+INSERT INTO Gradimento(Account, Suggerimento, Punteggio) VALUES
+('murdercode', 7, 5), ('Lopurter', 9, 2), ('Nhoya', 10, 4), ('GMarra', 7, 3);
+
+INSERT INTO Recensione(ID, Account, Sede, Ricetta, Testo, Giudizio) VALUES
+(1, 'Serendipity', 'Il paiolo magico', 'Petto di pollo in salsa',
+    'Il miglior pollo!', 5),
+(2, 'murdercode', 'Pizzeria da Cecco', 'Pizza margherita',
+    'Ottima pizza! Ambiente troppo rumoroso.', 4),
+(3, 'Lopurter', 'L\'aragosta', 'Branzino alla griglia',
+    'Pesce pessimo. Personale antipatico.', 1),
+(4, 'Lopurter', 'Pizzeria da Cecco', 'Pizza quattro formaggi',
+    'Buona, ma c\'è di meglio!', 4),
+(5, 'lolasd', 'Tatooine', 'Orata alla griglia', 'spamspamSPAMspamspam', 3),
+(6, 'SpeedJack', 'Ristorante Venezia', 'Ravioli panna e scampi',
+    'I migliori ravioli della Versilia!', 5),
+(7, 'murdercode', 'L\'ostrica ubriaca', 'Orata alla griglia',
+    'Bel locale. Pesce passabile!', 4),
+(8, 'murdercode', 'Il pozzo', 'Tagliata di manzo alla griglia',
+    'Carne buona ma personale veramente odioso.', 2),
+(9, 'GMarra', 'Il paiolo magico', 'Risotto carnaroli con aragosta e champagne',
+    'Un risotto speciale!', 5),
+(10, 'Serendipity', 'Pizzeria da Gennaro', 'Pizza margherita',
+    'Di napoletano ha solo il nome!', 2);
+    
+INSERT INTO Valutazione(Account, Recensione, Veridicita, Accuratezza, Testo)
+VALUES
+('Expinguith59', 3, 1, 1, 'Bugiardissimo!'),
+('lorytony', 6, 5, 4, 'Hai proprio ragione!'),
+('murdercode', 4, 4, 3, 'La pizza è ottima! Ma il locale è troppo affollato.'),
+('Serendipity', 9, 5, 5, 'Amo il paiolo magico!'),
+('murdercode', 5, 1, 1, 'Vai a spammare da un\'altra parte!'),
+('Lopurter', 2, 4, 4, 'La pizza non è poi così fantastica eh.'),
+('domenicoboni', 5, 1, 1, 'Ma sta zitto!'),
+('GMarra', 1, 5, 4, 'Meglio il risotto.'),
+('Nhoya', 6, 5, 5, 'Eh già!'),
+('Serendipity', 2, 2, 3, 'A me non è piaciuta neanche la pizza: troppo olio!');
+
+INSERT INTO QuestionarioSvolto(Recensione, Domanda, Risposta) VALUES
+(1, 13, 1), (1, 14, 1), (2, 1, 2), (2, 2, 2), (3, 17, 3), (3, 18, 3),
+(3, 19, 3), (4, 1, 1), (4, 2, 2), (5, 20, 1), (6, 12, 1), (7, 3, 2), (7, 4, 2),
+(8, 8, 3), (8, 9, 2), (9, 13, 1), (9, 14, 1), (10, 15, 3), (10, 16, 2);
+
+INSERT INTO Clienti_Log(Sede, Anno, Mese, SenzaPrenotazione) VALUES
+('Il paiolo magico', 2016, 1, 84),      ('Il paiolo magico', 2015, 12, 111),
+('Il paiolo magico', 2015, 11, 98),     ('Il paiolo magico', 2015, 10, 108),
+('Il paiolo magico', 2015, 9, 72),      ('Il paiolo magico', 2015, 8, 103),
+('Il paiolo magico', 2015, 7, 85),      ('Il paiolo magico', 2015, 6, 123),
+('Il paiolo magico', 2015, 5, 95),      ('Il paiolo magico', 2015, 4, 101),
+('Il paiolo magico', 2015, 3, 76),      ('Il paiolo magico', 2015, 2, 100),
+('Il paiolo magico', 2015, 1, 80),      ('Pizzeria da Cecco', 2015, 2, 89),
+('L\'ostrica ubriaca', 2015, 2, 65),    ('Il girasole', 2015, 2, 57),
+('Il pozzo', 2015, 2, 84),              ('Ristorante da Giovanni', 2015, 2, 88),
+('Ristorante Venezia', 2015, 2, 91),    ('Pizzeria da Gennaro', 2015, 2, 77),
+('L\'aragosta', 2015, 2, 102),          ('Tatooine', 2015, 2, 100);
+
+INSERT INTO Scarichi_Log(Sede, Magazzino, Ingrediente, `Timestamp`, Quantita)
+VALUES
+('Pizzeria da Cecco', 1, 'Mozzarella', '2016-02-22 21:00:00', 12500),
+('L\'ostrica ubriaca', 2, 'Tonno', '2016-02-22 22:30:00', 21800),
+('Il girasole', 1, 'Sale', '2016-02-22 20:15:00', 1400),
+('Il pozzo', 1, 'Sale', '2016-02-22 19:45:00', 320);
+
+INSERT INTO Scarichi_Log(Sede, Magazzino, Ingrediente, Quantita) VALUES
+('Ristorante da Giovanni', 1, 'Sugo di pomodoro', 21200),
+('Ristorante Venezia', 2, 'Pasta lievitata', 1850),
+('Pizzeria da Gennaro', 1, 'Acqua naturale', 90000),
+('L\'aragosta', 1, 'Vino bianco', 20000),
+('Tatooine', 1, 'Sugo di pomodoro', 15100),
+('Il paiolo magico', 3, 'Torta al cioccolato', 800);
+
+INSERT INTO Confezione(CodiceLotto, Numero, Peso, Prezzo, Sede, Magazzino,
+    DataAcquisto, DataArrivo, DataCarico, Collocazione, Aspetto, Stato) VALUES
+('L3938M29A', NULL, 500, 3.30, 'Pizzeria da Cecco', 1, '2016-01-10', '2016-01-15',
+    '2016-01-15', 'a1', NULL, NULL ),
+('L9357VA929C', NULL, 6000, 15.70, 'L\'ostrica ubriaca', 1, '2016-02-01',
+    '2016-02-06', '2016-04-07', 'a1', NULL, NULL),
+('L3948VVYH3', NULL, 700, 5.70, 'Ristorante da Giovanni', 1, '2015-10-01',
+    '2015-10-11', '2017-05-15', 'a1', NULL, NULL),
+('LE0U8UIV5Y48', NULL, 500, 3.30, 'L\'ostrica ubriaca', 1, '2016-02-01', '2016-02-06', 
+    '2016-03-07', 'a2', NULL, NULL),
+('LE0U8UIV5Y48', NULL, 500, 3.30, 'Il pozzo', 1, '2016-02-01', '2016-02-06',
+    '2016-03-07', 'a1', NULL, NULL),
+('LM934YN4E', NULL, 2000, 10.50, 'Il pozzo', 1,'2016-01-10', '2016-01-15', 
+    '2016-02-28', 'a2', NULL, NULL),
+('L00AA18H2', NULL, 3000, 12.30, 'Ristorante Venezia', 2, '2016-02-01', '2016-02-06', 
+    '2016-04-20', 'a1', NULL, NULL),
+('L00AA18H2', NULL, 3000, 12.30, 'Il paiolo magico', 3, '2016-02-01', '2016-02-06', 
+    '2016-04-20', 'a1', NULL, NULL),
+('LHUE666AA', NULL, 500, 2.25, 'Il girasole', 1, '2015-10-01', '2015-10-11',
+    '2018-11-01', 'a1', NULL, NULL),
+('LHUE666AA', NULL, 500, 2.25, 'Ristorante Venezia', 1,'2015-10-01', '2015-10-11',
+    '2018-11-01', 'a1', NULL, NULL),
+('LHUE666AA', NULL, 500, 2.25, 'Il paiolo magico', 2,'2015-10-01', '2015-10-11',
+    '2018-11-01', 'a1', NULL, NULL),
+('L8H7776A', NULL, 9000, 6, 'Il girasole', 1, '2015-10-01', '2015-10-11',
+    '2020-09-10', 'a2', NULL, NULL),
+('L8H7776A', NULL, 9000, 6, 'Pizzeria da Gennaro', 1, '2015-10-01', '2015-10-11',
+    '2020-09-10', 'a1', NULL, NULL),
+('L1212DD8RH3QQ', NULL, 20000, 140, 'Pizzeria da Gennaro', 1, '2015-10-01',
+    '2015-10-11', '2017-08-14', 'a2', NULL, NULL), 
+('LIM12999AER6', NULL, 5000, 50, 'Pizzeria da Gennaro', 1, '2016-01-10', '2016-01-15',
+    '2019-01-01', 'a3', NULL, NULL), 
+('LIM12999AER6', NULL, 5000, 50, 'L\'aragosta', 1, '2016-01-10', '2016-01-15',
+    '2019-01-01', 'a1', NULL, NULL), 
+('LM99AV118W', NULL, 2000, 10, 'L\'aragosta', 1, '2016-02-10', '2016-02-15',
+    '2016-03-07', 'a2', NULL, NULL), 
+('LP4830HA22', NULL, 5000, 10, 'Tatooine', 1, '2016-02-01', '2016-02-06', 
+    '2016-03-01', 'a1', NULL, NULL),
+('LZZ99AA00', NULL, 1000, 6.5,'Il pozzo', 1, '2015-10-01', '2015-10-11',
+    '2018-07-22', 'a3', NULL, NULL), 
+('LM99AV118W', NULL, 2000, 10, 'Tatooine', 1, '2016-02-10', '2016-02-15',
+    '2016-03-07', 'a2', NULL, NULL), 
+('LP4830HA23', NULL, 5000, 10, 'L\'aragosta', 1,'2016-02-01', '2016-02-06', 
+    '2016-03-03', 'a3', NULL, NULL),
+('LZZ99AA00', NULL, 1000, 6.5, 'L\'aragosta', 1, '2015-10-01', '2015-10-11',
+    '2018-07-22', 'a4', NULL, NULL);
+
+INSERT INTO Menu(Sede, ID, DataInizio, DataFine) VALUES
+('Pizzeria da Cecco', NULL, '16-02-18', '16-03-02'),           
+('L\'ostrica ubriaca', NULL, '16-01-24', '16-02-24'),
+('L\'ostrica ubriaca', NULL, '15-12-23', '16-01-23'),           
+('Il girasole', NULL, '16-01-20', '16-03-10'),
+('Il pozzo', NULL, '16-02-01', '16-02-28'),                     
+('Ristorante da Giovanni', NULL, '16-02-01', '16-03-01'),
+('Ristorante Venezia', NULL, '16-01-25', '16-02-25'),     
+('Ristorante Venezia', NULL, '15-11-24', '15-12-31'),
+('Il paiolo magico', NULL, '15-10-01', '15-12-31'),
+('Il paiolo magico', NULL, '15-02-20', '15-04-20'),
+('Il paiolo magico', NULL, '16-01-01', '16-03-10'),
+('Pizzeria da Gennaro', NULL, '16-02-10', '16-04-20'),
+('L\'aragosta', NULL, '16-01-24', '16-03-10'),        
+('Tatooine', NULL, '16-01-10', '16-04-25');
+
+INSERT INTO Elenco(Menu,Ricetta) VALUES
+(1,'Pizza margherita'),  (1, 'Pizza wrustel'),(1, 'Birra' ),           
+(2,'Vino bianco' ),(2,'Torta al cioccolato' ),(2,'Branzino alla griglia' ),
+(3,'Patatine fritte' ), (3,'Ravioli panna e scampi' ),  (3,'Acqua frizzante'),                     
+(4,'Coca Cola' ),(4,'Patate arrosto' ),(4, 'Ravioli burro e salvia ripieni di spinaci'),
+(5,'Birra' ),     (5,'Torta della nonna' ),     (5, 'Spaghetti con aglio, olio e peperoncino'),     
+(6,'Vino bianco' ),(6,'Torta al cioccolato' ),(6,'Branzino alla griglia' ),
+(7,'Patatine fritte' ),       (7,'Ravioli panna e scampi' ),     (7,'Acqua frizzante'),  
+(8,'Coca Cola' ),(8, 'Patate arrosto'),(8, 'Petto di pollo in salsa'),
+(9,'Acqua naturale' ),(9, 'Fritto misto'),(9, 'Patatine fritte'),
+(12,'Pizza margherita'), (12, 'Pizza wrustel'),(12, 'Birra' ),     
+(10,'Coca Cola'),   (10,'Insalata mista'),  (10,'Tagliata di manzo alla griglia'),        
+(11,'Birra'),(11,'Petto di pollo in salsa'),(11,'Torta della nonna'),
+(13,'Birra'),(13,'Fritto misto'),(13,'Insalata mista'),
+(14,'Patatine fritte' ),   (14,'Ravioli panna e scampi' ),(14,'Acqua frizzante');
+
+INSERT INTO Comanda(ID, Timestamp, Sede, Sala , Tavolo , Account) VALUES
+( NULL,'2016-02-22 20:00:01', 'Pizzeria da Cecco', 1,1,NULL),           
+(NULL, '2016-02-21 21:00:01', 'Pizzeria da Cecco', 1,2,NULL),
+(NULL, '2016-02-20 19:00:01', 'L\'ostrica ubriaca', 1,1,NULL),           
+( NULL, '2016-02-22 20:00:01', 'Il girasole', 1,1,NULL),
+(NULL, '2016-02-22 20:00:01', 'Pizzeria da Cecco', 1,3,NULL),                     
+( NULL, '2016-02-21 21:00:01', 'L\'ostrica ubriaca', 1,2,NULL),
+( NULL,'2016-02-20 19:00:01', 'Il girasole', 1,2,NULL),     
+(NULL, '2016-02-22 20:00:01', 'Pizzeria da Cecco', 1,4,NULL),
+( NULL, '2016-02-21 21:00:01', 'Il girasole', 1,3,NULL),
+(NULL,'2016-02-22 20:00:01','L\'ostrica ubriaca', 1,3,NULL),
+(NULL, '2016-02-22 20:00:01', 'Il pozzo', NULL,NULL,'lorythebest'),
+( NULL, '2016-02-22 20:00:01', 'L\'ostrica ubriaca', NULL,NULL, 'Monan1980'),
+(NULL, '2016-02-20 19:00:01', 'Il pozzo', 1,1,NULL),
+(NULL, '2016-02-21 21:00:01', 'Il pozzo',1,2,NULL),
+( NULL, '2016-02-22 20:00:01', 'Il pozzo',1,3,NULL),
+(NULL, '2016-02-20 19:00:01', 'L\'ostrica ubriaca', 1,5,NULL),
+(NULL, '2016-02-22 20:00:01', 'Ristorante Venezia', 1,1,NULL),
+( NULL, '2016-02-20 19:00:01', 'Ristorante Venezia', NULL,NULL,'Lopurter'),
+(NULL, '2016-02-22 20:00:01', 'Ristorante da Giovanni', 1,1,NULL),        
+(NULL,'2016-02-22 20:00:01', 'Ristorante da Giovanni', 1,2,NULL),
+( NULL, '2016-02-20 19:00:01', 'Ristorante Venezia', NULL,NULL,'lorythebest'),
+( NULL, '2016-02-19 21:00:01', 'Il girasole', NULL,NULL,'Monan1980'),
+( NULL, '2016-02-21 20:25:01', 'Ristorante Venezia', NULL,NULL,'Lopurter'),
+( NULL, '2016-02-20 20:00:01', 'Ristorante Venezia', NULL,NULL,'domenicoboni'),
+( NULL, '2016-02-22 19:20:01', 'Ristorante Venezia', NULL,NULL,'Lopurter'),
+( NULL, '2016-02-20 19:00:01', 'Il pozzo', NULL,NULL,'murdercode'),
+( NULL, '2016-02-21 19:30:01', 'Ristorante Venezia', NULL,NULL,'lolasd');
+
+INSERT INTO Piatto(ID, Comanda, Ricetta, InizioPreparazione, Stato) VALUES
+(NULL,1,'Pizza margherita',NULL,'attesa'),  (NULL,1, 'Pizza wrustel',NULL,'attesa'),(NULL,1, 'Birra' ,NULL,'attesa'),           
+(NULL,2,'Vino bianco',NULL,'attesa' ),(NULL,2,'Torta al cioccolato',NULL,'attesa' ),(NULL,2,'Branzino alla griglia' ,NULL,'attesa'),
+(NULL,3,'Patatine fritte',NULL,'attesa'), (NULL,3,'Ravioli panna e scampi',NULL,'attesa' ),  (NULL,3,'Acqua frizzante',NULL,'attesa'),                     
+(NULL,4,'Coca Cola' ,NULL,'attesa'),(NULL,4,'Patate arrosto' ,NULL,'attesa'),(NULL,4, 'Ravioli burro e salvia ripieni di spinaci',NULL,'attesa'),
+(NULL,5,'Birra',NULL,'attesa' ),     (NULL,5,'Torta della nonna',NULL,'attesa' ),     (NULL,5, 'Spaghetti con aglio, olio e peperoncino',NULL,'attesa'),     
+(NULL,6,'Vino bianco',NULL,'attesa' ),(NULL,6,'Torta al cioccolato',NULL,'attesa' ),(NULL,6,'Branzino alla griglia',NULL,'attesa' ),
+(NULL,7,'Patatine fritte',NULL,'attesa' ),       (NULL,7,'Ravioli panna e scampi' ,NULL,'attesa'),     (NULL,7,'Acqua frizzante',NULL,'attesa'),  
+(NULL,8,'Coca Cola' ,NULL,'attesa'),(NULL,8, 'Patate arrosto',NULL,'attesa'),(NULL,8, 'Petto di pollo in salsa',NULL,'attesa'),
+(NULL,9,'Acqua naturale' ,NULL,'attesa'),(NULL,9, 'Fritto misto',NULL,'attesa'),(NULL,9, 'Patatine fritte',NULL,'attesa'),
+(NULL,12,'Pizza margherita',NULL,'attesa'), (NULL,12, 'Pizza wrustel',NULL,'attesa'),(NULL,12, 'Birra' ,NULL,'attesa'),     
+(NULL,10,'Coca Cola',NULL,'attesa'),   (NULL,10,'Insalata mista',NULL,'attesa'),  (NULL,10,'Tagliata di manzo alla griglia',NULL,'attesa'),        
+(NULL,11,'Birra',NULL,'attesa'),(NULL,11,'Petto di pollo in salsa',NULL,'attesa'),(NULL,11,'Torta della nonna',NULL,'attesa'),
+(NULL,13,'Birra',NULL,'attesa'),(NULL,13,'Fritto misto',NULL,'attesa'),(NULL,13,'Insalata mista',NULL,'attesa'),
+(NULL,15,'Coca Cola',NULL,'attesa' ),(NULL,15,'Patate arrosto',NULL,'attesa' ),(NULL,15, 'Ravioli burro e salvia ripieni di spinaci',NULL,'attesa'),
+(NULL,16,'Birra',NULL,'attesa' ),     (NULL,16,'Torta della nonna',NULL,'attesa' ),     (NULL,16, 'Spaghetti con aglio, olio e peperoncino',NULL,'attesa'),     
+(NULL,17,'Vino bianco',NULL,'attesa' ),(NULL,17,'Torta al cioccolato',NULL,'attesa' ),(NULL,17,'Branzino alla griglia',NULL,'attesa' ),
+(NULL,18,'Patatine fritte' ,NULL,'attesa'),       (NULL,18,'Ravioli panna e scampi' ,NULL,'attesa'),     (NULL,18,'Acqua frizzante',NULL,'attesa'),  
+(NULL,19,'Coca Cola',NULL,'attesa' ),(NULL,19, 'Patate arrosto',NULL,'attesa'),(NULL,19, 'Petto di pollo in salsa',NULL,'attesa'),
+(NULL,20,'Acqua naturale',NULL,'attesa' ),(NULL,20, 'Fritto misto',NULL,'attesa'),(NULL,20, 'Patatine fritte',NULL,'attesa'),
+(NULL,14,'Patatine fritte' ,NULL,'attesa'),   (NULL,14,'Ravioli panna e scampi' ,NULL,'attesa'),(NULL,14,'Acqua frizzante',NULL,'attesa'),
+(NULL,21, 'Petto di pollo in salsa',NULL,'attesa'),
+(NULL,22,'Acqua naturale',NULL,'attesa' ),
+(NULL,23, 'Fritto misto',NULL,'attesa'),
+(NULL,24, 'Patatine fritte',NULL,'attesa'),
+(NULL,25,'Patatine fritte' ,NULL,'attesa'),
+(NULL,26,'Ravioli panna e scampi' ,NULL,'attesa'),
+(NULL,27,'Acqua frizzante',NULL,'attesa');
+
+
+INSERT INTO Modifica(Piatto, Variazione) VALUES
+(1, 1), (1, 3), (1, 4), (28, 1), (28, 2), (28, 3), (25, 5), (55, 5), (5, 6),
+(47, 6);
+
+INSERT INTO Consegna(Comanda, Sede, Pony, Partenza, Arrivo , Ritorno ) VALUES
+(11,'Il pozzo',1,CURRENT_TIMESTAMP + INTERVAL 1 DAY,NULL,NULL),
+(12,'L\'ostrica ubriaca',2,CURRENT_TIMESTAMP,NULL,NULL);
+/*(18,'Ristorante Venezia',1,CURRENT_TIMESTAMP + INTERVAL 1 DAY,NULL,NULL),
+(21,'Ristorante Venezia',1,CURRENT_TIMESTAMP + INTERVAL 2 DAY,NULL,NULL),
+(22,'Il girasole',1,CURRENT_TIMESTAMP,NULL,NULL),
+(23,'Ristorante Venezia',1,CURRENT_TIMESTAMP,NULL,NULL),
+(24,'Ristorante Venezia',1,CURRENT_TIMESTAMP + INTERVAL 3 DAY,NULL,NULL),
+(25,'Ristorante Venezia',1,CURRENT_TIMESTAMP + INTERVAL 4 DAY,NULL,NULL),
+(26,'Il pozzo',1,CURRENT_TIMESTAMP,NULL,NULL),
+(27,'Ristorante Venezia',1,CURRENT_TIMESTAMP + INTERVAL 5 DAY,NULL,NULL);
+
+INSERT INTO Prenotazione(Sede, Data, Numero, Account, Sala) VALUES
+('Il paiolo magico', '2016-02-26 20:00:00', 3, 'Serendipity', NULL),
+('Il girasole', '2016-02-28 20:30:00', 4, 'murdercode', NULL),
+('Pizzeria da Cecco', '2016-02-26 21:00:00', 2, 'SpeedJack', NULL),
+('Ristorante Venezia', '2016-02-27 20:00:00', 1, 'Nhoya', NULL),
+('Il paiolo magico', '2016-02-25 22:00:00', 5, 'Serendipity', NULL);
+INSERT INTO Prenotazione(Sede, `Data`, Numero, Nome, Telefono, Sala) VALUES
+('Il girasole', '2016-02-26 21:00:00', 3, 'Giovanni', '3342628162', NULL),
+('Il pozzo', '2016-02-25 20:00:00', 2, 'Marcello', '3343974261', NULL),
+('Il paiolo magico', '2016-02-25 21:00:00', 3, 'Tonelli', '3393843829', NULL),
+('L\'aragosta', '2016-02-26 21:00:00', 1, 'Novelli', '3339739082', NULL);
+INSERT INTO Prenotazione(Sede, `Data`, Numero, Account, Nome, Sala, Descrizione,
+    Approvato) VALUES
+('Il paiolo magico', '2016-02-27 20:00:00', 65, 'Serendipity', 'Harry Potter!', 2,
+    'Serata a tema di harry potter!', TRUE);*/

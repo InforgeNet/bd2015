@@ -698,6 +698,8 @@ BEGIN
     DECLARE PostiTavolo INT;
     DECLARE TavoloLibero BOOL;
     DECLARE SalaLibera BOOL;
+    DECLARE TavoloAssegnato INT;
+    DECLARE SalaAssegnata INT;
     
     IF CURRENT_DATETIME > (NEW.`Data` - INTERVAL 1 DAY) THEN
         SIGNAL SQLSTATE '45000'
@@ -739,33 +741,36 @@ BEGIN
             SET NEW.Approvato = NULL;
             
             -- Assegna Tavolo
-            SET NEW.Tavolo = (SELECT T.Numero
-                                FROM Tavolo T
-                                WHERE T.Numero NOT IN (
-                                    SELECT P1.Tavolo
-                                    FROM Prenotazione P1
-                                    WHERE P1.`Data` >
-                                        (NEW.`Data` - INTERVAL 2 HOUR)
-                                        AND P1.`Data` <
-                                            (NEW.`Data` + INTERVAL 2 HOUR))
-                                    AND T.Sala NOT IN (
-                                        SELECT P2.Sala
-                                        FROM Prenotazione P2
-                                        WHERE P2.`Data` <
-                                            (NEW.`Data` - INTERVAL 2 HOUR)
-                                            AND P2.`Data` >
-                                                (NEW.`Data` + INTERVAL 2 HOUR)
-                                        AND P2.Tavolo = NULL)
-                                    AND T.Posti BETWEEN NEW.Numero
-                                                    AND (NEW.Numero + 3)
-                                ORDER BY T.Posti ASC
-                                LIMIT 1);
+            SELECT T.Numero, T.Sala INTO TavoloAssegnato, SalaAssegnata
+            FROM Tavolo T
+            WHERE T.Numero NOT IN (
+                SELECT P1.Tavolo
+                FROM Prenotazione P1
+                WHERE P1.`Data` >
+                    (NEW.`Data` - INTERVAL 2 HOUR)
+                    AND P1.`Data` <
+                        (NEW.`Data` + INTERVAL 2 HOUR))
+                AND T.Sala NOT IN (
+                    SELECT P2.Sala
+                    FROM Prenotazione P2
+                    WHERE P2.`Data` <
+                        (NEW.`Data` - INTERVAL 2 HOUR)
+                        AND P2.`Data` >
+                            (NEW.`Data` + INTERVAL 2 HOUR)
+                    AND P2.Tavolo = NULL)
+                AND T.Posti BETWEEN NEW.Numero
+                                AND (NEW.Numero + 3)
+            ORDER BY T.Posti ASC
+            LIMIT 1;            
                                     
-            IF NEW.Tavolo IS NULL THEN
+            IF TavoloAssegnato IS NULL THEN
                 SIGNAL SQLSTATE '45000'
                 SET MESSAGE_TEXT = 'Non ci sono tavoli liberi per questo '
                                     'numero di persone.';
             END IF;
+            
+            SET NEW.Tavolo = TavoloAssegnato;
+            SET NEW.Sala = SalaAssegnata;
             
         ELSEIF NEW.Descrizione IS NULL THEN
             SIGNAL SQLSTATE '45000'
