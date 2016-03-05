@@ -1,5 +1,6 @@
 # UNIPI - Progetto Basi di Dati 2014/2015  
 *Copyright © 2014-2016 - Gabriele Marraccini, Lorenzo Tonelli, Niccolò Scatena - Alcuni diritti sono riservati.*  
+*Università degli Studi di Pisa*  
 
 Questo repository è reso pubblico per finalità didattiche: può essere utilizzato come esempio di progetto `MySQL` e/o `LaTeX`.  
 Eventuali *pull-request* e *issue* saranno **ignorate**. *Non* saranno rilasciati aggiornamenti per questo progetto.  
@@ -16,16 +17,17 @@ Nella *root* del progetto c'è:
 * [tex/](tex) - contiene i vari capitoli del documento. 
 * [workbench/](workbench) - contiene il progetto workbench con il diagramma. **OUT-DATED**  
 
-## Note
+## Note  
 * Per la compilazione, serve avere il pacchetto `minted` correttamente installato nel sistema.  
 * Alcune parti del codice MySQL del progetto **non** sono testate - potrebbero non funzionare correttamente.  
 * Sono presenti nel codice alcuni comandi obsoleti (ad es. `\it`, `\bf`, `$ ... $`, ecc.).  
 * I codici MySQL usano 4 spazi per la tabulazione.  
 * Nel [tex/ch08/access-tables.tex](Capitolo 8.2 - "Tavole degli accessi") sono presenti alcuni errori di valutazione degli accessi effettuati dalle operazioni.  
+* Voto Finale: **29.5** *(sic!)* - Consegnato il *23 Febbraio 2016*  
 
-## Licenza
+## Licenza  
 **Creative Commons - Attribution, ShareAlike 4.0** *(CC BY-SA 4.0)*  
 
 Informazioni: https://creativecommons.org/licenses/by-sa/4.0/deed.it  
 
-Testo completo della licenza: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+Testo completo della licenza: https://creativecommons.org/licenses/by-sa/4.0/legalcode  
