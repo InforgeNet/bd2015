@@ -26,6 +26,7 @@ Nella *root* del progetto c'è:
 * I codici MySQL usano 4 spazi per la tabulazione;  
 * Nel [tex/ch08/access-tables.tex](Capitolo 8.2 - "Tavole degli accessi") sono presenti alcuni errori di valutazione degli accessi effettuati dalle operazioni;  
 * La funzione `IngredientiDisponibili` non fa ciò che dovrebbe: non tiene conto che più di una ricetta può usare gli stessi ingredienti;  
+* Gli `INSERT INTO` non sono completi;  
 * Voto Finale: **29.5** *(sic!)* - Consegnato il *23 Febbraio 2016*.  
 
 ## Licenza  
