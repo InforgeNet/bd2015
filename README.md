@@ -8,7 +8,9 @@ Eventuali *pull-request* e *issue* saranno **ignorate**. *Non* saranno rilasciat
 ## Organizzazione del codice  
 Nella *root* del progetto c'è:  
 * [README.md](README.md) - questo file;  
-* [specifiche.pdf](specifiche.pdf) - contiene le specifiche di progetto;
+* [specifiche.pdf](specifiche.pdf) - contiene le specifiche di progetto;  
+* [project.pdf](project.pdf) - contiene il progetto finale;  
+* [project-twoside.pdf](project-twoside.pdf) - contiene il progetto finale per la stampa fronte-retro;
 * [project.tex](project.tex) - il documento principale che viene compilato, contiene la struttura di base del documento e la lista di pacchetti;  
 * [project-twoside.tex](project-twoside.tex) - l'equivalente di `project.tex` ma con il flag `twoside` attivo (per la stampa fronte-retro);  
 * [Makefile](Makefile) - utilizzato in Linux per compilare con `make`;  
