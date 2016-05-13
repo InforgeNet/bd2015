@@ -1,5 +1,5 @@
 # UNIPI - Progetto Basi di Dati 2014/2015  
-*Copyright © 2014-2016 - Gabriele Marraccini, Lorenzo Tonelli, Niccolò Scatena - Alcuni diritti sono riservati.*  
+*Copyright © 2014-2016 - Gabriele Marraccini, Niccolò Scatena, Lorenzo Tonelli - Alcuni diritti sono riservati.*  
 *Università degli Studi di Pisa*  
 
 Questo repository è reso pubblico per finalità didattiche: può essere utilizzato come esempio di progetto `MySQL` e/o `LaTeX`.  
