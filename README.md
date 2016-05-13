@@ -28,10 +28,3 @@ Nella *root* del progetto c'è:
 * La funzione `IngredientiDisponibili` non fa ciò che dovrebbe: non tiene conto che più di una ricetta può usare gli stessi ingredienti;  
 * Gli `INSERT INTO` non sono completi;  
 * Voto Finale: **29.5** *(sic!)* - Consegnato il *23 Febbraio 2016*.  
-
-## Licenza  
-**Creative Commons - Attribution, ShareAlike 4.0** *(CC BY-SA 4.0)*  
-
-Informazioni: https://creativecommons.org/licenses/by-sa/4.0/deed.it  
-
-Testo completo della licenza: https://creativecommons.org/licenses/by-sa/4.0/legalcode  
